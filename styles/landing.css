@@ -1,0 +1,67 @@
+/* ====================================
+   Landing Section
+   ==================================== */
+.landing {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-text-primary);
+  z-index: 1000;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity var(--duration-landing) var(--ease-out),
+              visibility var(--duration-landing) var(--ease-out);
+}
+
+.landing--hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.landing__cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1.4em;
+  background-color: var(--color-bg-primary);
+  animation: blink 600ms step-end infinite;
+  margin-left: 2px;
+  vertical-align: middle;
+}
+
+.landing__text {
+  font-family: var(--font-mono);
+  font-size: var(--text-2xl);
+  color: var(--color-bg-primary);
+  letter-spacing: 0.05em;
+  min-height: 1.6em;
+}
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+/* ====================================
+   Main Wrapper Visibility
+   ==================================== */
+.main-wrapper {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--duration-landing) var(--ease-out),
+              visibility var(--duration-landing) var(--ease-out);
+}
+
+.main-wrapper--visible {
+  opacity: 1;
+  visibility: visible;
+}

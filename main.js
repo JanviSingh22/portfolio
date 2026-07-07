@@ -148,6 +148,143 @@ class LandingController {
   }
 }
 
+/**
+ * NavigationController — Handles section navigation, active state tracking, and mobile menu.
+ * Requirements: 2.1, 2.2, 2.3, 2.4, 2.5
+ */
+class NavigationController {
+  constructor(navEl, sections) {
+    this._navEl = navEl;
+    this._sections = Array.from(sections);
+    this._navLinks = navEl.querySelectorAll('.nav__link');
+    this._mobileToggle = navEl.querySelector('.nav__mobile-toggle');
+    this._navLinksContainer = navEl.querySelector('.nav__links');
+    this._currentSection = null;
+    this._observer = null;
+    this._mobileMenuOpen = false;
+
+    this._init();
+  }
+
+  /**
+   * Initialize event listeners and IntersectionObserver.
+   */
+  _init() {
+    // Click handlers on nav links
+    this._navLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const sectionId = link.getAttribute('href').replace('#', '');
+        this.navigateTo(sectionId);
+
+        // Close mobile menu when a link is clicked
+        if (this._mobileMenuOpen) {
+          this.toggleMobileMenu();
+        }
+      });
+    });
+
+    // Mobile toggle button click handler
+    if (this._mobileToggle) {
+      this._mobileToggle.addEventListener('click', () => {
+        this.toggleMobileMenu();
+      });
+    }
+
+    // Set up IntersectionObserver for active state tracking
+    this._setupObserver();
+  }
+
+  /**
+   * Set up IntersectionObserver to detect which section is in view.
+   */
+  _setupObserver() {
+    const options = {
+      root: null,
+      rootMargin: `-${parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-height')) || 60}px 0px 0px 0px`,
+      threshold: 0.3
+    };
+
+    this._observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          this._currentSection = entry.target.id;
+          this._updateNavLinks();
+        }
+      });
+    }, options);
+
+    // Observe all sections
+    this._sections.forEach(section => {
+      this._observer.observe(section);
+    });
+  }
+
+  /**
+   * Update aria-current attributes on nav links based on current section.
+   */
+  _updateNavLinks() {
+    this._navLinks.forEach(link => {
+      const linkTarget = link.getAttribute('href').replace('#', '');
+      if (linkTarget === this._currentSection) {
+        link.setAttribute('aria-current', 'true');
+      } else {
+        link.setAttribute('aria-current', 'false');
+      }
+    });
+  }
+
+  /**
+   * Smooth scroll to the specified section.
+   * @param {string} sectionId - The ID of the section to scroll to.
+   */
+  navigateTo(sectionId) {
+    const section = document.getElementById(sectionId);
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' });
+      this._currentSection = sectionId;
+      this._updateNavLinks();
+    }
+  }
+
+  /**
+   * Update active state based on scroll position (called by observer).
+   * Public method for external triggering if needed.
+   */
+  updateActiveState() {
+    // The IntersectionObserver handles this automatically.
+    // This method can be called to force a re-check.
+    this._updateNavLinks();
+  }
+
+  /**
+   * Toggle mobile menu open/closed with aria-expanded state management.
+   */
+  toggleMobileMenu() {
+    this._mobileMenuOpen = !this._mobileMenuOpen;
+
+    if (this._mobileToggle) {
+      this._mobileToggle.setAttribute('aria-expanded', String(this._mobileMenuOpen));
+      this._mobileToggle.setAttribute(
+        'aria-label',
+        this._mobileMenuOpen ? 'Close menu' : 'Open menu'
+      );
+    }
+
+    if (this._navLinksContainer) {
+      this._navLinksContainer.classList.toggle('nav__links--open', this._mobileMenuOpen);
+    }
+  }
+
+  /**
+   * Returns the ID of the currently visible section.
+   * @returns {string|null}
+   */
+  getCurrentSection() {
+    return this._currentSection;
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   // --- AnimationSystem ---
   try {
@@ -172,11 +309,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // --- NavigationController ---
   try {
-    // TODO: Implement NavigationController class (Task 3)
-    // const navController = new NavigationController(
-    //   document.querySelector('.nav'),
-    //   document.querySelectorAll('.section')
-    // );
+    const navController = new NavigationController(
+      document.querySelector('.nav'),
+      document.querySelectorAll('.section')
+    );
   } catch (e) {
     console.warn('NavigationController failed to initialize:', e);
   }

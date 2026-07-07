@@ -1,6 +1,9 @@
 # Dependencies
 node_modules/
 
+# Kiro specs
+.kiro/
+
 # Test coverage
 coverage/
 

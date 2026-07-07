@@ -1,0 +1,63 @@
+/* ====================================
+   CSS Custom Properties (Design Tokens)
+   ==================================== */
+
+/* Google Fonts Import */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  /* Primary palette */
+  --color-bg-primary: #FFFFFF;
+  --color-bg-secondary: #F9F7F4;
+  --color-text-primary: #1A1A1A;
+  --color-text-secondary: #4A4A4A;
+  --color-text-muted: #7A7A7A;
+
+  /* Section accents */
+  --color-about-accent: #C8A96E;
+  --color-about-bg: #FAF6F0;
+  --color-interests-accent: #6B8E5E;
+  --color-interests-bg: #F4F7F2;
+  --color-coder-bg: #1A1A2E;
+  --color-coder-accent: #4A5568;
+  --color-coder-text: #E2E8F0;
+
+  /* Typography */
+  --font-heading: 'Playfair Display', Georgia, serif;
+  --font-body: 'Inter', -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+  /* Type scale (modular scale ~1.25) */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+
+  /* Spacing scale */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-24: 6rem;
+
+  /* Animation */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --duration-fast: 200ms;
+  --duration-normal: 400ms;
+  --duration-slow: 800ms;
+  --duration-landing: 1000ms;
+
+  /* Layout */
+  --max-width: 1200px;
+  --nav-height: 60px;
+}

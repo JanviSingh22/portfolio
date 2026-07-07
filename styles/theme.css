@@ -1,0 +1,12 @@
+/* ====================================
+   Night Mode Overrides
+   ==================================== */
+[data-theme="dark"] {
+  --color-bg-primary: #121212;
+  --color-bg-secondary: #1E1E1E;
+  --color-text-primary: #F0F0F0;
+  --color-text-secondary: #B0B0B0;
+  --color-text-muted: #808080;
+  --color-about-bg: #1A1A14;
+  --color-interests-bg: #141A14;
+}

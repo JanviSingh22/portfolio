@@ -62,15 +62,15 @@ This plan builds the portfolio incrementally, section by section, so that each t
     - Verify each delay is in [50, 120] ms range and accumulated characters equal first N chars of source
     - **Validates: Requirements 1.2**
 
-- [ ] 3. Implement Navigation System
-  - [ ] 3.1 Implement NavigationController class
+- [x] 3. Implement Navigation System
+  - [x] 3.1 Implement NavigationController class
     - Create NavigationController with `navigateTo()`, `updateActiveState()`, `toggleMobileMenu()`, `getCurrentSection()` methods
     - Use IntersectionObserver to detect which section is in view and update `aria-current` on nav links
     - Implement smooth scroll via `scrollIntoView({ behavior: 'smooth' })`
     - Implement mobile hamburger menu toggle with `aria-expanded` state management
     - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.5_
 
-  - [ ] 3.2 Add Navigation CSS styles
+  - [x] 3.2 Add Navigation CSS styles
     - Style persistent top nav bar with logo, links, theme toggle, and mobile toggle
     - Add active link indicator styling (underline or highlight keyed to `aria-current="true"`)
     - Add mobile menu slide-in panel styles for viewports < 768px
