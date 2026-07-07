@@ -14,10 +14,69 @@
 }
 
 /* ====================================
+   Section-Specific Entrance Variants
+   ==================================== */
+
+/* Fade only (no transform) */
+.will-animate--fade {
+  opacity: 0;
+  transform: none;
+  transition: opacity var(--duration-slow) var(--ease-out);
+}
+
+.will-animate--fade.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Scale in */
+.will-animate--scale {
+  opacity: 0;
+  transform: scale(0.95);
+  transition: opacity var(--duration-slow) var(--ease-out),
+              transform var(--duration-slow) var(--ease-out);
+}
+
+.will-animate--scale.is-visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Slide in from left */
+.will-animate--slide-left {
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: opacity var(--duration-slow) var(--ease-out),
+              transform var(--duration-slow) var(--ease-out);
+}
+
+.will-animate--slide-left.is-visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Slide in from right */
+.will-animate--slide-right {
+  opacity: 0;
+  transform: translateX(20px);
+  transition: opacity var(--duration-slow) var(--ease-out),
+              transform var(--duration-slow) var(--ease-out);
+}
+
+.will-animate--slide-right.is-visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ====================================
    Reduced Motion
    ==================================== */
 @media (prefers-reduced-motion: reduce) {
-  .will-animate {
+  .will-animate,
+  .will-animate--fade,
+  .will-animate--scale,
+  .will-animate--slide-left,
+  .will-animate--slide-right {
     opacity: 1;
     transform: none;
     transition: none;

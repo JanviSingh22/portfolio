@@ -285,12 +285,84 @@ class NavigationController {
   }
 }
 
+/**
+ * AnimationSystem — Centralized scroll-reveal animation orchestration.
+ * Uses IntersectionObserver to add visibility classes on scroll.
+ * Respects prefers-reduced-motion by skipping observation entirely.
+ * Requirements: 8.1, 8.2, 8.5, 8.6
+ */
+class AnimationSystem {
+  constructor(options = {}) {
+    this._threshold = options.threshold !== undefined ? options.threshold : 0.15;
+    this._rootMargin = options.rootMargin || '0px 0px -50px 0px';
+    this._once = options.once !== undefined ? options.once : true;
+    this._observer = null;
+  }
+
+  /**
+   * Register elements for scroll-triggered reveal.
+   * If reduced motion is preferred, removes .will-animate from all elements
+   * so they are immediately visible, and skips observation.
+   * @param {NodeList|Element[]} elements - Elements to observe
+   * @param {string} animationClass - Class to add on reveal (default 'is-visible')
+   */
+  observe(elements, animationClass = 'is-visible') {
+    const els = elements instanceof NodeList ? Array.from(elements) : elements;
+
+    // If reduced motion, make everything visible immediately and skip observation
+    if (this.isReducedMotion()) {
+      els.forEach(el => {
+        el.classList.remove('will-animate');
+      });
+      return;
+    }
+
+    // Create a single IntersectionObserver instance
+    this._observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && entry.intersectionRatio >= this._threshold) {
+          entry.target.classList.add(animationClass);
+          if (this._once) {
+            this._observer.unobserve(entry.target);
+          }
+        }
+      });
+    }, {
+      root: null,
+      rootMargin: this._rootMargin,
+      threshold: this._threshold
+    });
+
+    // Observe all elements
+    els.forEach(el => {
+      this._observer.observe(el);
+    });
+  }
+
+  /**
+   * Check if the user prefers reduced motion.
+   * @returns {boolean}
+   */
+  isReducedMotion() {
+    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  }
+
+  /**
+   * Disconnect the observer and clean up.
+   */
+  destroy() {
+    if (this._observer) {
+      this._observer.disconnect();
+      this._observer = null;
+    }
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   // --- AnimationSystem ---
   try {
-    // TODO: Implement AnimationSystem class (Task 4)
-    // const animSystem = new AnimationSystem({ threshold: 0.15, rootMargin: '0px 0px -50px 0px', once: true });
-    // animSystem.observe(document.querySelectorAll('.will-animate'), 'is-visible');
+    const animSystem = new AnimationSystem({ threshold: 0.15, rootMargin: '0px 0px -50px 0px', once: true });
+    animSystem.observe(document.querySelectorAll('.will-animate'), 'is-visible');
   } catch (e) {
     // Fallback: remove .will-animate so content is visible without animation
     document.querySelectorAll('.will-animate').forEach(el => {
