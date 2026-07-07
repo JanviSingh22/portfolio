@@ -1,80 +1,81 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Janvi Singh — Portfolio</title>
+  <meta name="description" content="Portfolio of Janvi Singh — coder, learner, artist.">
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-    <div class = "social-bar">
-        <a href="https://github.com/JanviSingh22" target="_blank">
-            <img src="github.png" alt="Github">
+  <!-- Skip link for accessibility -->
+  <a href="#main-content" class="skip-link">Skip to content</a>
+
+  <!-- Landing overlay -->
+  <section id="landing" class="landing" aria-label="Introduction animation">
+    <div class="landing__cursor" aria-hidden="true"></div>
+    <div class="landing__text" aria-live="polite"></div>
+  </section>
+
+  <!-- Main site (hidden until landing completes) -->
+  <div id="main-content" class="main-wrapper" aria-hidden="true">
+
+    <!-- Navigation -->
+    <header class="nav" role="banner">
+      <a href="#" class="nav__logo">JS</a>
+      <nav class="nav__links" role="navigation" aria-label="Main navigation">
+        <a href="#about" class="nav__link" aria-current="false">About</a>
+        <a href="#interests" class="nav__link" aria-current="false">Interests</a>
+        <a href="#coder" class="nav__link" aria-current="false">Coder</a>
+      </nav>
+      <button class="nav__theme-toggle" aria-label="Toggle night mode">🌙</button>
+      <button class="nav__mobile-toggle" aria-label="Open menu" aria-expanded="false">☰</button>
+    </header>
+
+    <!-- About Section -->
+    <section id="about" class="section section--about" aria-label="About me">
+      <div class="section__container">
+        <!-- Rendered by ContentRenderer -->
+      </div>
+    </section>
+
+    <!-- Interests Section -->
+    <section id="interests" class="section section--interests" aria-label="My interests">
+      <div class="section__container">
+        <div class="interests-grid" role="list">
+          <!-- Cards rendered by ContentRenderer -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Coder Section -->
+    <section id="coder" class="section section--coder" aria-label="Developer profile">
+      <div class="section__container">
+        <!-- Skills, projects, timeline rendered by ContentRenderer -->
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" role="contentinfo">
+      <div class="social-links">
+        <a href="https://github.com/JanviSingh22" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile">
+          <img src="github.png" alt="GitHub" loading="lazy">
         </a>
-        <img src = "instagram.png" alt = "Instagram">
-    </div>
+        <a href="#" aria-label="Instagram profile">
+          <img src="instagram.png" alt="Instagram" loading="lazy">
+        </a>
+      </div>
+    </footer>
+  </div>
 
-    <div class="header">
-        <div class = "logo">
-            <h1>Portfolio</h1>
-        </div>
-        <nav>
-            <a href="">Home</a>
-            <a href="">About</a>
-            <a href="">Skills</a>
-            <a href="">Hobbies</a>
-            <a href="">Contact</a>
-        </nav>
-    </div>
+  <!-- Easter egg terminal overlay -->
+  <div id="terminal-overlay" class="terminal" aria-hidden="true" role="dialog" aria-label="Secret terminal">
+    <div class="terminal__header">terminal</div>
+    <div class="terminal__output"></div>
+    <input class="terminal__input" type="text" aria-label="Terminal input">
+  </div>
 
-    <div class = "home" id="home">
-
-        <div class = "content">
-            <p>Hello, it's me</p>
-            <p>Janvi Singh</p>
-            <p>I'm a coder, learner, artist.</p>
-        </div>
-
-        <div class = "home-image">
-            <img src="profile_image.jpg" alt="Portfolio">
-        </div>
-
-    </div>
-
-    <div class = "about" id = "about">
-        <h2>About Me</h2>
-        <p>I'm passionate about Science and Arts. Anything which Interest me I love to do it. </p>
-    </div>
-
-    <div class = "skills">
-        <h2>Skills</h2>
-        <ul>
-            <li>Python</li>
-            <li>SQL</li>
-            <li>Design</li>
-        </ul>
-    </div>
-
-    <div class = "hobbies" id = "hobbies">
-        <h2>Hobbies</h2>
-        <p>Writing</p>
-        <p>Photography</p>
-        <p>Exploring new cultures</p>
-
-    </div>
-
-    <div class = "contact-form" id = "contact">
-        <h2>Contact Me</h2>
-        <form>
-            <input type = "text" placeholder = "Your Name" required>
-            <input type = "email" placeholder = "Your Email" required>
-            <textarea placeholder=" Your Message" required></textarea>
-            <button type = "submit">Send</button>
-        </form>
-
-    </div>
-    
+  <script src="content-data.js"></script>
+  <script src="main.js" type="module" defer></script>
 </body>
 </html>

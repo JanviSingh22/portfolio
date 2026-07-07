@@ -1,0 +1,25 @@
+{
+  "name": "portfolio",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "vitest --run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JanviSingh22/portfolio.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JanviSingh22/portfolio/issues"
+  },
+  "homepage": "https://github.com/JanviSingh22/portfolio#readme",
+  "devDependencies": {
+    "fast-check": "^4.8.0",
+    "jsdom": "^29.1.1",
+    "vitest": "^4.1.10"
+  }
+}

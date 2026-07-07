@@ -2,7 +2,7 @@
 
 ## Introduction
 
-A redesign of the existing static HTML/CSS portfolio into a polished, expressive personal portfolio that feels intentional and personality-driven rather than template-generic. The redesign communicates personality before profession, embodying the philosophy "Structure gives creativity a canvas." The portfolio presents the owner as a harmonious contradiction — a balance of structure and spontaneity, logic and imagination. Built with HTML, CSS, and vanilla JavaScript (with optional lightweight animation library like GSAP), the site prioritizes achievability while maintaining creative ambition.
+A redesign of the existing static HTML/CSS portfolio into a polished, expressive personal portfolio that feels intentional and personality-driven rather than template-generic. The redesign communicates personality before profession. The portfolio presents the owner as a harmonious contradiction — a balance of structure and spontaneity, logic and imagination. Built with HTML, CSS, and vanilla JavaScript (with optional lightweight animation library like GSAP), the site prioritizes achievability while maintaining creative ambition.
 
 ## Glossary
 
@@ -52,7 +52,7 @@ A redesign of the existing static HTML/CSS portfolio into a polished, expressive
 
 1. THE About_Section SHALL present content using a clean grid layout with subtle design touches inspired by architectural or notebook aesthetics (thin grid lines, understated borders, careful spacing)
 2. WHEN a visitor hovers over designated elements in the About_Section, THE About_Section SHALL reveal hidden details such as brief personal notes or decorative flourishes using CSS hover transitions
-3. THE About_Section SHALL include biographical content, personal philosophy, and a narrative that conveys the "harmonious contradiction" personality
+3. THE About_Section SHALL include biographical content and a narrative that conveys the "harmonious contradiction" personality
 4. THE About_Section SHALL use warm beige and soft gold accent colors from the defined palette
 5. WHEN a visitor scrolls content into view within the About_Section, THE Animation_System SHALL animate content entry using subtle fade-in or slide-up CSS animations
 

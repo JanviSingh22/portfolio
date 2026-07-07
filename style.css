@@ -1,222 +1,175 @@
-/* Base Styles */
+/* ====================================
+   Portfolio Redesign — Base Styles
+   ==================================== */
+
+/* Google Fonts Import */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* ====================================
+   CSS Custom Properties (Design Tokens)
+   ==================================== */
+:root {
+  /* Primary palette */
+  --color-bg-primary: #FFFFFF;
+  --color-bg-secondary: #F9F7F4;
+  --color-text-primary: #1A1A1A;
+  --color-text-secondary: #4A4A4A;
+  --color-text-muted: #7A7A7A;
+
+  /* Section accents */
+  --color-about-accent: #C8A96E;
+  --color-about-bg: #FAF6F0;
+  --color-interests-accent: #6B8E5E;
+  --color-interests-bg: #F4F7F2;
+  --color-coder-bg: #1A1A2E;
+  --color-coder-accent: #4A5568;
+  --color-coder-text: #E2E8F0;
+
+  /* Typography */
+  --font-heading: 'Playfair Display', Georgia, serif;
+  --font-body: 'Inter', -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+  /* Type scale (modular scale ~1.25) */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+
+  /* Spacing scale */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-24: 6rem;
+
+  /* Animation */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --duration-fast: 200ms;
+  --duration-normal: 400ms;
+  --duration-slow: 800ms;
+  --duration-landing: 1000ms;
+
+  /* Layout */
+  --max-width: 1200px;
+  --nav-height: 60px;
+}
+
+/* ====================================
+   Night Mode Overrides
+   ==================================== */
+[data-theme="dark"] {
+  --color-bg-primary: #121212;
+  --color-bg-secondary: #1E1E1E;
+  --color-text-primary: #F0F0F0;
+  --color-text-secondary: #B0B0B0;
+  --color-text-muted: #808080;
+  --color-about-bg: #1A1A14;
+  --color-interests-bg: #141A14;
+}
+
+/* ====================================
+   Base Reset
+   ==================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
 body {
-    margin: 0;
-    font-family: 'Courier New', Courier, monospace;
-    background: #feabce;
-    scroll-behavior: smooth;
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: 1.6;
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color var(--duration-normal), color var(--duration-normal);
 }
 
-/* Header */
-.header {
-    background: #ef0064;
-    padding: 15px 30px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  line-height: 1.2;
 }
 
-.logo h1 {
-    color: white;
-    margin: 0;
-    font-size: 1.8rem;
+a {
+  color: inherit;
+  text-decoration: none;
 }
 
-.header nav a {
-    color: white;
-    margin-left: 20px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: color 0.3s;
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
 }
 
-.header nav a:hover {
-    color: #ffd6e8;
-    text-decoration: underline;
+ul, ol {
+  list-style: none;
 }
 
-/* Social Bar */
-.social-bar {
-    position: fixed;
-    top: 50%;
-    left: 0;
-    display: flex;
-    flex-direction: column;
-    background-color: rgba(255, 255, 255, 0.6);
-    padding: 10px;
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
-    z-index: 1000;
+button {
+  font: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
 }
 
-.social-bar img {
-    width: 30px;
-    height: 30px;
-    margin: 10px 0;
-    cursor: pointer;
-    transition: transform 0.3s;
+input, textarea {
+  font: inherit;
+  border: none;
+  outline: none;
 }
 
-.social-bar img:hover {
-    transform: scale(1.1);
+/* ====================================
+   Animation Utility Classes
+   ==================================== */
+.will-animate {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity var(--duration-slow) var(--ease-out),
+              transform var(--duration-slow) var(--ease-out);
 }
 
-/* Home Section */
-.home {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 50px;
-    background: #feabce;
-    flex-wrap: wrap;
-    text-align: left;
-    animation: fadeIn 1s ease-in-out;
+.will-animate.is-visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-.content {
-    max-width: 400px;
-}
+/* ====================================
+   Reduced Motion
+   ==================================== */
+@media (prefers-reduced-motion: reduce) {
+  .will-animate {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 
-.content p {
-    margin: 8px 0;
-    font-size: 1.5rem;
-}
-
-.content p:nth-child(2) {
-    font-size: 2.5rem;
-    font-weight: bold;
-}
-
-.home-image img {
-    height: 300px;
-    width: 300px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 4px solid white;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-    margin-left: 40px;
-}
-
-/* Sections */
-.about,
-.skills,
-.hobbies,
-.contact-form {
-    padding: 50px 20px;
-    text-align: center;
-    max-width: 1200px;
-    margin: 0 auto;
-    box-sizing: border-box;
-    line-height: 1.6;
-    animation: fadeIn 1s ease-in-out;
-}
-
-.about h2,
-.skills h2,
-.hobbies h2,
-.contact-form h2 {
-    font-family: 'Brush Script MT', cursive;
-    font-size: 2.5rem;
-    margin-bottom: 20px;
-}
-
-.about p,
-.hobbies p {
-    font-size: 1.2rem;
-}
-
-/* Skills */
-.skills li {
-    background-color: bisque;
-    margin: 10px auto;
-    padding: 10px;
-    max-width: 300px;
-    border-radius: 8px;
-    list-style: none;
-    font-size: 1.1rem;
-    font-weight: 500;
-    transition: background-color 0.3s;
-}
-
-.skills li:hover {
-    background-color: #ffe0c7;
-}
-
-/* Contact Form */
-.contact-form form {
-    display: flex;
-    flex-direction: column;
-    max-width: 400px;
-    margin: auto;
-}
-
-.contact-form input,
-.contact-form textarea {
-    padding: 10px;
-    margin: 10px 0;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    font-size: 1rem;
-    resize: vertical;
-    font-family: inherit;
-}
-
-.contact-form input:focus,
-.contact-form textarea:focus {
-    border-color: #ef0064;
-    outline: none;
-}
-
-.contact-form button {
-    background: #000000;
-    color: white;
-    border: none;
-    padding: 10px;
-    cursor: pointer;
-    font-size: 1rem;
-    border-radius: 5px;
-    transition: background-color 0.3s;
-}
-
-.contact-form button:hover {
-    background: #ef0064;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .home {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .home-image {
-        margin: 20px 0 0;
-    }
-
-    .about,
-    .skills,
-    .hobbies,
-    .contact-form {
-        padding: 30px 15px;
-    }
-
-    .content p {
-        font-size: 1.2rem;
-    }
-
-    .content p:nth-child(2) {
-        font-size: 2rem;
-    }
-}
-
-/* Animation */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
