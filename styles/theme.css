@@ -10,3 +10,10 @@
   --color-about-bg: #1A1A14;
   --color-interests-bg: #141A14;
 }
+
+/* ====================================
+   Theme Transition (smooth mode switch)
+   ==================================== */
+body {
+  transition: background-color 400ms, color 400ms;
+}

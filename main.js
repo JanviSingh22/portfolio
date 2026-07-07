@@ -362,6 +362,93 @@ class AnimationSystem {
 }
 
 /**
+ * ThemeSystem — Manages night mode via CSS custom properties.
+ * Toggles data-theme attribute on <html>, persists preference to localStorage,
+ * respects prefers-color-scheme as initial default.
+ * Requirements: 7.1, 7.2, 7.4
+ */
+class ThemeSystem {
+  constructor(toggleEl) {
+    this._toggleEl = toggleEl;
+    this._storageKey = 'theme-preference';
+
+    // Determine initial mode: localStorage > prefers-color-scheme > light
+    const saved = this._loadPreference();
+    let initialMode;
+    if (saved) {
+      initialMode = saved;
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      initialMode = 'dark';
+    } else {
+      initialMode = 'light';
+    }
+
+    // Apply the initial mode
+    this._applyMode(initialMode);
+
+    // Wire toggle button click
+    if (this._toggleEl) {
+      this._toggleEl.addEventListener('click', () => this.toggle());
+    }
+  }
+
+  /**
+   * Toggle between light and dark mode.
+   */
+  toggle() {
+    const current = this.getMode();
+    const next = current === 'light' ? 'dark' : 'light';
+    this._applyMode(next);
+    this._savePreference(next);
+  }
+
+  /**
+   * Get the current theme mode.
+   * @returns {'light'|'dark'}
+   */
+  getMode() {
+    return document.documentElement.getAttribute('data-theme') || 'light';
+  }
+
+  /**
+   * Apply the given mode to the document and update button icon.
+   * @param {'light'|'dark'} mode
+   */
+  _applyMode(mode) {
+    document.documentElement.setAttribute('data-theme', mode);
+    if (this._toggleEl) {
+      this._toggleEl.textContent = mode === 'dark' ? '☀️' : '🌙';
+    }
+  }
+
+  /**
+   * Save theme preference to localStorage.
+   * @param {'light'|'dark'} mode
+   */
+  _savePreference(mode) {
+    try {
+      localStorage.setItem(this._storageKey, mode);
+    } catch (e) {
+      // localStorage unavailable — degrade gracefully
+    }
+  }
+
+  /**
+   * Load theme preference from localStorage.
+   * @returns {'light'|'dark'|null}
+   */
+  _loadPreference() {
+    try {
+      const val = localStorage.getItem(this._storageKey);
+      if (val === 'light' || val === 'dark') return val;
+      return null;
+    } catch (e) {
+      return null;
+    }
+  }
+}
+
+/**
  * ContentRenderer — Builds HTML from structured content data objects.
  * Separates content from presentation per Requirement 13.
  * Requirements: 3.1, 3.3, 13.1, 13.3
@@ -675,11 +762,177 @@ class ContentRenderer {
   }
 }
 
+/**
+ * EasterEggSystem — Listens for hidden triggers and activates secret interactions.
+ * Tracks keystrokes, matches trigger words, opens a terminal overlay.
+ * Requirements: 6.1, 6.2, 6.3, 6.4, 6.5
+ */
+class EasterEggSystem {
+  constructor() {
+    this._overlay = document.getElementById('terminal-overlay');
+    this._output = this._overlay ? this._overlay.querySelector('.terminal__output') : null;
+    this._input = this._overlay ? this._overlay.querySelector('.terminal__input') : null;
+    this._keystrokeBuffer = '';
+    this._triggerWords = ['terminal', 'hello'];
+    this._isVisible = false;
+
+    this._onKeyDown = this._onKeyDown.bind(this);
+    this._onInputKeyDown = this._onInputKeyDown.bind(this);
+  }
+
+  /**
+   * Start listening for keyboard sequences and Ctrl+Shift+T shortcut.
+   */
+  activate() {
+    document.addEventListener('keydown', this._onKeyDown);
+    if (this._input) {
+      this._input.addEventListener('keydown', this._onInputKeyDown);
+    }
+  }
+
+  /**
+   * Show the terminal overlay.
+   */
+  showTerminal() {
+    if (!this._overlay) return;
+    this._overlay.classList.add('terminal--visible');
+    this._overlay.setAttribute('aria-hidden', 'false');
+    this._isVisible = true;
+    if (this._input) {
+      this._input.value = '';
+      this._input.focus();
+    }
+  }
+
+  /**
+   * Hide the terminal overlay.
+   */
+  hideTerminal() {
+    if (!this._overlay) return;
+    this._overlay.classList.remove('terminal--visible');
+    this._overlay.setAttribute('aria-hidden', 'true');
+    this._isVisible = false;
+  }
+
+  /**
+   * Process a terminal command input.
+   * @param {string} input - The user's command text
+   * @returns {string} The response text
+   */
+  processCommand(input) {
+    const cmd = input.toLowerCase().trim();
+
+    if (typeof easterEggCommands === 'undefined') {
+      return 'Command not recognized. Type \'help\' for available commands.';
+    }
+
+    if (cmd in easterEggCommands) {
+      const value = easterEggCommands[cmd];
+      if (value === '__CLOSE__') {
+        this.hideTerminal();
+        return '';
+      }
+      return value;
+    }
+
+    return 'Command not recognized. Type \'help\' for available commands.';
+  }
+
+  /**
+   * Handle keydown events on the document for shortcut and keystroke buffer.
+   * @param {KeyboardEvent} e
+   */
+  _onKeyDown(e) {
+    // Ctrl+Shift+T shortcut to open terminal
+    if (e.ctrlKey && e.shiftKey && e.key === 'T') {
+      e.preventDefault();
+      if (this._isVisible) {
+        this.hideTerminal();
+      } else {
+        this.showTerminal();
+      }
+      return;
+    }
+
+    // Don't track keystrokes when terminal is open or when focused on inputs
+    if (this._isVisible) return;
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+    // Only track single character keys
+    if (e.key.length === 1 && !e.ctrlKey && !e.metaKey && !e.altKey) {
+      this._keystrokeBuffer += e.key.toLowerCase();
+
+      // Keep buffer limited in size
+      if (this._keystrokeBuffer.length > 20) {
+        this._keystrokeBuffer = this._keystrokeBuffer.slice(-20);
+      }
+
+      // Check if buffer ends with any trigger word
+      for (const word of this._triggerWords) {
+        if (this._keystrokeBuffer.endsWith(word)) {
+          this._keystrokeBuffer = '';
+          this._flashHint();
+          break;
+        }
+      }
+    }
+  }
+
+  /**
+   * Handle keydown on the terminal input.
+   * @param {KeyboardEvent} e
+   */
+  _onInputKeyDown(e) {
+    if (e.key === 'Enter') {
+      const value = this._input.value;
+      if (!value.trim()) return;
+
+      // Append user command to output
+      this._appendOutput(`$ ${value}`);
+
+      // Process and display response
+      const response = this.processCommand(value);
+      if (response) {
+        this._appendOutput(response);
+      }
+
+      this._input.value = '';
+    } else if (e.key === 'Escape') {
+      this.hideTerminal();
+    }
+  }
+
+  /**
+   * Append a line to the terminal output area.
+   * @param {string} text
+   */
+  _appendOutput(text) {
+    if (!this._output) return;
+    const line = document.createElement('div');
+    line.className = 'terminal__line';
+    line.textContent = text;
+    this._output.appendChild(line);
+    // Auto-scroll to bottom
+    this._output.scrollTop = this._output.scrollHeight;
+  }
+
+  /**
+   * Show a subtle flash/hint that a trigger word was detected.
+   */
+  _flashHint() {
+    if (!this._overlay) return;
+    // Briefly flash the terminal overlay border as a hint
+    this._overlay.classList.add('terminal--hint');
+    setTimeout(() => {
+      this._overlay.classList.remove('terminal--hint');
+    }, 600);
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   // --- ThemeSystem ---
   try {
-    // TODO: Implement ThemeSystem class (Task 10)
-    // const themeSystem = new ThemeSystem(document.querySelector('.nav__theme-toggle'));
+    const themeSystem = new ThemeSystem(document.querySelector('.nav__theme-toggle'));
   } catch (e) {
     console.warn('ThemeSystem failed to initialize:', e);
   }
@@ -757,9 +1010,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // --- EasterEggSystem ---
   try {
-    // TODO: Implement EasterEggSystem class (Task 11)
-    // const easterEggs = new EasterEggSystem();
-    // easterEggs.activate();
+    const easterEggs = new EasterEggSystem();
+    easterEggs.activate();
   } catch (e) {
     console.warn('EasterEggSystem failed to initialize:', e);
   }
