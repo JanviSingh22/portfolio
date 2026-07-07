@@ -1,0 +1,186 @@
+/* ====================================
+   Footer — Contact Form & Links
+   ==================================== */
+.footer {
+  background-color: var(--color-bg-secondary);
+  padding: var(--space-16) var(--space-4);
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.footer__container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: var(--space-12);
+  align-items: start;
+}
+
+.footer__heading {
+  font-family: var(--font-heading);
+  font-size: var(--text-2xl);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-6);
+}
+
+/* Contact Form */
+.footer__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.footer__form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.footer__label {
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--color-text-secondary);
+}
+
+.footer__input,
+.footer__textarea {
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  transition: border-color var(--duration-fast), box-shadow var(--duration-fast);
+}
+
+.footer__input:focus,
+.footer__textarea:focus {
+  outline: none;
+  border-color: var(--color-about-accent);
+  box-shadow: 0 0 0 3px rgba(200, 169, 110, 0.15);
+}
+
+.footer__textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.footer__submit {
+  align-self: flex-start;
+  padding: var(--space-3) var(--space-8);
+  background-color: var(--color-text-primary);
+  color: var(--color-bg-primary);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: opacity var(--duration-fast), transform var(--duration-fast);
+}
+
+.footer__submit:hover {
+  opacity: 0.85;
+  transform: translateY(-1px);
+}
+
+/* Links & Info */
+.footer__links {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  margin-bottom: var(--space-8);
+}
+
+.footer__link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: var(--text-base);
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  transition: color var(--duration-fast);
+}
+
+.footer__link:hover {
+  color: var(--color-text-primary);
+}
+
+.footer__icon {
+  width: 20px;
+  height: 20px;
+}
+
+.footer__copyright {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  margin-top: var(--space-4);
+}
+
+/* ====================================
+   Dark Theme
+   ==================================== */
+[data-theme="dark"] .footer {
+  border-top-color: rgba(255, 255, 255, 0.06);
+}
+
+[data-theme="dark"] .footer__input,
+[data-theme="dark"] .footer__textarea {
+  border-color: rgba(255, 255, 255, 0.1);
+  background-color: var(--color-bg-secondary);
+}
+
+[data-theme="dark"] .footer__submit {
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+}
+
+/* ====================================
+   Responsive — Mobile
+   ==================================== */
+@media (max-width: 767px) {
+  .footer__container {
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+  }
+
+  .footer {
+    padding: var(--space-12) var(--space-4);
+  }
+}
+
+/* ====================================
+   Footer inside Coder Panel (dark bg)
+   ==================================== */
+.section--coder .footer {
+  background-color: #161626;
+  border-top-color: rgba(255, 255, 255, 0.06);
+}
+
+.section--coder .footer__heading,
+.section--coder .footer__label,
+.section--coder .footer__link,
+.section--coder .footer__copyright {
+  color: var(--color-coder-text);
+}
+
+.section--coder .footer__label {
+  color: rgba(226, 232, 240, 0.7);
+}
+
+.section--coder .footer__input,
+.section--coder .footer__textarea {
+  background-color: #1A1A2E;
+  border-color: rgba(255, 255, 255, 0.1);
+  color: var(--color-coder-text);
+}
+
+.section--coder .footer__submit {
+  background-color: var(--color-coder-text);
+  color: var(--color-coder-bg);
+}
+
+.section--coder .footer__copyright {
+  color: rgba(226, 232, 240, 0.5);
+}

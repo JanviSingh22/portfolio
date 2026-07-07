@@ -1,0 +1,59 @@
+/* ====================================
+   Panel System
+   Interests slides from left, Coder slides from right.
+   About is the base layer, always visible behind panels.
+   ==================================== */
+
+/* Base panel styles */
+.panel {
+  position: fixed;
+  top: var(--nav-height);
+  width: 100%;
+  height: calc(100vh - var(--nav-height));
+  z-index: 50;
+  transition: transform var(--duration-slow) var(--ease-out);
+}
+
+/* Panel scroll container */
+.panel__scroll {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Left panel (Interests) — starts offscreen left */
+.panel--left {
+  left: 0;
+  transform: translateX(-100%);
+}
+
+.panel--left.panel--active {
+  transform: translateX(0);
+}
+
+/* Right panel (Coder) — starts offscreen right */
+.panel--right {
+  right: 0;
+  transform: translateX(100%);
+}
+
+.panel--right.panel--active {
+  transform: translateX(0);
+}
+
+/* About section needs padding-top for nav */
+.section--about {
+  /* Handled in about.css */
+}
+
+/* Panels have their own section padding */
+
+/* ====================================
+   Reduced Motion
+   ==================================== */
+@media (prefers-reduced-motion: reduce) {
+  .panel {
+    transition: none;
+  }
+}

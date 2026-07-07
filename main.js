@@ -149,25 +149,27 @@ class LandingController {
 }
 
 /**
- * NavigationController — Handles section navigation, active state tracking, and mobile menu.
+ * NavigationController — Handles panel-based navigation with slide transitions.
+ * About is the base layer. Interests slides from left, Coder slides from right.
  * Requirements: 2.1, 2.2, 2.3, 2.4, 2.5
  */
 class NavigationController {
-  constructor(navEl, sections) {
+  constructor(navEl, panels) {
     this._navEl = navEl;
-    this._sections = Array.from(sections);
+    this._panels = Array.from(panels);
     this._navLinks = navEl.querySelectorAll('.nav__link');
+    this._logo = navEl.querySelector('.nav__logo');
     this._mobileToggle = navEl.querySelector('.nav__mobile-toggle');
     this._navLinksContainer = navEl.querySelector('.nav__links');
-    this._currentSection = null;
-    this._observer = null;
+    this._currentSection = 'about';
+    this._activePanel = null;
     this._mobileMenuOpen = false;
 
     this._init();
   }
 
   /**
-   * Initialize event listeners and IntersectionObserver.
+   * Initialize event listeners for panel navigation.
    */
   _init() {
     // Click handlers on nav links
@@ -184,6 +186,14 @@ class NavigationController {
       });
     });
 
+    // Logo click returns to About (closes any panel)
+    if (this._logo) {
+      this._logo.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.navigateTo('about');
+      });
+    }
+
     // Mobile toggle button click handler
     if (this._mobileToggle) {
       this._mobileToggle.addEventListener('click', () => {
@@ -191,33 +201,42 @@ class NavigationController {
       });
     }
 
-    // Set up IntersectionObserver for active state tracking
-    this._setupObserver();
+    // Set About as active initially
+    this._updateNavLinks();
   }
 
   /**
-   * Set up IntersectionObserver to detect which section is in view.
+   * Navigate to a section by toggling panels.
+   * - "about": close any open panel
+   * - "interests": open left panel (close right if open)
+   * - "coder": open right panel (close left if open)
+   * @param {string} sectionId
    */
-  _setupObserver() {
-    const options = {
-      root: null,
-      rootMargin: `-${parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-height')) || 60}px 0px 0px 0px`,
-      threshold: 0.3
-    };
+  navigateTo(sectionId) {
+    // Close currently active panel
+    if (this._activePanel) {
+      this._activePanel.classList.remove('panel--active');
+      this._activePanel.setAttribute('aria-hidden', 'true');
+    }
 
-    this._observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          this._currentSection = entry.target.id;
-          this._updateNavLinks();
-        }
-      });
-    }, options);
+    if (sectionId === 'about') {
+      // Just close panels, About is always visible
+      this._activePanel = null;
+    } else {
+      // Open the target panel
+      const panel = document.getElementById(sectionId);
+      if (panel) {
+        panel.classList.add('panel--active');
+        panel.setAttribute('aria-hidden', 'false');
+        // Scroll panel content to top
+        const scrollContainer = panel.querySelector('.panel__scroll');
+        if (scrollContainer) scrollContainer.scrollTop = 0;
+        this._activePanel = panel;
+      }
+    }
 
-    // Observe all sections
-    this._sections.forEach(section => {
-      this._observer.observe(section);
-    });
+    this._currentSection = sectionId;
+    this._updateNavLinks();
   }
 
   /**
@@ -235,25 +254,9 @@ class NavigationController {
   }
 
   /**
-   * Smooth scroll to the specified section.
-   * @param {string} sectionId - The ID of the section to scroll to.
-   */
-  navigateTo(sectionId) {
-    const section = document.getElementById(sectionId);
-    if (section) {
-      section.scrollIntoView({ behavior: 'smooth' });
-      this._currentSection = sectionId;
-      this._updateNavLinks();
-    }
-  }
-
-  /**
-   * Update active state based on scroll position (called by observer).
-   * Public method for external triggering if needed.
+   * Update active state (public method).
    */
   updateActiveState() {
-    // The IntersectionObserver handles this automatically.
-    // This method can be called to force a re-check.
     this._updateNavLinks();
   }
 
@@ -358,19 +361,321 @@ class AnimationSystem {
   }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  // --- AnimationSystem ---
-  try {
-    const animSystem = new AnimationSystem({ threshold: 0.15, rootMargin: '0px 0px -50px 0px', once: true });
-    animSystem.observe(document.querySelectorAll('.will-animate'), 'is-visible');
-  } catch (e) {
-    // Fallback: remove .will-animate so content is visible without animation
-    document.querySelectorAll('.will-animate').forEach(el => {
-      el.classList.remove('will-animate');
-    });
-    console.warn('AnimationSystem failed to initialize:', e);
+/**
+ * ContentRenderer — Builds HTML from structured content data objects.
+ * Separates content from presentation per Requirement 13.
+ * Requirements: 3.1, 3.3, 13.1, 13.3
+ */
+class ContentRenderer {
+  constructor(contentData) {
+    this._profileData = contentData.profileData;
+    this._interestsData = contentData.interestsData;
+    this._coderData = contentData.coderData;
   }
 
+  /**
+   * Render the About section content into the given container.
+   * Generates: profile image, name heading, bio paragraph, traits grid, social links.
+   * @param {Element} containerEl - The section container to render into
+   */
+  renderAbout(containerEl) {
+    if (!containerEl || !this._profileData) return;
+
+    const { name, bio, traits, social } = this._profileData;
+
+    // Profile image
+    const profileImg = document.createElement('div');
+    profileImg.className = 'about__profile will-animate';
+    profileImg.innerHTML = `
+      <img
+        src="profile_image.jpg"
+        alt="Portrait of ${name}"
+        class="about__image"
+        loading="lazy"
+      >
+    `;
+
+    // Name heading
+    const nameHeading = document.createElement('h2');
+    nameHeading.className = 'about__name will-animate';
+    nameHeading.textContent = name;
+
+    // Bio paragraph
+    const bioParagraph = document.createElement('p');
+    bioParagraph.className = 'about__bio will-animate';
+    bioParagraph.textContent = bio;
+
+    // Traits grid
+    const traitsSection = document.createElement('div');
+    traitsSection.className = 'about__traits will-animate';
+    traitsSection.setAttribute('aria-label', 'Personality traits');
+
+    const traitsGrid = document.createElement('div');
+    traitsGrid.className = 'about__traits-grid';
+    traitsGrid.setAttribute('role', 'list');
+
+    traits.forEach(trait => {
+      const card = document.createElement('div');
+      card.className = 'about__trait-card';
+      card.setAttribute('role', 'listitem');
+
+      const label = document.createElement('h3');
+      label.className = 'about__trait-label';
+      label.textContent = trait.label;
+
+      const description = document.createElement('p');
+      description.className = 'about__trait-description';
+      description.textContent = trait.description;
+
+      card.appendChild(label);
+      card.appendChild(description);
+      traitsGrid.appendChild(card);
+    });
+
+    traitsSection.appendChild(traitsGrid);
+
+    // Append all elements to container
+    containerEl.appendChild(profileImg);
+    containerEl.appendChild(nameHeading);
+    containerEl.appendChild(bioParagraph);
+    containerEl.appendChild(traitsSection);
+  }
+
+  /**
+   * Render interest cards into the given container element.
+   * Generates a card for each item in interestsData with icon, title, description,
+   * per-card accent color, size class, and accessibility attributes.
+   * @param {Element} containerEl - The .interests-grid container (role="list")
+   */
+  renderInterestCards(containerEl) {
+    if (!containerEl || !this._interestsData) return;
+
+    this._interestsData.forEach(item => {
+      const card = document.createElement('div');
+      card.className = `interest-card interest-card--${item.size} will-animate`;
+      card.setAttribute('role', 'listitem');
+      card.style.setProperty('--card-accent', item.accentColor);
+
+      // Icon
+      const iconSpan = document.createElement('span');
+      iconSpan.className = 'interest-card__icon';
+      iconSpan.setAttribute('aria-hidden', 'true');
+      iconSpan.textContent = item.icon;
+
+      // Title
+      const title = document.createElement('h3');
+      title.className = 'interest-card__title';
+      title.textContent = item.title;
+
+      // Description (hidden by default, revealed on hover via CSS)
+      const description = document.createElement('p');
+      description.className = 'interest-card__description';
+      description.textContent = item.description;
+
+      card.appendChild(iconSpan);
+      card.appendChild(title);
+      card.appendChild(description);
+      containerEl.appendChild(card);
+    });
+  }
+
+  /**
+   * Render the entire Coder section: heading, skills, projects, and timeline.
+   * @param {Element} containerEl - The #coder .section__container element
+   */
+  renderCoder(containerEl) {
+    if (!containerEl || !this._coderData) return;
+
+    // Section heading
+    const heading = document.createElement('h2');
+    heading.className = 'coder__heading will-animate';
+    heading.textContent = 'Coder';
+    containerEl.appendChild(heading);
+
+    // Skills subsection
+    const skillsSection = document.createElement('div');
+    skillsSection.className = 'coder__skills';
+    skillsSection.setAttribute('aria-label', 'Technical skills');
+    this.renderSkills(skillsSection);
+    containerEl.appendChild(skillsSection);
+
+    // Projects subsection
+    const projectsSection = document.createElement('div');
+    projectsSection.className = 'coder__projects';
+    projectsSection.setAttribute('aria-label', 'Projects');
+    this.renderProjectCards(projectsSection);
+    containerEl.appendChild(projectsSection);
+
+    // Timeline subsection
+    const timelineSection = document.createElement('div');
+    timelineSection.className = 'coder__timeline';
+    timelineSection.setAttribute('aria-label', 'Experience timeline');
+    this.renderTimeline(timelineSection);
+    containerEl.appendChild(timelineSection);
+  }
+
+  /**
+   * Render skills grouped by category as tags/badges.
+   * Categories: languages, frontend, backend, tools, design, data
+   * @param {Element} containerEl - The container to render skills into
+   */
+  renderSkills(containerEl) {
+    if (!containerEl || !this._coderData || !this._coderData.skills) return;
+
+    const categories = ['languages', 'frontend', 'backend', 'tools', 'design', 'data'];
+    const grouped = {};
+
+    // Group skills by category
+    this._coderData.skills.forEach(skill => {
+      if (!grouped[skill.category]) {
+        grouped[skill.category] = [];
+      }
+      grouped[skill.category].push(skill);
+    });
+
+    // Render each category that has skills
+    categories.forEach(category => {
+      if (!grouped[category] || grouped[category].length === 0) return;
+
+      const categoryBlock = document.createElement('div');
+      categoryBlock.className = 'coder__skill-category will-animate';
+
+      const categoryHeading = document.createElement('h3');
+      categoryHeading.className = 'coder__skill-category-heading';
+      categoryHeading.textContent = category;
+      categoryBlock.appendChild(categoryHeading);
+
+      const tagsRow = document.createElement('div');
+      tagsRow.className = 'coder__skill-tags';
+      tagsRow.setAttribute('role', 'list');
+      tagsRow.setAttribute('aria-label', `${category} skills`);
+
+      grouped[category].forEach(skill => {
+        const tag = document.createElement('span');
+        tag.className = 'coder__skill-tag';
+        tag.setAttribute('role', 'listitem');
+        tag.textContent = skill.name;
+        tagsRow.appendChild(tag);
+      });
+
+      categoryBlock.appendChild(tagsRow);
+      containerEl.appendChild(categoryBlock);
+    });
+  }
+
+  /**
+   * Render project cards with title, description, tech stack tags, and link.
+   * @param {Element} containerEl - The container to render project cards into
+   */
+  renderProjectCards(containerEl) {
+    if (!containerEl || !this._coderData || !this._coderData.projects) return;
+
+    const heading = document.createElement('h3');
+    heading.className = 'coder__subsection-heading will-animate';
+    heading.textContent = 'Projects';
+    containerEl.appendChild(heading);
+
+    const grid = document.createElement('div');
+    grid.className = 'coder__projects-grid';
+    grid.setAttribute('role', 'list');
+
+    this._coderData.projects.forEach(project => {
+      const card = document.createElement('article');
+      card.className = 'coder__project-card will-animate';
+      card.setAttribute('role', 'listitem');
+
+      const title = document.createElement('h4');
+      title.className = 'coder__project-title';
+      title.textContent = project.title;
+
+      const description = document.createElement('p');
+      description.className = 'coder__project-description';
+      description.textContent = project.description;
+
+      const techList = document.createElement('div');
+      techList.className = 'coder__project-tech';
+      techList.setAttribute('aria-label', 'Technologies used');
+
+      project.tech.forEach(techName => {
+        const techTag = document.createElement('span');
+        techTag.className = 'coder__project-tech-tag';
+        techTag.textContent = techName;
+        techList.appendChild(techTag);
+      });
+
+      const link = document.createElement('a');
+      link.className = 'coder__project-link';
+      link.href = project.link;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      link.setAttribute('aria-label', `View ${project.title} project`);
+      link.textContent = 'View →';
+
+      card.appendChild(title);
+      card.appendChild(description);
+      card.appendChild(techList);
+      card.appendChild(link);
+      grid.appendChild(card);
+    });
+
+    containerEl.appendChild(grid);
+  }
+
+  /**
+   * Render a vertical timeline with year markers and event descriptions.
+   * @param {Element} containerEl - The container to render the timeline into
+   */
+  renderTimeline(containerEl) {
+    if (!containerEl || !this._coderData || !this._coderData.timeline) return;
+
+    const heading = document.createElement('h3');
+    heading.className = 'coder__subsection-heading will-animate';
+    heading.textContent = 'Timeline';
+    containerEl.appendChild(heading);
+
+    const timeline = document.createElement('div');
+    timeline.className = 'coder__timeline-list';
+    timeline.setAttribute('role', 'list');
+    timeline.setAttribute('aria-label', 'Experience timeline');
+
+    this._coderData.timeline.forEach(entry => {
+      const item = document.createElement('div');
+      item.className = 'coder__timeline-item will-animate';
+      item.setAttribute('role', 'listitem');
+
+      const marker = document.createElement('div');
+      marker.className = 'coder__timeline-marker';
+      marker.setAttribute('aria-hidden', 'true');
+
+      const content = document.createElement('div');
+      content.className = 'coder__timeline-content';
+
+      const year = document.createElement('span');
+      year.className = 'coder__timeline-year';
+      year.textContent = entry.year;
+
+      const title = document.createElement('h4');
+      title.className = 'coder__timeline-title';
+      title.textContent = entry.title;
+
+      const description = document.createElement('p');
+      description.className = 'coder__timeline-description';
+      description.textContent = entry.description;
+
+      content.appendChild(year);
+      content.appendChild(title);
+      content.appendChild(description);
+
+      item.appendChild(marker);
+      item.appendChild(content);
+      timeline.appendChild(item);
+    });
+
+    containerEl.appendChild(timeline);
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
   // --- ThemeSystem ---
   try {
     // TODO: Implement ThemeSystem class (Task 10)
@@ -383,7 +688,7 @@ document.addEventListener('DOMContentLoaded', () => {
   try {
     const navController = new NavigationController(
       document.querySelector('.nav'),
-      document.querySelectorAll('.section')
+      document.querySelectorAll('.panel')
     );
   } catch (e) {
     console.warn('NavigationController failed to initialize:', e);
@@ -391,15 +696,38 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // --- ContentRenderer ---
   try {
-    // TODO: Implement ContentRenderer class (Tasks 6, 7, 8)
-    // const renderer = new ContentRenderer({ profileData, interestsData, coderData });
-    // renderer.renderAbout(document.querySelector('#about .section__container'));
-    // renderer.renderInterestCards(document.querySelector('.interests-grid'));
-    // renderer.renderSkills(document.querySelector('#coder .section__container'));
-    // renderer.renderProjectCards(document.querySelector('#coder .section__container'));
-    // renderer.renderTimeline(document.querySelector('#coder .section__container'));
+    const renderer = new ContentRenderer({ profileData, interestsData, coderData });
+    renderer.renderAbout(document.querySelector('#about .section__container'));
+    renderer.renderInterestCards(document.querySelector('.interests-grid'));
+    renderer.renderCoder(document.querySelector('#coder .section__container'));
   } catch (e) {
     console.warn('ContentRenderer failed to initialize:', e);
+  }
+
+  // --- Clone footer into panel scroll containers ---
+  try {
+    const footer = document.querySelector('.footer');
+    if (footer) {
+      document.querySelectorAll('.panel__footer-slot').forEach(slot => {
+        const clone = footer.cloneNode(true);
+        clone.removeAttribute('id');
+        slot.appendChild(clone);
+      });
+    }
+  } catch (e) {
+    console.warn('Footer cloning failed:', e);
+  }
+
+  // --- AnimationSystem (after ContentRenderer so dynamically added .will-animate elements are observed) ---
+  try {
+    const animSystem = new AnimationSystem({ threshold: 0.15, rootMargin: '0px 0px -50px 0px', once: true });
+    animSystem.observe(document.querySelectorAll('.will-animate'), 'is-visible');
+  } catch (e) {
+    // Fallback: remove .will-animate so content is visible without animation
+    document.querySelectorAll('.will-animate').forEach(el => {
+      el.classList.remove('will-animate');
+    });
+    console.warn('AnimationSystem failed to initialize:', e);
   }
 
   // --- LandingController ---

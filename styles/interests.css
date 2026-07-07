@@ -1,0 +1,138 @@
+/* ====================================
+   Interests Section Styles
+   Masonry-like card grid with per-card
+   accent colors and hover reveal.
+   ==================================== */
+
+/* Section background */
+.section--interests {
+  background-color: var(--color-interests-bg);
+  padding: var(--space-12) 0 var(--space-24);
+  min-height: 100%;
+}
+
+/* Masonry grid using CSS columns */
+.interests-grid {
+  column-count: 3;
+  column-gap: var(--space-6);
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--space-6);
+}
+
+/* Individual card */
+.interest-card {
+  background: var(--color-bg-primary);
+  border-radius: 12px;
+  padding: var(--space-6);
+  margin-bottom: var(--space-6);
+  break-inside: avoid;
+  border-left: 4px solid var(--card-accent, var(--color-interests-accent));
+  position: relative;
+  transition:
+    transform var(--duration-normal) var(--ease-out),
+    box-shadow var(--duration-normal) var(--ease-out);
+  cursor: default;
+}
+
+/* Size variants */
+.interest-card--small {
+  padding: var(--space-4);
+}
+
+.interest-card--medium {
+  padding: var(--space-6);
+}
+
+.interest-card--large {
+  padding: var(--space-8);
+}
+
+/* Icon */
+.interest-card__icon {
+  display: block;
+  font-size: 2rem;
+  margin-bottom: var(--space-3);
+  line-height: 1;
+}
+
+.interest-card--large .interest-card__icon {
+  font-size: 2.5rem;
+  margin-bottom: var(--space-4);
+}
+
+/* Title */
+.interest-card__title {
+  font-family: var(--font-body);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin: 0 0 var(--space-2) 0;
+}
+
+/* Description — hidden by default, revealed on hover */
+.interest-card__description {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  margin: 0;
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition:
+    opacity var(--duration-normal) var(--ease-out),
+    max-height var(--duration-normal) var(--ease-out);
+}
+
+/* Hover state — reveal description and lift card */
+.interest-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08), 0 2px 8px var(--card-accent, transparent);
+}
+
+.interest-card:hover .interest-card__description {
+  opacity: 1;
+  max-height: 100px;
+}
+
+/* Card entrance animation (triggered by .is-visible from AnimationSystem) */
+.interest-card.will-animate {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.interest-card.will-animate.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity var(--duration-slow) var(--ease-out),
+    transform var(--duration-slow) var(--ease-out);
+}
+
+/* Hover still works after reveal */
+.interest-card.is-visible:hover {
+  transform: translateY(-2px);
+}
+
+/* ====================================
+   Responsive breakpoints
+   ==================================== */
+
+/* Tablet: 2 columns */
+@media (max-width: 1024px) {
+  .interests-grid {
+    column-count: 2;
+  }
+}
+
+/* Mobile: single column */
+@media (max-width: 768px) {
+  .interests-grid {
+    column-count: 1;
+    padding: 0 var(--space-4);
+  }
+
+  .section--interests {
+    padding: var(--space-16) 0;
+  }
+}
