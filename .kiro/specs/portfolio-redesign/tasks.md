@@ -40,8 +40,8 @@ This plan builds the portfolio incrementally, section by section, so that each t
     - Verify test runner works with a trivial passing test
     - _Requirements: (testing infrastructure)_
 
-- [ ] 2. Implement Landing Section with typewriter animation
-  - [ ] 2.1 Implement LandingController class
+- [x] 2. Implement Landing Section with typewriter animation
+  - [x] 2.1 Implement LandingController class
     - Create LandingController with `start()`, `skip()`, `_onComplete()` methods
     - Implement blinking cursor for `cursorBlinkDuration` ms before typing begins
     - Implement character-by-character typing at random speed within [50ms, 120ms] range
@@ -50,7 +50,7 @@ This plan builds the portfolio incrementally, section by section, so that each t
     - On completion, set `aria-hidden="true"` on landing, `aria-hidden="false"` on main-wrapper
     - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.5, 1.6_
 
-  - [ ] 2.2 Add Landing Section CSS styles
+  - [x] 2.2 Add Landing Section CSS styles
     - Style the landing overlay (full-viewport, centered cursor and text, monospace font)
     - Add cursor blink keyframe animation
     - Add fade-out/slide-up transition for landing dismissal (1000ms, ease-out)
