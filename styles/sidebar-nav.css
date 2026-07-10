@@ -31,6 +31,35 @@
 /* Position: left side when Opus (right panel) is open */
 .sidebar-nav--left {
   left: 0;
+  background-image: url('../assets/profile_image.jpg');
+  background-size: cover;
+  background-position: center;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-bottom: var(--space-8);
+}
+
+/* Dark overlay on image for text readability */
+.sidebar-nav--left::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.6));
+  z-index: 0;
+}
+
+.sidebar-nav--left .sidebar-nav__list {
+  position: relative;
+  z-index: 1;
+}
+
+.sidebar-nav--left .sidebar-nav__item {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.sidebar-nav--left .sidebar-nav__item:hover {
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 /* List styling */
@@ -67,14 +96,7 @@
   color: var(--color-about-accent);
 }
 
-/* Dark panel context (when Opus is open, sidebar is on the left with dark bg behind) */
-.sidebar-nav--dark .sidebar-nav__item {
-  color: var(--color-text-muted);
-}
-
-.sidebar-nav--dark .sidebar-nav__item:hover {
-  color: var(--color-text-primary);
-}
+/* Dark panel context removed — using image background instead */
 
 /* ====================================
    Mobile — hide sidebar nav

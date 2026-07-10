@@ -238,9 +238,21 @@
 }
 
 .coder__edu-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
   margin-bottom: var(--space-6);
-  padding-left: var(--space-4);
-  border-left: 2px solid var(--color-coder-accent);
+}
+
+.coder__star {
+  font-size: 1.2rem;
+  color: var(--color-about-accent);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.coder__edu-content {
+  flex: 1;
 }
 
 .coder__edu-degree {
@@ -254,13 +266,6 @@
   font-family: var(--font-mono);
   font-size: var(--text-sm);
   color: var(--color-coder-accent);
-  margin-bottom: var(--space-2);
-}
-
-.coder__edu-description {
-  font-size: var(--text-base);
-  color: var(--color-coder-text);
-  opacity: 0.8;
 }
 
 /* --- Experience --- */

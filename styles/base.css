@@ -103,3 +103,21 @@ textarea:focus-visible,
   outline-offset: 2px;
 }
 
+
+/* ====================================
+   Material Symbols shorthand
+   ==================================== */
+.mss {
+  font-family: 'Material Symbols Rounded';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased;
+}

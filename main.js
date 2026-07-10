@@ -698,6 +698,14 @@ class ContentRenderer {
       const item = document.createElement('div');
       item.className = 'coder__edu-item will-animate';
 
+      const star = document.createElement('span');
+      star.className = 'coder__star mss';
+      star.setAttribute('aria-hidden', 'true');
+      star.textContent = 'star';
+
+      const content = document.createElement('div');
+      content.className = 'coder__edu-content';
+
       const degree = document.createElement('h4');
       degree.className = 'coder__edu-degree';
       degree.textContent = edu.degree;
@@ -706,13 +714,10 @@ class ContentRenderer {
       meta.className = 'coder__edu-meta';
       meta.textContent = `${edu.institution} • ${edu.year}`;
 
-      const desc = document.createElement('p');
-      desc.className = 'coder__edu-description';
-      desc.textContent = edu.description;
-
-      item.appendChild(degree);
-      item.appendChild(meta);
-      item.appendChild(desc);
+      content.appendChild(degree);
+      content.appendChild(meta);
+      item.appendChild(star);
+      item.appendChild(content);
       containerEl.appendChild(item);
     });
   }
@@ -814,6 +819,28 @@ class ContentRenderer {
     });
     softBlock.appendChild(softTags);
     containerEl.appendChild(softBlock);
+
+    // Languages
+    if (this._coderData.languages && this._coderData.languages.length > 0) {
+      const langBlock = document.createElement('div');
+      langBlock.className = 'coder__skill-category will-animate';
+
+      const langHeading = document.createElement('h4');
+      langHeading.className = 'coder__skill-category-heading';
+      langHeading.textContent = 'Languages';
+      langBlock.appendChild(langHeading);
+
+      const langTags = document.createElement('div');
+      langTags.className = 'coder__skill-tags';
+      this._coderData.languages.forEach(lang => {
+        const tag = document.createElement('span');
+        tag.className = 'coder__skill-tag';
+        tag.textContent = `${lang.name} · ${lang.level}`;
+        langTags.appendChild(tag);
+      });
+      langBlock.appendChild(langTags);
+      containerEl.appendChild(langBlock);
+    }
   }
 
   _renderProjects(containerEl) {
@@ -1114,11 +1141,23 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // --- NavigationController ---
+  let navController;
   try {
-    const navController = new NavigationController(
+    navController = new NavigationController(
       document.querySelector('.nav'),
       document.querySelectorAll('.panel')
     );
+
+    // Hero label clicks → navigate to panels
+    document.querySelectorAll('.hero__label').forEach(label => {
+      label.addEventListener('click', (e) => {
+        e.preventDefault();
+        const target = label.getAttribute('data-nav');
+        if (target && navController) {
+          navController.navigateTo(target);
+        }
+      });
+    });
   } catch (e) {
     console.warn('NavigationController failed to initialize:', e);
   }
@@ -1126,7 +1165,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // --- ContentRenderer ---
   try {
     const renderer = new ContentRenderer({ profileData, interestsData, coderData });
-    renderer.renderAbout(document.querySelector('#about .section__container'));
     renderer.renderInterestCards(document.querySelector('.interests-grid'));
     renderer.renderCoder(document.querySelector('#coder .section__container'));
   } catch (e) {

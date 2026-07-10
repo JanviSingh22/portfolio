@@ -181,10 +181,19 @@ const interestsData = [
 const coderData = {
   education: [
     {
-      degree: "B.Tech in Computer Science",
-      institution: "Your University Name",
-      year: "2022 – 2026",
-      description: "Focused on software engineering, data structures, and web technologies."
+      degree: "B.Tech, Computer Science",
+      institution: "Your University",
+      year: "2022 – 2026"
+    },
+    {
+      degree: "Class 12th",
+      institution: "Your School",
+      year: "2022"
+    },
+    {
+      degree: "Class 10th",
+      institution: "Your School",
+      year: "2020"
     }
   ],
   experience: [
@@ -221,6 +230,10 @@ const coderData = {
       { name: "Adaptability" }
     ]
   },
+  languages: [
+    { name: "English", level: "Fluent" },
+    { name: "Hindi", level: "Native" }
+  ],
   projects: [
     {
       id: "project-1",

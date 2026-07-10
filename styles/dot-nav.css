@@ -84,9 +84,14 @@
 
 /* Icon inside dot */
 .dot-nav__icon {
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   line-height: 1;
+  color: var(--color-coder-text);
   transition: transform var(--duration-fast);
+}
+
+.dot-nav__item--active .dot-nav__icon {
+  color: var(--color-about-accent);
 }
 
 /* ====================================

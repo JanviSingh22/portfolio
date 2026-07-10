@@ -1,0 +1,341 @@
+/* ====================================
+   Hero Section — Geometric Mondrian Layout
+   Soft pastel palette: lavender, lilac, dusty rose
+   ==================================== */
+
+/* Pastel palette variables */
+.section--hero {
+  --hero-lavender: #E6E0F3;
+  --hero-lilac: #C8B6E2;
+  --hero-rose: #E8C4C4;
+  --hero-sage: #D4E2D4;
+  --hero-cream: #FDF8F4;
+  --hero-white: #FAFAFA;
+  --hero-text: #2D2D2D;
+}
+
+.section--hero {
+  background-color: var(--hero-white);
+  min-height: 100vh;
+  padding-top: var(--nav-height);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Hero container */
+.hero {
+  position: relative;
+  width: 100%;
+  height: calc(100vh - var(--nav-height));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ====================================
+   Decorative Geometric Blocks
+   Positioned absolutely for Mondrian composition
+   ==================================== */
+.hero__block {
+  position: absolute;
+  border-radius: 3px;
+}
+
+/* --- Filled blocks --- */
+
+/* Top-left cluster */
+.hero__block--1 {
+  top: 8%;
+  left: 3%;
+  width: 50px;
+  height: 100px;
+  background-color: var(--hero-lilac);
+}
+
+.hero__block--2 {
+  top: 5%;
+  left: 7%;
+  width: 90px;
+  height: 60px;
+  background-color: var(--hero-lavender);
+}
+
+/* Top-center */
+.hero__block--3 {
+  top: 4%;
+  left: 35%;
+  width: 60px;
+  height: 80px;
+  background-color: var(--hero-rose);
+}
+
+/* Top-right */
+.hero__block--4 {
+  top: 6%;
+  right: 8%;
+  width: 70px;
+  height: 45px;
+  background-color: var(--hero-sage);
+}
+
+/* Middle-left */
+.hero__block--5 {
+  top: 40%;
+  left: 2%;
+  width: 40px;
+  height: 60px;
+  background-color: var(--hero-rose);
+  opacity: 0.6;
+}
+
+/* Bottom-left */
+.hero__block--6 {
+  bottom: 12%;
+  left: 5%;
+  width: 140px;
+  height: 40px;
+  background-color: var(--hero-lavender);
+  opacity: 0.7;
+}
+
+/* Bottom-right cluster */
+.hero__block--7 {
+  bottom: 15%;
+  right: 6%;
+  width: 65px;
+  height: 65px;
+  background-color: var(--hero-sage);
+}
+
+.hero__block--8 {
+  bottom: 8%;
+  right: 3%;
+  width: 80px;
+  height: 50px;
+  background-color: var(--hero-lilac);
+  opacity: 0.6;
+}
+
+/* Middle-right */
+.hero__block--9 {
+  top: 30%;
+  right: 3%;
+  width: 35px;
+  height: 90px;
+  background-color: var(--hero-rose);
+  opacity: 0.5;
+}
+
+/* Scattered small blocks */
+.hero__block--10 {
+  top: 20%;
+  left: 18%;
+  width: 30px;
+  height: 30px;
+  background-color: var(--hero-lilac);
+  opacity: 0.5;
+}
+
+.hero__block--11 {
+  bottom: 30%;
+  left: 12%;
+  width: 45px;
+  height: 25px;
+  background-color: var(--hero-sage);
+  opacity: 0.6;
+}
+
+.hero__block--12 {
+  top: 15%;
+  right: 20%;
+  width: 25px;
+  height: 45px;
+  background-color: var(--hero-lavender);
+  opacity: 0.5;
+}
+
+/* --- Outlined blocks (border only, no fill) --- */
+.hero__block--outline-1 {
+  top: 12%;
+  left: 12%;
+  width: 80px;
+  height: 60px;
+  border: 2px solid var(--hero-lilac);
+  background: transparent;
+}
+
+.hero__block--outline-2 {
+  top: 25%;
+  right: 12%;
+  width: 100px;
+  height: 70px;
+  border: 2px solid var(--hero-rose);
+  background: transparent;
+}
+
+.hero__block--outline-3 {
+  bottom: 20%;
+  left: 20%;
+  width: 60px;
+  height: 50px;
+  border: 2px solid var(--hero-sage);
+  background: transparent;
+}
+
+.hero__block--outline-4 {
+  bottom: 25%;
+  right: 18%;
+  width: 70px;
+  height: 55px;
+  border: 2px solid var(--hero-lavender);
+  background: transparent;
+}
+
+/* ====================================
+   Center Content
+   ==================================== */
+.hero__center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  z-index: 10;
+  position: relative;
+}
+
+.hero__image {
+  width: 200px;
+  height: 200px;
+  border-radius: 16px;
+  object-fit: cover;
+  border: none;
+  box-shadow: 0 8px 32px rgba(200, 182, 226, 0.3);
+  margin-bottom: var(--space-6);
+  position: relative;
+  z-index: 2;
+}
+
+/* Lilac square behind image — offset overlap */
+.hero__center::before {
+  content: '';
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-42%);
+  width: 200px;
+  height: 200px;
+  background-color: var(--hero-lilac);
+  border-radius: 12px;
+  z-index: 1;
+  opacity: 0.7;
+}
+
+.hero__name {
+  font-family: var(--font-heading);
+  font-size: var(--text-5xl);
+  font-weight: 700;
+  color: var(--hero-text);
+  letter-spacing: -0.02em;
+  margin-bottom: var(--space-3);
+}
+
+.hero__slogan {
+  font-family: 'Dancing Script', cursive;
+  font-size: var(--text-2xl);
+  color: var(--hero-text);
+  opacity: 0.7;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  margin-top: var(--space-2);
+}
+
+/* ====================================
+   Navigation Labels (clickable)
+   ==================================== */
+.hero__label {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  text-decoration: none;
+  z-index: 10;
+  padding: var(--space-4) var(--space-6);
+  border-radius: 12px;
+  transition: background-color var(--duration-fast),
+              transform var(--duration-fast);
+  cursor: pointer;
+}
+
+.hero__label:hover {
+  background-color: rgba(200, 182, 226, 0.15);
+}
+
+.hero__label--left {
+  left: 5%;
+  flex-direction: row-reverse;
+}
+
+.hero__label--left:hover {
+  transform: translateY(-50%) translateX(-4px);
+}
+
+.hero__label--right {
+  right: 5%;
+}
+
+.hero__label--right:hover {
+  transform: translateY(-50%) translateX(4px);
+}
+
+.hero__label-text {
+  font-family: var(--font-heading);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--hero-text);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.hero__label-arrow {
+  font-size: 1.5rem;
+  color: var(--hero-lilac);
+}
+
+/* ====================================
+   Responsive — Mobile
+   ==================================== */
+@media (max-width: 767px) {
+  .hero__name {
+    font-size: var(--text-4xl);
+  }
+
+  .hero__image {
+    width: 150px;
+    height: 150px;
+  }
+
+  .hero__label {
+    position: relative;
+    top: auto;
+    transform: none;
+    left: auto;
+    right: auto;
+  }
+
+  .hero__label--left:hover,
+  .hero__label--right:hover {
+    transform: none;
+  }
+
+  .hero {
+    flex-direction: column;
+    gap: var(--space-8);
+    padding: var(--space-8) var(--space-4);
+  }
+
+  .hero__block {
+    display: none;
+  }
+}

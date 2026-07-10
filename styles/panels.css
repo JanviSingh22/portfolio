@@ -52,15 +52,15 @@
    About (Core) — shrink and settle to opposite side
    Stays visible, just compresses to peek from the edge.
    ==================================== */
-.section--about {
+.section--hero {
   transition: transform var(--duration-slow) var(--ease-out),
               scale var(--duration-slow) var(--ease-out),
               opacity var(--duration-slow) var(--ease-out);
   transform-origin: center center;
 }
 
-/* When Muse (left panel) is open → About settles to the right */
-.section--about.about--pushed-right {
+/* When Muse (left panel) is open → Hero settles to the right */
+.section--hero.about--pushed-right {
   transform: translateX(40%);
   scale: 0.85;
   opacity: 0.4;
@@ -68,8 +68,8 @@
   overflow: hidden;
 }
 
-/* When Opus (right panel) is open → About settles to the left */
-.section--about.about--pushed-left {
+/* When Opus (right panel) is open → Hero settles to the left */
+.section--hero.about--pushed-left {
   transform: translateX(-40%);
   scale: 0.85;
   opacity: 0.4;
