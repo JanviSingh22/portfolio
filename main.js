@@ -475,7 +475,7 @@ class ContentRenderer {
     profileImg.className = 'about__profile will-animate';
     profileImg.innerHTML = `
       <img
-        src="profile_image.jpg"
+        src="assets/profile_image.jpg"
         alt="Portrait of ${name}"
         class="about__image"
         loading="lazy"
