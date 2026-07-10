@@ -24,9 +24,9 @@
     <header class="nav" role="banner">
       <a href="#" class="nav__logo">JS</a>
       <nav class="nav__links" role="navigation" aria-label="Main navigation">
-        <a href="#interests" class="nav__link" aria-current="false">Interests</a>
-        <a href="#about" class="nav__link" aria-current="true">About</a>
-        <a href="#coder" class="nav__link" aria-current="false">Coder</a>
+        <a href="#interests" class="nav__link" aria-current="false">Muse</a>
+        <a href="#about" class="nav__link" aria-current="true">Core</a>
+        <a href="#coder" class="nav__link" aria-current="false">Opus</a>
       </nav>
       <button class="nav__theme-toggle" aria-label="Toggle night mode">🌙</button>
       <button class="nav__mobile-toggle" aria-label="Open menu" aria-expanded="false">☰</button>
@@ -39,9 +39,23 @@
       </div>
     </section>
 
+    <!-- Sidebar nav (appears in the peek area when a panel is open) -->
+    <aside class="sidebar-nav" aria-hidden="true" aria-label="Section navigation">
+      <ul class="sidebar-nav__list">
+        <!-- Populated dynamically based on active panel -->
+      </ul>
+    </aside>
+
     <!-- Interests Panel (slides from left) -->
     <section id="interests" class="section section--interests panel panel--left" aria-label="My interests" aria-hidden="true">
       <div class="panel__scroll">
+        <div class="panel__intro">
+          <img src="assets/profile_image.jpg" alt="Janvi Singh" class="panel__intro-image">
+          <div class="panel__intro-text">
+            <h2 class="panel__intro-name">Muse</h2>
+            <p class="panel__intro-tagline">What inspires me</p>
+          </div>
+        </div>
         <div class="section__container">
           <div class="interests-grid" role="list">
             <!-- Cards rendered by ContentRenderer -->
@@ -54,8 +68,39 @@
     <!-- Coder Panel (slides from right) -->
     <section id="coder" class="section section--coder panel panel--right" aria-label="Developer profile" aria-hidden="true">
       <div class="panel__scroll">
-        <div class="section__container">
-          <!-- Skills, projects, timeline rendered by ContentRenderer -->
+        <div class="panel__intro panel__intro--dark">
+          <div class="panel__intro-text">
+            <h2 class="panel__intro-name">Opus</h2>
+            <p class="panel__intro-tagline">What I build</p>
+          </div>
+          <img src="assets/profile_image.jpg" alt="Janvi Singh" class="panel__intro-image">
+        </div>
+        <div class="panel__body">
+          <!-- Main content area -->
+          <div class="section__container">
+            <!-- Skills, projects, timeline rendered by ContentRenderer -->
+          </div>
+          <!-- Dot progress nav (right edge inside panel, below image) -->
+          <nav class="dot-nav" aria-label="Section progress">
+            <div class="dot-nav__line"></div>
+            <ul class="dot-nav__list">
+              <li class="dot-nav__item dot-nav__item--active" data-target="opus-education" aria-label="Education">
+                <span class="dot-nav__icon">🎓</span>
+              </li>
+              <li class="dot-nav__item" data-target="opus-experience" aria-label="Experience">
+                <span class="dot-nav__icon">💼</span>
+              </li>
+              <li class="dot-nav__item" data-target="opus-skills" aria-label="Skills">
+                <span class="dot-nav__icon">⚡</span>
+              </li>
+              <li class="dot-nav__item" data-target="opus-projects" aria-label="Projects">
+                <span class="dot-nav__icon">🛠️</span>
+              </li>
+              <li class="dot-nav__item" data-target="opus-achievements" aria-label="Achievements">
+                <span class="dot-nav__icon">🏆</span>
+              </li>
+            </ul>
+          </nav>
         </div>
         <div class="panel__footer-slot"></div>
       </div>

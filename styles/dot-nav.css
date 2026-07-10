@@ -1,0 +1,103 @@
+/* ====================================
+   Dot Progress Navigation
+   Vertical connected dots inside the Opus panel.
+   Fixed on the left edge as content scrolls.
+   ==================================== */
+
+.panel__body {
+  display: flex;
+  position: relative;
+}
+
+.panel__body .section__container {
+  flex: 1;
+}
+
+/* Dot nav container */
+.dot-nav {
+  position: sticky;
+  top: var(--space-8);
+  align-self: flex-start;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--space-8) var(--space-4);
+  height: fit-content;
+  z-index: 10;
+}
+
+/* Vertical connecting line */
+.dot-nav__line {
+  position: absolute;
+  top: var(--space-8);
+  bottom: var(--space-8);
+  left: 50%;
+  width: 2px;
+  background-color: var(--color-coder-accent);
+  transform: translateX(-50%);
+  z-index: 0;
+}
+
+/* List of dots */
+.dot-nav__list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-8);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  position: relative;
+  z-index: 1;
+}
+
+/* Individual dot item */
+.dot-nav__item {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: #222238;
+  border: 2px solid var(--color-coder-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: border-color var(--duration-fast),
+              background-color var(--duration-fast),
+              transform var(--duration-fast);
+}
+
+.dot-nav__item:hover {
+  transform: scale(1.1);
+  border-color: #6B7D99;
+}
+
+/* Active state */
+.dot-nav__item--active {
+  border-color: var(--color-about-accent);
+  background-color: #2A2A42;
+}
+
+.dot-nav__item--active .dot-nav__icon {
+  transform: scale(1.1);
+}
+
+/* Icon inside dot */
+.dot-nav__icon {
+  font-size: 1.2rem;
+  line-height: 1;
+  transition: transform var(--duration-fast);
+}
+
+/* ====================================
+   Mobile — hide dot nav
+   ==================================== */
+@media (max-width: 767px) {
+  .dot-nav {
+    display: none;
+  }
+
+  .panel__body {
+    display: block;
+  }
+}

@@ -207,21 +207,36 @@ class NavigationController {
 
   /**
    * Navigate to a section by toggling panels.
-   * - "about": close any open panel
-   * - "interests": open left panel (close right if open)
-   * - "coder": open right panel (close left if open)
+   * - "about": close any open panel, restore About
+   * - "interests": open left panel, push About right
+   * - "coder": open right panel, push About left
    * @param {string} sectionId
    */
   navigateTo(sectionId) {
+    const aboutSection = document.getElementById('about');
+    const sidebarNav = document.querySelector('.sidebar-nav');
+
     // Close currently active panel
     if (this._activePanel) {
       this._activePanel.classList.remove('panel--active');
       this._activePanel.setAttribute('aria-hidden', 'true');
     }
 
+    // Reset About position
+    if (aboutSection) {
+      aboutSection.classList.remove('about--pushed-left', 'about--pushed-right');
+    }
+
+    // Hide sidebar nav
+    if (sidebarNav) {
+      sidebarNav.classList.remove('sidebar-nav--visible', 'sidebar-nav--left', 'sidebar-nav--right', 'sidebar-nav--dark');
+      sidebarNav.setAttribute('aria-hidden', 'true');
+    }
+
     if (sectionId === 'about') {
-      // Just close panels, About is always visible
+      // Just close panels, About restores to center
       this._activePanel = null;
+      document.body.style.overflow = '';
     } else {
       // Open the target panel
       const panel = document.getElementById(sectionId);
@@ -232,11 +247,73 @@ class NavigationController {
         const scrollContainer = panel.querySelector('.panel__scroll');
         if (scrollContainer) scrollContainer.scrollTop = 0;
         this._activePanel = panel;
+        document.body.style.overflow = 'hidden';
+
+        // Push About in the opposite direction
+        if (aboutSection) {
+          if (panel.classList.contains('panel--left')) {
+            aboutSection.classList.add('about--pushed-right');
+          } else if (panel.classList.contains('panel--right')) {
+            aboutSection.classList.add('about--pushed-left');
+          }
+        }
+
+        // Show sidebar nav in the peek area
+        if (sidebarNav) {
+          if (panel.classList.contains('panel--left')) {
+            sidebarNav.classList.add('sidebar-nav--visible', 'sidebar-nav--right');
+            this._populateSidebar(sidebarNav, 'interests');
+          } else if (panel.classList.contains('panel--right')) {
+            sidebarNav.classList.add('sidebar-nav--visible', 'sidebar-nav--left', 'sidebar-nav--dark');
+            this._populateSidebar(sidebarNav, 'coder');
+          }
+          sidebarNav.setAttribute('aria-hidden', 'false');
+        }
       }
     }
 
     this._currentSection = sectionId;
     this._updateNavLinks();
+  }
+
+  /**
+   * Populate the sidebar nav with section links for the active panel.
+   * @param {Element} sidebarNav
+   * @param {string} panelType - 'interests' or 'coder'
+   */
+  _populateSidebar(sidebarNav, panelType) {
+    const list = sidebarNav.querySelector('.sidebar-nav__list');
+    if (!list) return;
+
+    list.innerHTML = '';
+
+    const sections = panelType === 'coder'
+      ? [
+          { label: 'Education', id: 'opus-education' },
+          { label: 'Experience', id: 'opus-experience' },
+          { label: 'Skills', id: 'opus-skills' },
+          { label: 'Projects', id: 'opus-projects' },
+          { label: 'Achievements', id: 'opus-achievements' }
+        ]
+      : [{ label: 'All Interests', id: null }];
+
+    sections.forEach(section => {
+      const li = document.createElement('li');
+      li.className = 'sidebar-nav__item';
+      li.textContent = section.label;
+      li.addEventListener('click', () => {
+        if (!section.id) return;
+        const panel = this._activePanel;
+        if (!panel) return;
+        const target = panel.querySelector(`#${section.id}`);
+        const scrollContainer = panel.querySelector('.panel__scroll');
+        if (scrollContainer && target) {
+          const targetTop = target.offsetTop - 80;
+          scrollContainer.scrollTo({ top: targetTop, behavior: 'smooth' });
+        }
+      });
+      list.appendChild(li);
+    });
   }
 
   /**
@@ -567,168 +644,93 @@ class ContentRenderer {
   }
 
   /**
-   * Render the entire Coder section: heading, skills, projects, and timeline.
+   * Render the entire Opus section: education, experience, skills, projects, achievements, profiles.
    * @param {Element} containerEl - The #coder .section__container element
    */
   renderCoder(containerEl) {
     if (!containerEl || !this._coderData) return;
 
-    // Section heading
-    const heading = document.createElement('h2');
-    heading.className = 'coder__heading will-animate';
-    heading.textContent = 'Coder';
-    containerEl.appendChild(heading);
+    // Education
+    const eduSection = document.createElement('div');
+    eduSection.className = 'coder__education';
+    eduSection.id = 'opus-education';
+    this._renderEducation(eduSection);
+    containerEl.appendChild(eduSection);
 
-    // Skills subsection
+    // Experience
+    const expSection = document.createElement('div');
+    expSection.className = 'coder__experience';
+    expSection.id = 'opus-experience';
+    this._renderExperience(expSection);
+    containerEl.appendChild(expSection);
+
+    // Skills
     const skillsSection = document.createElement('div');
     skillsSection.className = 'coder__skills';
-    skillsSection.setAttribute('aria-label', 'Technical skills');
-    this.renderSkills(skillsSection);
+    skillsSection.id = 'opus-skills';
+    this._renderSkills(skillsSection);
     containerEl.appendChild(skillsSection);
 
-    // Projects subsection
+    // Projects
     const projectsSection = document.createElement('div');
     projectsSection.className = 'coder__projects';
-    projectsSection.setAttribute('aria-label', 'Projects');
-    this.renderProjectCards(projectsSection);
+    projectsSection.id = 'opus-projects';
+    this._renderProjects(projectsSection);
     containerEl.appendChild(projectsSection);
 
-    // Timeline subsection
-    const timelineSection = document.createElement('div');
-    timelineSection.className = 'coder__timeline';
-    timelineSection.setAttribute('aria-label', 'Experience timeline');
-    this.renderTimeline(timelineSection);
-    containerEl.appendChild(timelineSection);
+    // Achievements
+    const achieveSection = document.createElement('div');
+    achieveSection.className = 'coder__achievements';
+    achieveSection.id = 'opus-achievements';
+    this._renderAchievements(achieveSection);
+    containerEl.appendChild(achieveSection);
   }
 
-  /**
-   * Render skills grouped by category as tags/badges.
-   * Categories: languages, frontend, backend, tools, design, data
-   * @param {Element} containerEl - The container to render skills into
-   */
-  renderSkills(containerEl) {
-    if (!containerEl || !this._coderData || !this._coderData.skills) return;
-
-    const categories = ['languages', 'frontend', 'backend', 'tools', 'design', 'data'];
-    const grouped = {};
-
-    // Group skills by category
-    this._coderData.skills.forEach(skill => {
-      if (!grouped[skill.category]) {
-        grouped[skill.category] = [];
-      }
-      grouped[skill.category].push(skill);
-    });
-
-    // Render each category that has skills
-    categories.forEach(category => {
-      if (!grouped[category] || grouped[category].length === 0) return;
-
-      const categoryBlock = document.createElement('div');
-      categoryBlock.className = 'coder__skill-category will-animate';
-
-      const categoryHeading = document.createElement('h3');
-      categoryHeading.className = 'coder__skill-category-heading';
-      categoryHeading.textContent = category;
-      categoryBlock.appendChild(categoryHeading);
-
-      const tagsRow = document.createElement('div');
-      tagsRow.className = 'coder__skill-tags';
-      tagsRow.setAttribute('role', 'list');
-      tagsRow.setAttribute('aria-label', `${category} skills`);
-
-      grouped[category].forEach(skill => {
-        const tag = document.createElement('span');
-        tag.className = 'coder__skill-tag';
-        tag.setAttribute('role', 'listitem');
-        tag.textContent = skill.name;
-        tagsRow.appendChild(tag);
-      });
-
-      categoryBlock.appendChild(tagsRow);
-      containerEl.appendChild(categoryBlock);
-    });
-  }
-
-  /**
-   * Render project cards with title, description, tech stack tags, and link.
-   * @param {Element} containerEl - The container to render project cards into
-   */
-  renderProjectCards(containerEl) {
-    if (!containerEl || !this._coderData || !this._coderData.projects) return;
-
+  _renderEducation(containerEl) {
     const heading = document.createElement('h3');
     heading.className = 'coder__subsection-heading will-animate';
-    heading.textContent = 'Projects';
+    heading.textContent = 'Education';
     containerEl.appendChild(heading);
 
-    const grid = document.createElement('div');
-    grid.className = 'coder__projects-grid';
-    grid.setAttribute('role', 'list');
+    if (!this._coderData.education) return;
 
-    this._coderData.projects.forEach(project => {
-      const card = document.createElement('article');
-      card.className = 'coder__project-card will-animate';
-      card.setAttribute('role', 'listitem');
+    this._coderData.education.forEach(edu => {
+      const item = document.createElement('div');
+      item.className = 'coder__edu-item will-animate';
 
-      const title = document.createElement('h4');
-      title.className = 'coder__project-title';
-      title.textContent = project.title;
+      const degree = document.createElement('h4');
+      degree.className = 'coder__edu-degree';
+      degree.textContent = edu.degree;
 
-      const description = document.createElement('p');
-      description.className = 'coder__project-description';
-      description.textContent = project.description;
+      const meta = document.createElement('p');
+      meta.className = 'coder__edu-meta';
+      meta.textContent = `${edu.institution} • ${edu.year}`;
 
-      const techList = document.createElement('div');
-      techList.className = 'coder__project-tech';
-      techList.setAttribute('aria-label', 'Technologies used');
+      const desc = document.createElement('p');
+      desc.className = 'coder__edu-description';
+      desc.textContent = edu.description;
 
-      project.tech.forEach(techName => {
-        const techTag = document.createElement('span');
-        techTag.className = 'coder__project-tech-tag';
-        techTag.textContent = techName;
-        techList.appendChild(techTag);
-      });
-
-      const link = document.createElement('a');
-      link.className = 'coder__project-link';
-      link.href = project.link;
-      link.target = '_blank';
-      link.rel = 'noopener noreferrer';
-      link.setAttribute('aria-label', `View ${project.title} project`);
-      link.textContent = 'View →';
-
-      card.appendChild(title);
-      card.appendChild(description);
-      card.appendChild(techList);
-      card.appendChild(link);
-      grid.appendChild(card);
+      item.appendChild(degree);
+      item.appendChild(meta);
+      item.appendChild(desc);
+      containerEl.appendChild(item);
     });
-
-    containerEl.appendChild(grid);
   }
 
-  /**
-   * Render a vertical timeline with year markers and event descriptions.
-   * @param {Element} containerEl - The container to render the timeline into
-   */
-  renderTimeline(containerEl) {
-    if (!containerEl || !this._coderData || !this._coderData.timeline) return;
-
+  _renderExperience(containerEl) {
     const heading = document.createElement('h3');
     heading.className = 'coder__subsection-heading will-animate';
-    heading.textContent = 'Timeline';
+    heading.textContent = 'Experience';
     containerEl.appendChild(heading);
+
+    if (!this._coderData.experience) return;
 
     const timeline = document.createElement('div');
     timeline.className = 'coder__timeline-list';
-    timeline.setAttribute('role', 'list');
-    timeline.setAttribute('aria-label', 'Experience timeline');
 
-    this._coderData.timeline.forEach(entry => {
+    this._coderData.experience.forEach(entry => {
       const item = document.createElement('div');
       item.className = 'coder__timeline-item will-animate';
-      item.setAttribute('role', 'listitem');
 
       const marker = document.createElement('div');
       marker.className = 'coder__timeline-marker';
@@ -745,20 +747,194 @@ class ContentRenderer {
       title.className = 'coder__timeline-title';
       title.textContent = entry.title;
 
-      const description = document.createElement('p');
-      description.className = 'coder__timeline-description';
-      description.textContent = entry.description;
+      const company = document.createElement('span');
+      company.className = 'coder__timeline-company';
+      company.textContent = entry.company;
+
+      const desc = document.createElement('p');
+      desc.className = 'coder__timeline-description';
+      desc.textContent = entry.description;
 
       content.appendChild(year);
       content.appendChild(title);
-      content.appendChild(description);
-
+      content.appendChild(company);
+      content.appendChild(desc);
       item.appendChild(marker);
       item.appendChild(content);
       timeline.appendChild(item);
     });
 
     containerEl.appendChild(timeline);
+  }
+
+  _renderSkills(containerEl) {
+    const heading = document.createElement('h3');
+    heading.className = 'coder__subsection-heading will-animate';
+    heading.textContent = 'Skills';
+    containerEl.appendChild(heading);
+
+    if (!this._coderData.skills) return;
+
+    // Technical skills
+    const techBlock = document.createElement('div');
+    techBlock.className = 'coder__skill-category will-animate';
+
+    const techHeading = document.createElement('h4');
+    techHeading.className = 'coder__skill-category-heading';
+    techHeading.textContent = 'Technical';
+    techBlock.appendChild(techHeading);
+
+    const techTags = document.createElement('div');
+    techTags.className = 'coder__skill-tags';
+    this._coderData.skills.technical.forEach(skill => {
+      const tag = document.createElement('span');
+      tag.className = 'coder__skill-tag';
+      tag.textContent = skill.name;
+      techTags.appendChild(tag);
+    });
+    techBlock.appendChild(techTags);
+    containerEl.appendChild(techBlock);
+
+    // Non-technical skills
+    const softBlock = document.createElement('div');
+    softBlock.className = 'coder__skill-category will-animate';
+
+    const softHeading = document.createElement('h4');
+    softHeading.className = 'coder__skill-category-heading';
+    softHeading.textContent = 'Non-Technical';
+    softBlock.appendChild(softHeading);
+
+    const softTags = document.createElement('div');
+    softTags.className = 'coder__skill-tags';
+    this._coderData.skills.nonTechnical.forEach(skill => {
+      const tag = document.createElement('span');
+      tag.className = 'coder__skill-tag coder__skill-tag--soft';
+      tag.textContent = skill.name;
+      softTags.appendChild(tag);
+    });
+    softBlock.appendChild(softTags);
+    containerEl.appendChild(softBlock);
+  }
+
+  _renderProjects(containerEl) {
+    const heading = document.createElement('h3');
+    heading.className = 'coder__subsection-heading will-animate';
+    heading.textContent = 'Projects';
+    containerEl.appendChild(heading);
+
+    if (!this._coderData.projects) return;
+
+    const grid = document.createElement('div');
+    grid.className = 'coder__projects-grid';
+
+    this._coderData.projects.forEach(project => {
+      const card = document.createElement('article');
+      card.className = 'coder__project-card will-animate';
+
+      const title = document.createElement('h4');
+      title.className = 'coder__project-title';
+      title.textContent = project.title;
+
+      const desc = document.createElement('p');
+      desc.className = 'coder__project-description';
+      desc.textContent = project.description;
+
+      const techList = document.createElement('div');
+      techList.className = 'coder__project-tech';
+      project.tech.forEach(t => {
+        const tag = document.createElement('span');
+        tag.className = 'coder__project-tech-tag';
+        tag.textContent = t;
+        techList.appendChild(tag);
+      });
+
+      const link = document.createElement('a');
+      link.className = 'coder__project-link';
+      link.href = project.link;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      link.textContent = 'View →';
+
+      card.appendChild(title);
+      card.appendChild(desc);
+      card.appendChild(techList);
+      card.appendChild(link);
+      grid.appendChild(card);
+    });
+
+    containerEl.appendChild(grid);
+  }
+
+  _renderAchievements(containerEl) {
+    const heading = document.createElement('h3');
+    heading.className = 'coder__subsection-heading will-animate';
+    heading.textContent = 'Achievements';
+    containerEl.appendChild(heading);
+
+    if (!this._coderData.achievements) return;
+
+    this._coderData.achievements.forEach(item => {
+      const card = document.createElement('div');
+      card.className = 'coder__achievement-card will-animate';
+
+      const title = document.createElement('h4');
+      title.className = 'coder__achievement-title';
+      title.textContent = item.title;
+
+      const event = document.createElement('span');
+      event.className = 'coder__achievement-event';
+      event.textContent = item.event;
+
+      const desc = document.createElement('p');
+      desc.className = 'coder__achievement-description';
+      desc.textContent = item.description;
+
+      card.appendChild(title);
+      card.appendChild(event);
+      card.appendChild(desc);
+      containerEl.appendChild(card);
+    });
+  }
+
+  _renderProfiles(containerEl) {
+    const heading = document.createElement('h3');
+    heading.className = 'coder__subsection-heading will-animate';
+    heading.textContent = 'Profiles';
+    containerEl.appendChild(heading);
+
+    if (!this._coderData.profiles) return;
+
+    const grid = document.createElement('div');
+    grid.className = 'coder__profiles-grid will-animate';
+
+    this._coderData.profiles.forEach(profile => {
+      const link = document.createElement('a');
+      link.className = 'coder__profile-card';
+      link.href = profile.url;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      link.setAttribute('aria-label', `${profile.name} profile`);
+
+      const icon = document.createElement('span');
+      icon.className = 'coder__profile-icon';
+      icon.textContent = profile.icon;
+
+      const name = document.createElement('span');
+      name.className = 'coder__profile-name';
+      name.textContent = profile.name;
+
+      link.appendChild(icon);
+      link.appendChild(name);
+      if (profile.stat) {
+        const stat = document.createElement('span');
+        stat.className = 'coder__profile-stat';
+        stat.textContent = profile.stat;
+        link.appendChild(stat);
+      }
+      grid.appendChild(link);
+    });
+
+    containerEl.appendChild(grid);
   }
 }
 
@@ -969,6 +1145,45 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   } catch (e) {
     console.warn('Footer cloning failed:', e);
+  }
+
+  // --- Dot Nav scroll tracking & click handling ---
+  try {
+    const dotNavItems = document.querySelectorAll('.dot-nav__item');
+    const coderPanel = document.querySelector('#coder .panel__scroll');
+
+    // Click handler: scroll to section
+    dotNavItems.forEach(item => {
+      item.addEventListener('click', () => {
+        const targetId = item.getAttribute('data-target');
+        const target = document.getElementById(targetId);
+        if (coderPanel && target) {
+          const targetTop = target.offsetTop - 80;
+          coderPanel.scrollTo({ top: targetTop, behavior: 'smooth' });
+        }
+      });
+    });
+
+    // Scroll handler: update active dot
+    if (coderPanel) {
+      coderPanel.addEventListener('scroll', () => {
+        const scrollTop = coderPanel.scrollTop + 100;
+        let activeItem = dotNavItems[0];
+
+        dotNavItems.forEach(item => {
+          const targetId = item.getAttribute('data-target');
+          const target = document.getElementById(targetId);
+          if (target && target.offsetTop <= scrollTop) {
+            activeItem = item;
+          }
+        });
+
+        dotNavItems.forEach(item => item.classList.remove('dot-nav__item--active'));
+        if (activeItem) activeItem.classList.add('dot-nav__item--active');
+      });
+    }
+  } catch (e) {
+    console.warn('Dot nav failed to initialize:', e);
   }
 
   // --- AnimationSystem (after ContentRenderer so dynamically added .will-animate elements are observed) ---

@@ -230,3 +230,138 @@
     font-size: var(--text-4xl);
   }
 }
+
+
+/* --- Education --- */
+.coder__education {
+  margin-bottom: var(--space-16);
+}
+
+.coder__edu-item {
+  margin-bottom: var(--space-6);
+  padding-left: var(--space-4);
+  border-left: 2px solid var(--color-coder-accent);
+}
+
+.coder__edu-degree {
+  font-family: var(--font-heading);
+  font-size: var(--text-xl);
+  color: var(--color-coder-text);
+  margin-bottom: var(--space-1);
+}
+
+.coder__edu-meta {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--color-coder-accent);
+  margin-bottom: var(--space-2);
+}
+
+.coder__edu-description {
+  font-size: var(--text-base);
+  color: var(--color-coder-text);
+  opacity: 0.8;
+}
+
+/* --- Experience --- */
+.coder__experience {
+  margin-bottom: var(--space-16);
+}
+
+.coder__timeline-company {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-coder-accent);
+  margin-bottom: var(--space-2);
+}
+
+/* --- Achievements --- */
+.coder__achievements {
+  margin-bottom: var(--space-16);
+}
+
+.coder__achievement-card {
+  background-color: #222238;
+  border: 1px solid var(--color-coder-accent);
+  border-radius: 12px;
+  padding: var(--space-6);
+  margin-bottom: var(--space-4);
+  transition: border-color var(--duration-fast);
+}
+
+.coder__achievement-card:hover {
+  border-color: #6B7D99;
+}
+
+.coder__achievement-title {
+  font-family: var(--font-heading);
+  font-size: var(--text-lg);
+  color: var(--color-coder-text);
+  margin-bottom: var(--space-1);
+}
+
+.coder__achievement-event {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-coder-accent);
+  margin-bottom: var(--space-2);
+}
+
+.coder__achievement-description {
+  font-size: var(--text-base);
+  color: var(--color-coder-text);
+  opacity: 0.8;
+}
+
+/* --- Profiles --- */
+.coder__profiles {
+  margin-bottom: var(--space-8);
+}
+
+.coder__profiles-grid {
+  display: flex;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.coder__profile-card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-6);
+  background-color: #222238;
+  border: 1px solid var(--color-coder-accent);
+  border-radius: 12px;
+  text-decoration: none;
+  transition: transform var(--duration-fast), border-color var(--duration-fast);
+}
+
+.coder__profile-card:hover {
+  transform: translateY(-2px);
+  border-color: #6B7D99;
+}
+
+.coder__profile-icon {
+  font-size: var(--text-2xl);
+}
+
+.coder__profile-name {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: var(--color-coder-text);
+}
+
+.coder__profile-stat {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-coder-accent);
+}
+
+/* --- Non-technical skill tags variant --- */
+.coder__skill-tag--soft {
+  border-color: rgba(74, 85, 104, 0.5);
+  border-style: dashed;
+}

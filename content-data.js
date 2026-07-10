@@ -177,20 +177,50 @@ const interestsData = [
 ];
 
 
-// Coder section data
+// Coder section data (Opus)
 const coderData = {
-  skills: [
-    { name: "Python", category: "languages", level: "advanced" },
-    { name: "SQL", category: "languages", level: "intermediate" },
-    { name: "JavaScript", category: "languages", level: "intermediate" },
-    { name: "HTML/CSS", category: "frontend", level: "advanced" },
-    { name: "React", category: "frontend", level: "beginner" },
-    { name: "Node.js", category: "backend", level: "beginner" },
-    { name: "Git", category: "tools", level: "intermediate" },
-    { name: "VS Code", category: "tools", level: "advanced" },
-    { name: "Figma", category: "design", level: "intermediate" },
-    { name: "Data Analysis", category: "data", level: "intermediate" }
+  education: [
+    {
+      degree: "B.Tech in Computer Science",
+      institution: "Your University Name",
+      year: "2022 – 2026",
+      description: "Focused on software engineering, data structures, and web technologies."
+    }
   ],
+  experience: [
+    {
+      year: "2024",
+      title: "Web Development Intern",
+      company: "Company Name",
+      description: "Built interactive web applications, collaborated with design team, improved site performance."
+    },
+    {
+      year: "2023",
+      title: "Freelance Developer",
+      company: "Self-employed",
+      description: "Created websites and tools for small businesses and personal projects."
+    }
+  ],
+  skills: {
+    technical: [
+      { name: "Python", level: "advanced" },
+      { name: "JavaScript", level: "intermediate" },
+      { name: "HTML/CSS", level: "advanced" },
+      { name: "SQL", level: "intermediate" },
+      { name: "React", level: "beginner" },
+      { name: "Node.js", level: "beginner" },
+      { name: "Git", level: "intermediate" },
+      { name: "Data Analysis", level: "intermediate" }
+    ],
+    nonTechnical: [
+      { name: "Communication" },
+      { name: "Problem Solving" },
+      { name: "Creativity" },
+      { name: "Team Collaboration" },
+      { name: "Time Management" },
+      { name: "Adaptability" }
+    ]
+  },
   projects: [
     {
       id: "project-1",
@@ -217,22 +247,22 @@ const coderData = {
       image: null
     }
   ],
-  timeline: [
+  achievements: [
     {
-      year: "2024",
-      title: "Deep Dive into Web Development",
-      description: "Building interactive projects, exploring frameworks, and refining design sensibility."
+      title: "Hackathon Winner",
+      event: "Your Hackathon Name 2024",
+      description: "Built a working prototype in 24 hours with a team of 4."
     },
     {
-      year: "2023",
-      title: "Started Coding Journey",
-      description: "Learned Python, SQL, and the fundamentals of programming and problem-solving."
-    },
-    {
-      year: "2022",
-      title: "Discovered the Intersection",
-      description: "Found the sweet spot where creativity meets technology — and never looked back."
+      title: "Certificate in Web Development",
+      event: "Platform Name",
+      description: "Completed advanced web development coursework."
     }
+  ],
+  profiles: [
+    { name: "GitHub", url: "https://github.com/JanviSingh22", icon: "🐙", stat: "" },
+    { name: "LeetCode", url: "https://leetcode.com/", icon: "⚡", stat: "" },
+    { name: "Codeforces", url: "https://codeforces.com/", icon: "🏆", stat: "" }
   ]
 };
 
