@@ -249,6 +249,48 @@
   margin-top: var(--space-2);
 }
 
+/* Action buttons */
+.hero__actions {
+  display: flex;
+  gap: var(--space-4);
+  margin-top: var(--space-6);
+}
+
+.hero__btn {
+  padding: var(--space-3) var(--space-6);
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform var(--duration-fast), box-shadow var(--duration-fast);
+  cursor: pointer;
+}
+
+.hero__btn:hover {
+  transform: translateY(-2px);
+}
+
+.hero__btn--contact {
+  background-color: var(--hero-text);
+  color: var(--hero-white);
+}
+
+.hero__btn--contact:hover {
+  box-shadow: 0 4px 16px rgba(45, 45, 45, 0.2);
+}
+
+.hero__btn--resume {
+  background-color: transparent;
+  color: var(--hero-text);
+  border: 2px solid var(--hero-lilac);
+}
+
+.hero__btn--resume:hover {
+  background-color: var(--hero-lavender);
+  box-shadow: 0 4px 16px rgba(200, 182, 226, 0.3);
+}
+
 /* ====================================
    Navigation Labels (clickable)
    ==================================== */

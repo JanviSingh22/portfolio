@@ -6,6 +6,7 @@
   padding: var(--space-8) var(--space-4);
   border-top: none;
   color: #F0F0F0;
+  width: 100%;
 }
 
 .footer__container {
@@ -146,37 +147,9 @@
   }
 }
 
-/* ====================================
-   Footer inside Coder Panel (dark bg)
-   ==================================== */
-.section--coder .footer {
-  background-color: #161626;
-  border-top-color: rgba(255, 255, 255, 0.06);
-}
+/* Footer inside panels uses the same jet black style */
 
-.section--coder .footer__heading,
-.section--coder .footer__label,
-.section--coder .footer__link,
-.section--coder .footer__copyright {
-  color: var(--color-coder-text);
-}
-
-.section--coder .footer__label {
-  color: rgba(226, 232, 240, 0.7);
-}
-
-.section--coder .footer__input,
-.section--coder .footer__textarea {
-  background-color: #1A1A2E;
-  border-color: rgba(255, 255, 255, 0.1);
-  color: var(--color-coder-text);
-}
-
-.section--coder .footer__submit {
-  background-color: var(--color-coder-text);
-  color: var(--color-coder-bg);
-}
-
-.section--coder .footer__copyright {
-  color: rgba(226, 232, 240, 0.5);
+.footer__icon-mss {
+  font-size: 20px;
+  vertical-align: middle;
 }

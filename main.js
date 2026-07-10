@@ -289,6 +289,7 @@ class NavigationController {
 
     const sections = panelType === 'coder'
       ? [
+          { label: 'About', id: 'opus-about' },
           { label: 'Education', id: 'opus-education' },
           { label: 'Experience', id: 'opus-experience' },
           { label: 'Skills', id: 'opus-skills' },
@@ -1158,6 +1159,18 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       });
     });
+
+    // Contact Me button → smooth scroll to footer
+    const contactBtn = document.querySelector('.hero__btn--contact');
+    if (contactBtn) {
+      contactBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const footer = document.getElementById('footer');
+        if (footer) {
+          footer.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    }
   } catch (e) {
     console.warn('NavigationController failed to initialize:', e);
   }

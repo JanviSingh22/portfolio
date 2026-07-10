@@ -26,7 +26,7 @@
       <a href="#" class="nav__logo">JS</a>
       <nav class="nav__links" role="navigation" aria-label="Main navigation">
         <a href="#interests" class="nav__link" aria-current="false">Muse</a>
-        <a href="#about" class="nav__link" aria-current="true">Core</a>
+        <a href="#about" class="nav__link" aria-current="true"><span class="mss">home</span></a>
         <a href="#coder" class="nav__link" aria-current="false">Opus</a>
       </nav>
       <button class="nav__theme-toggle" aria-label="Toggle night mode">🌙</button>
@@ -59,6 +59,10 @@
           <img src="assets/profile_image.jpg" alt="Janvi Singh" class="hero__image">
           <h1 class="hero__name">Janvi Singh</h1>
           <p class="hero__slogan">Be unstoppable. Be limitless. Be bold.</p>
+          <div class="hero__actions">
+            <a href="#footer" class="hero__btn hero__btn--contact">Contact Me</a>
+            <a href="#" class="hero__btn hero__btn--resume" download>Resume ↓</a>
+          </div>
         </div>
 
         <!-- Navigation labels (clickable, lead to panels) -->
@@ -101,13 +105,42 @@
 
     <!-- Coder Panel (slides from right) -->
     <section id="coder" class="section section--coder panel panel--right" aria-label="Developer profile" aria-hidden="true">
+      <!-- Mondrian decorative blocks -->
+      <div class="opus-blocks" aria-hidden="true">
+        <div class="opus-block opus-block--1"></div>
+        <div class="opus-block opus-block--2"></div>
+        <div class="opus-block opus-block--3"></div>
+        <div class="opus-block opus-block--4"></div>
+        <div class="opus-block opus-block--5"></div>
+        <div class="opus-block opus-block--6"></div>
+        <div class="opus-block opus-block--7"></div>
+        <div class="opus-block opus-block--8"></div>
+        <div class="opus-block opus-block--9"></div>
+        <div class="opus-block opus-block--10"></div>
+        <div class="opus-block opus-block--11"></div>
+        <div class="opus-block opus-block--12"></div>
+        <div class="opus-block opus-block--13"></div>
+        <div class="opus-block opus-block--14"></div>
+        <div class="opus-block opus-block--15"></div>
+        <div class="opus-block opus-block--16"></div>
+        <div class="opus-block opus-block--outline-1"></div>
+        <div class="opus-block opus-block--outline-2"></div>
+        <div class="opus-block opus-block--outline-3"></div>
+        <div class="opus-block opus-block--outline-4"></div>
+        <div class="opus-block opus-block--outline-5"></div>
+        <div class="opus-block opus-block--outline-6"></div>
+      </div>
       <div class="panel__scroll">
-        <div class="panel__intro panel__intro--dark">
-          <div class="panel__intro-text">
-            <h2 class="panel__intro-name">Opus</h2>
-            <p class="panel__intro-tagline">What I build</p>
+        <!-- About Me section (Sarita Smith style — text left, image right) -->
+        <div class="opus-about" id="opus-about">
+          <div class="opus-about__text">
+            <h2 class="opus-about__heading">About Me</h2>
+            <p class="opus-about__name">I'm <strong>Janvi Singh</strong>, Software Developer</p>
+            <p class="opus-about__bio">I'm passionate about the intersection of science and art. A harmonious contradiction — structured yet spontaneous, logical yet imaginative. I build things with intention, explore ideas with curiosity, and express myself through code and creativity.</p>
           </div>
-          <img src="assets/profile_image.jpg" alt="Janvi Singh" class="panel__intro-image">
+          <div class="opus-about__image-wrap">
+            <img src="assets/profile_image.jpg" alt="Janvi Singh" class="opus-about__image">
+          </div>
         </div>
         <div class="panel__body">
           <!-- Main content area -->
@@ -118,7 +151,10 @@
           <nav class="dot-nav" aria-label="Section progress">
             <div class="dot-nav__line"></div>
             <ul class="dot-nav__list">
-              <li class="dot-nav__item dot-nav__item--active" data-target="opus-education" aria-label="Education">
+              <li class="dot-nav__item dot-nav__item--active" data-target="opus-about" aria-label="About">
+                <span class="dot-nav__icon mss">person</span>
+              </li>
+              <li class="dot-nav__item" data-target="opus-education" aria-label="Education">
                 <span class="dot-nav__icon mss">school</span>
               </li>
               <li class="dot-nav__item" data-target="opus-experience" aria-label="Experience">
@@ -141,7 +177,7 @@
     </section>
 
     <!-- Footer -->
-    <footer class="footer" role="contentinfo">
+    <footer id="footer" class="footer" role="contentinfo">
       <div class="footer__container">
         <!-- Contact Form -->
         <div class="footer__contact">
@@ -172,6 +208,9 @@
             </a>
             <a href="#" class="footer__link" aria-label="Instagram profile">
               <img src="assets/instagram.png" alt="" class="footer__icon"> Instagram
+            </a>
+            <a href="mailto:your.email@example.com" class="footer__link" aria-label="Email">
+              <span class="mss footer__icon-mss">mail</span> your.email@example.com
             </a>
           </div>
           <p class="footer__copyright">© 2024 Janvi Singh. Built with intention.</p>

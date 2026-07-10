@@ -90,7 +90,7 @@
 }
 
 .panel__intro--dark {
-  border-bottom-color: rgba(255, 255, 255, 0.08);
+  border-bottom-color: rgba(0, 0, 0, 0.06);
 }
 
 .panel__intro-image {
@@ -115,7 +115,7 @@
 }
 
 .panel__intro--dark .panel__intro-name {
-  color: var(--color-coder-text);
+  color: var(--color-text-primary);
 }
 
 .panel__intro-tagline {
@@ -126,7 +126,7 @@
 }
 
 .panel__intro--dark .panel__intro-tagline {
-  color: rgba(226, 232, 240, 0.6);
+  color: var(--color-text-muted);
 }
 
 /* Muse panel: text left, image right */
