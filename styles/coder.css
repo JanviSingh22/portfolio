@@ -7,7 +7,7 @@
 /* --- Section Base --- */
 .section--opus {
   background-color: #FAFAFA;
-  color: #2D2D2D;
+  color: #000000;
   padding: var(--space-16) var(--space-4);
   position: relative;
 }
@@ -47,6 +47,17 @@
   margin-bottom: var(--space-3);
 }
 
+.coder__skill-category-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.coder__skill-category-header .coder__skill-category-heading {
+  margin-bottom: 0;
+}
+
 .coder__skill-tags {
   display: flex;
   flex-wrap: wrap;
@@ -78,28 +89,12 @@
 
 .coder__subsection-heading {
   font-family: var(--font-heading);
-  font-size: var(--text-2xl);
+  font-size: 2.5rem;
   color: var(--color-text-primary);
   margin-bottom: var(--space-6);
-  position: relative;
-  display: inline-block;
 }
 
-/* Stacked outline heading — colored stroke text behind/above */
-.coder__subsection-heading::before {
-  content: attr(data-heading);
-  position: absolute;
-  top: -0.35em;
-  left: 0.15em;
-  font-family: var(--font-heading);
-  font-size: var(--text-2xl);
-  font-weight: 700;
-  color: transparent;
-  -webkit-text-stroke: 1.5px var(--heading-accent, #C8B6E2);
-  pointer-events: none;
-  opacity: 0.6;
-  z-index: -1;
-}
+
 
 .coder__projects-grid {
   display: grid;
@@ -402,6 +397,8 @@
   padding: var(--space-12) var(--space-8);
   max-width: var(--max-width);
   margin: 0 auto;
+  position: relative;
+  z-index: 1;
 }
 
 .opus-about__text {
@@ -410,7 +407,7 @@
 
 .opus-about__heading {
   font-family: var(--font-heading);
-  font-size: var(--text-3xl);
+  font-size: 2.5rem;
   color: var(--color-coder-text);
   margin-bottom: var(--space-4);
 }
@@ -462,4 +459,25 @@
   .opus-about__bio {
     max-width: 100%;
   }
+}
+
+/* ====================================
+   Interests — Simple vertical list with stars
+   ==================================== */
+.interests-grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.coder__interest-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.coder__interest-title {
+  font-family: var(--font-heading);
+  font-size: var(--text-xl);
+  color: #000000;
 }

@@ -1,5 +1,7 @@
 /* ====================================
-   Navigation
+   Navigation — Dual-state top bar
+   Hero state: logo | links | 🌙
+   Scrolled state: logo | slogan | 🌙
    ==================================== */
 .nav {
   position: fixed;
@@ -35,6 +37,7 @@
   color: var(--color-about-accent);
 }
 
+/* --- Hero state: nav links --- */
 .nav__links {
   display: flex;
   align-items: center;
@@ -42,45 +45,45 @@
 }
 
 .nav__link {
-  position: relative;
   font-family: var(--font-body);
   font-size: var(--text-sm);
   font-weight: 500;
-  color: var(--color-text-secondary);
+  color: var(--color-text-primary);
   text-decoration: none;
-  padding: var(--space-2) 0;
-  transition: color var(--duration-fast);
-}
-
-.nav__link::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 0;
-  height: 2px;
-  background-color: var(--color-about-accent);
-  transition: width var(--duration-normal) var(--ease-out);
+  opacity: 0.7;
+  transition: opacity var(--duration-fast);
 }
 
 .nav__link:hover {
+  opacity: 1;
+}
+
+/* --- Scrolled state: slogan (hidden by default) --- */
+.nav__slogan {
+  font-family: 'Dancing Script', cursive;
+  font-size: var(--text-lg);
   color: var(--color-text-primary);
+  opacity: 0.8;
+  margin: 0;
+  letter-spacing: 0.02em;
+  transition: opacity 300ms ease;
 }
 
-.nav__link:hover::after {
-  width: 100%;
+.nav__slogan--hidden {
+  display: none;
 }
 
-.nav__link[aria-current="true"] {
-  color: var(--color-text-primary);
+/* When scrolled: hide links, show slogan */
+.nav--scrolled .nav__links {
+  display: none;
 }
 
-.nav__link[aria-current="true"]::after {
-  width: 100%;
+.nav--scrolled .nav__slogan {
+  display: block;
 }
 
-.nav__theme-toggle,
-.nav__mobile-toggle {
+/* --- Theme toggle --- */
+.nav__theme-toggle {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -95,54 +98,139 @@
   transition: background-color var(--duration-fast), color var(--duration-fast);
 }
 
-.nav__theme-toggle:hover,
-.nav__mobile-toggle:hover {
+.nav__theme-toggle:hover {
   background-color: var(--color-bg-secondary);
   color: var(--color-text-primary);
 }
 
-.nav__mobile-toggle {
+/* ====================================
+   Floating Circles (menu + contact + resume)
+   Hidden when on hero, visible when scrolled
+   ==================================== */
+.floating-cta {
+  position: fixed;
+  bottom: var(--space-8);
+  right: var(--space-8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  z-index: 100;
+  transition: opacity 300ms ease, transform 300ms ease;
+}
+
+.floating-cta--hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(20px);
+}
+
+.floating-cta__circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: #000000;
+  color: #FFFFFF;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  transition: transform var(--duration-fast) var(--ease-out),
+              box-shadow var(--duration-fast) var(--ease-out);
+}
+
+.floating-cta__circle:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.floating-cta__circle .mss {
+  font-size: 24px;
+  color: #FFFFFF;
+}
+
+/* ====================================
+   Floating Menu Popup
+   Shows section links when menu circle clicked
+   ==================================== */
+.floating-menu {
+  position: fixed;
+  bottom: calc(var(--space-8) + 56px + var(--space-4) + 56px + var(--space-4) + 56px + var(--space-4));
+  right: var(--space-8);
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 16px;
+  padding: var(--space-4) var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  z-index: 101;
+  transition: opacity 200ms ease, transform 200ms ease;
+}
+
+[data-theme="dark"] .floating-menu {
+  background-color: rgba(30, 30, 30, 0.95);
+}
+
+.floating-menu--hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(10px);
+}
+
+.floating-menu__link {
+  font-family: var(--font-heading);
+  font-size: var(--text-base);
+  color: var(--color-text-primary);
+  text-decoration: none;
+  padding: var(--space-2) var(--space-3);
+  border-radius: 8px;
+  transition: background-color var(--duration-fast);
+}
+
+.floating-menu__link:hover {
+  background-color: rgba(200, 182, 226, 0.15);
+}
+
+.floating-menu__link--current {
   display: none;
 }
 
 /* ====================================
-   Mobile Navigation (< 768px)
+   Responsive
    ==================================== */
 @media (max-width: 767px) {
   .nav__links {
-    position: fixed;
-    top: var(--nav-height);
-    right: 0;
-    width: 260px;
-    height: calc(100vh - var(--nav-height));
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    gap: 0;
-    padding: var(--space-8);
-    background-color: var(--color-bg-primary);
-    box-shadow: -4px 0 12px rgba(0, 0, 0, 0.1);
-    transform: translateX(100%);
-    transition: transform 300ms var(--ease-out);
-    z-index: 99;
-  }
-
-  [data-theme="dark"] .nav__links {
-    background-color: var(--color-bg-secondary);
-    box-shadow: -4px 0 12px rgba(0, 0, 0, 0.4);
-  }
-
-  .nav__links--open {
-    transform: translateX(0);
+    gap: var(--space-4);
   }
 
   .nav__link {
-    font-size: var(--text-base);
-    padding: var(--space-4) 0;
-    width: 100%;
+    font-size: var(--text-xs);
   }
 
-  .nav__mobile-toggle {
-    display: flex;
+  .nav__slogan {
+    font-size: var(--text-sm);
+  }
+
+  .floating-cta {
+    bottom: var(--space-4);
+    right: var(--space-4);
+  }
+
+  .floating-cta__circle {
+    width: 48px;
+    height: 48px;
+  }
+
+  .floating-cta__circle .mss {
+    font-size: 20px;
+  }
+
+  .floating-menu {
+    right: var(--space-4);
   }
 }

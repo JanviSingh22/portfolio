@@ -22,17 +22,35 @@
   <div id="main-content" class="main-wrapper" aria-hidden="true">
 
     <!-- Navigation -->
+    <!-- Navigation -->
     <header class="nav" role="banner">
       <a href="#hero" class="nav__logo">JS</a>
+      <!-- Hero state: direct links -->
       <nav class="nav__links" role="navigation" aria-label="Main navigation">
-        <a href="#hero" class="nav__link" aria-current="true"><span class="mss">home</span></a>
         <a href="#opus-about" class="nav__link">About</a>
         <a href="#opus-education" class="nav__link">Education</a>
+        <a href="#opus-experience" class="nav__link">Experience</a>
         <a href="#opus-projects" class="nav__link">Projects</a>
       </nav>
+      <!-- Scrolled state: slogan -->
+      <p class="nav__slogan nav__slogan--hidden">Be unstoppable. Be limitless. Be bold.</p>
       <button class="nav__theme-toggle" aria-label="Toggle night mode">🌙</button>
-      <button class="nav__mobile-toggle" aria-label="Open menu" aria-expanded="false">☰</button>
     </header>
+
+    <!-- Full-screen menu overlay -->
+    <div class="menu-overlay" aria-hidden="true">
+      <nav class="menu-overlay__nav" role="navigation" aria-label="Full navigation">
+        <a href="#hero" class="menu-overlay__link">Home</a>
+        <a href="#opus-about" class="menu-overlay__link">About</a>
+        <a href="#opus-education" class="menu-overlay__link">Education</a>
+        <a href="#opus-experience" class="menu-overlay__link">Experience</a>
+        <a href="#opus-skills" class="menu-overlay__link">Skills</a>
+        <a href="#opus-projects" class="menu-overlay__link">Projects</a>
+        <a href="#opus-achievements" class="menu-overlay__link">Achievements</a>
+        <a href="#opus-interests" class="menu-overlay__link">Interests</a>
+        <a href="#footer" class="menu-overlay__link">Contact</a>
+      </nav>
+    </div>
 
     <!-- Hero Section -->
     <section id="hero" class="section section--hero" aria-label="Home">
@@ -58,23 +76,43 @@
         <!-- Center content -->
         <div class="hero__center">
           <img src="assets/profile_image.jpg" alt="Janvi Singh" class="hero__image">
-          <h1 class="hero__name">Janvi Singh</h1>
-          <p class="hero__slogan">Be unstoppable. Be limitless. Be bold.</p>
-          <div class="hero__actions">
-            <a href="#footer" class="hero__btn hero__btn--contact">Contact Me</a>
-            <a href="#" class="hero__btn hero__btn--resume" download>Resume ↓</a>
+          <div class="hero__text-content">
+            <h1 class="hero__name">Janvi Singh</h1>
+            <p class="hero__slogan">Be unstoppable. Be limitless. Be bold.</p>
+            <div class="hero__actions">
+              <a href="#footer" class="hero__btn hero__btn--contact">Contact Me</a>
+              <a href="#" class="hero__btn hero__btn--resume" download>Resume ↓</a>
+            </div>
           </div>
         </div>
 
-        <!-- Role label -->
-        <div class="hero__label hero__label--right">
-          <span class="hero__label-text">Software Developer</span>
-        </div>
+        <!-- Role label removed -->
       </div>
     </section>
 
     <!-- About Me Section -->
-    <section id="opus-about" class="section section--opus" aria-label="About me">
+    <section id="opus-about" class="section section--opus section--diagonal section--diagonal-odd" aria-label="About me">
+      <div class="diagonal-bg" aria-hidden="true">
+        <!-- Watermark pair: bordered + solid -->
+        <div class="diagonal-bg__watermark">
+          <span class="diagonal-bg__text" style="--watermark-color: #C8B6E2">ABOUT ME</span>
+          <span class="diagonal-bg__text-solid" style="--watermark-color: #C8B6E2">ABOUT ME</span>
+        </div>
+        <!-- Filled blocks along left + top (triangle pattern) -->
+        <div class="dblock dblock--filled" style="top:8%;left:0;width:65px;height:50px;background:#C8B6E2"></div>
+        <div class="dblock dblock--filled" style="top:30%;left:0;width:55px;height:70px;background:#E8C4C4"></div>
+        <div class="dblock dblock--filled" style="top:60%;left:0;width:70px;height:40px;background:#D4E2D4"></div>
+        <div class="dblock dblock--filled" style="top:0;left:10%;width:75px;height:50px;background:#B8D4E8"></div>
+        <div class="dblock dblock--filled" style="top:0;left:28%;width:55px;height:65px;background:#F5E6A3"></div>
+        <div class="dblock dblock--filled" style="top:0;left:45%;width:80px;height:40px;background:#C8B6E2"></div>
+        <!-- Center blocks -->
+        <div class="dblock dblock--filled" style="top:45%;left:40%;width:55px;height:50px;background:#E8C4C4"></div>
+        <div class="dblock dblock--filled" style="top:25%;left:55%;width:50px;height:45px;background:#D4E2D4"></div>
+        <!-- Outlined blocks -->
+        <div class="dblock dblock--outline" style="top:14%;left:4%;width:80px;height:55px;border-color:#B8D4E8"></div>
+        <div class="dblock dblock--outline" style="top:40%;left:2%;width:65px;height:50px;border-color:#F5E6A3"></div>
+        <div class="dblock dblock--outline" style="top:5%;left:20%;width:70px;height:45px;border-color:#C8B6E2"></div>
+      </div>
       <div class="opus-about">
         <div class="opus-about__text">
           <h2 class="opus-about__heading">About Me</h2>
@@ -90,122 +128,199 @@
     <!-- Content Sections (each with diagonal background treatment) -->
     <section id="opus-education" class="section section--opus section--diagonal section--diagonal-odd" aria-label="Education">
       <div class="diagonal-bg" aria-hidden="true">
-        <span class="diagonal-bg__text">EDUCATION</span>
-        <!-- Filled blocks along left + top -->
-        <div class="dblock dblock--filled" style="top:10%;left:0;width:45px;height:30px;background:#C8B6E2"></div>
-        <div class="dblock dblock--filled" style="top:25%;left:0;width:35px;height:55px;background:#E8C4C4"></div>
-        <div class="dblock dblock--filled" style="top:55%;left:0;width:50px;height:25px;background:#D4E2D4"></div>
-        <div class="dblock dblock--filled" style="top:75%;left:0;width:30px;height:40px;background:#F5E6A3"></div>
-        <div class="dblock dblock--filled" style="top:0;left:12%;width:50px;height:35px;background:#B8D4E8"></div>
-        <div class="dblock dblock--filled" style="top:0;left:28%;width:35px;height:45px;background:#C8B6E2"></div>
-        <div class="dblock dblock--filled" style="top:0;left:42%;width:55px;height:25px;background:#E8C4C4"></div>
-        <div class="dblock dblock--filled" style="top:18%;left:8%;width:40px;height:30px;background:#F5E6A3"></div>
+        <!-- Watermark pair: bordered + solid -->
+        <div class="diagonal-bg__watermark">
+          <span class="diagonal-bg__text" style="--watermark-color: #C8B6E2">EDUCATION</span>
+          <span class="diagonal-bg__text-solid" style="--watermark-color: #C8B6E2">EDUCATION</span>
+        </div>
+        <!-- Filled blocks along left + top (triangle pattern) -->
+        <div class="dblock dblock--filled" style="top:8%;left:0;width:70px;height:50px;background:#C8B6E2"></div>
+        <div class="dblock dblock--filled" style="top:25%;left:0;width:55px;height:80px;background:#E8C4C4"></div>
+        <div class="dblock dblock--filled" style="top:55%;left:0;width:75px;height:40px;background:#D4E2D4"></div>
+        <div class="dblock dblock--filled" style="top:78%;left:0;width:50px;height:60px;background:#F5E6A3"></div>
+        <div class="dblock dblock--filled" style="top:0;left:10%;width:80px;height:50px;background:#B8D4E8"></div>
+        <div class="dblock dblock--filled" style="top:0;left:28%;width:55px;height:70px;background:#C8B6E2"></div>
+        <div class="dblock dblock--filled" style="top:0;left:45%;width:85px;height:40px;background:#E8C4C4"></div>
+        <div class="dblock dblock--filled" style="top:15%;left:6%;width:60px;height:45px;background:#F5E6A3"></div>
+        <!-- Center blocks -->
+        <div class="dblock dblock--filled" style="top:40%;left:35%;width:65px;height:45px;background:#B8D4E8"></div>
+        <div class="dblock dblock--filled" style="top:60%;left:50%;width:55px;height:55px;background:#D4E2D4"></div>
+        <div class="dblock dblock--filled" style="top:30%;left:55%;width:50px;height:40px;background:#F5E6A3"></div>
         <!-- Outlined blocks -->
-        <div class="dblock dblock--outline" style="top:15%;left:4%;width:60px;height:40px;border-color:#C8B6E2"></div>
-        <div class="dblock dblock--outline" style="top:40%;left:2%;width:45px;height:35px;border-color:#B8D4E8"></div>
-        <div class="dblock dblock--outline" style="top:5%;left:20%;width:55px;height:30px;border-color:#F5E6A3"></div>
+        <div class="dblock dblock--outline" style="top:12%;left:3%;width:90px;height:60px;border-color:#C8B6E2"></div>
+        <div class="dblock dblock--outline" style="top:38%;left:2%;width:70px;height:50px;border-color:#B8D4E8"></div>
+        <div class="dblock dblock--outline" style="top:4%;left:18%;width:80px;height:45px;border-color:#F5E6A3"></div>
+        <div class="dblock dblock--outline" style="top:50%;left:42%;width:60px;height:50px;border-color:#E8C4C4"></div>
       </div>
       <div class="section__container"></div>
     </section>
 
     <section id="opus-experience" class="section section--opus section--diagonal section--diagonal-even" aria-label="Experience">
       <div class="diagonal-bg" aria-hidden="true">
-        <span class="diagonal-bg__text">EXPERIENCE</span>
-        <!-- Filled blocks along right + bottom -->
-        <div class="dblock dblock--filled" style="top:12%;right:0;width:45px;height:35px;background:#D4E2D4"></div>
-        <div class="dblock dblock--filled" style="top:32%;right:0;width:35px;height:50px;background:#B8D4E8"></div>
-        <div class="dblock dblock--filled" style="top:58%;right:0;width:50px;height:30px;background:#C8B6E2"></div>
-        <div class="dblock dblock--filled" style="top:78%;right:0;width:40px;height:40px;background:#E8C4C4"></div>
-        <div class="dblock dblock--filled" style="bottom:0;right:15%;width:45px;height:30px;background:#F5E6A3"></div>
-        <div class="dblock dblock--filled" style="bottom:0;right:30%;width:55px;height:35px;background:#D4E2D4"></div>
-        <div class="dblock dblock--filled" style="bottom:0;right:48%;width:35px;height:25px;background:#C8B6E2"></div>
-        <div class="dblock dblock--filled" style="bottom:12%;right:5%;width:40px;height:30px;background:#B8D4E8"></div>
+        <!-- Watermark pair: bordered + solid -->
+        <div class="diagonal-bg__watermark">
+          <span class="diagonal-bg__text" style="--watermark-color: #E8C4C4">EXPERIENCE</span>
+          <span class="diagonal-bg__text-solid" style="--watermark-color: #E8C4C4">EXPERIENCE</span>
+        </div>
+        <!-- Filled blocks along right + bottom (triangle pattern) -->
+        <div class="dblock dblock--filled" style="top:10%;right:0;width:70px;height:55px;background:#D4E2D4"></div>
+        <div class="dblock dblock--filled" style="top:30%;right:0;width:55px;height:75px;background:#B8D4E8"></div>
+        <div class="dblock dblock--filled" style="top:58%;right:0;width:80px;height:45px;background:#C8B6E2"></div>
+        <div class="dblock dblock--filled" style="top:78%;right:0;width:60px;height:60px;background:#E8C4C4"></div>
+        <div class="dblock dblock--filled" style="bottom:0;right:12%;width:70px;height:50px;background:#F5E6A3"></div>
+        <div class="dblock dblock--filled" style="bottom:0;right:28%;width:85px;height:55px;background:#D4E2D4"></div>
+        <div class="dblock dblock--filled" style="bottom:0;right:48%;width:55px;height:40px;background:#C8B6E2"></div>
+        <div class="dblock dblock--filled" style="bottom:10%;right:4%;width:60px;height:50px;background:#B8D4E8"></div>
+        <!-- Center blocks -->
+        <div class="dblock dblock--filled" style="top:35%;left:30%;width:60px;height:50px;background:#F5E6A3"></div>
+        <div class="dblock dblock--filled" style="top:55%;left:45%;width:55px;height:45px;background:#E8C4C4"></div>
+        <div class="dblock dblock--filled" style="top:20%;left:50%;width:50px;height:55px;background:#C8B6E2"></div>
         <!-- Outlined blocks -->
-        <div class="dblock dblock--outline" style="top:20%;right:3%;width:55px;height:40px;border-color:#E8C4C4"></div>
-        <div class="dblock dblock--outline" style="bottom:8%;right:20%;width:60px;height:35px;border-color:#D4E2D4"></div>
-        <div class="dblock dblock--outline" style="top:50%;right:2%;width:40px;height:30px;border-color:#F5E6A3"></div>
+        <div class="dblock dblock--outline" style="top:18%;right:2%;width:85px;height:55px;border-color:#E8C4C4"></div>
+        <div class="dblock dblock--outline" style="bottom:6%;right:18%;width:90px;height:50px;border-color:#D4E2D4"></div>
+        <div class="dblock dblock--outline" style="top:48%;right:3%;width:65px;height:45px;border-color:#F5E6A3"></div>
+        <div class="dblock dblock--outline" style="top:40%;left:38%;width:60px;height:50px;border-color:#B8D4E8"></div>
       </div>
       <div class="section__container"></div>
     </section>
 
     <section id="opus-skills" class="section section--opus section--diagonal section--diagonal-odd" aria-label="Skills">
       <div class="diagonal-bg" aria-hidden="true">
-        <span class="diagonal-bg__text">SKILLS</span>
-        <!-- Filled blocks along left + top -->
-        <div class="dblock dblock--filled" style="top:8%;left:0;width:40px;height:35px;background:#B8D4E8"></div>
-        <div class="dblock dblock--filled" style="top:30%;left:0;width:50px;height:40px;background:#F5E6A3"></div>
-        <div class="dblock dblock--filled" style="top:60%;left:0;width:35px;height:50px;background:#C8B6E2"></div>
-        <div class="dblock dblock--filled" style="top:82%;left:0;width:45px;height:25px;background:#D4E2D4"></div>
-        <div class="dblock dblock--filled" style="top:0;left:10%;width:55px;height:30px;background:#E8C4C4"></div>
-        <div class="dblock dblock--filled" style="top:0;left:25%;width:30px;height:50px;background:#B8D4E8"></div>
-        <div class="dblock dblock--filled" style="top:0;left:38%;width:45px;height:28px;background:#F5E6A3"></div>
+        <!-- Watermark pair: bordered + solid -->
+        <div class="diagonal-bg__watermark">
+          <span class="diagonal-bg__text" style="--watermark-color: #D4E2D4">SKILLS</span>
+          <span class="diagonal-bg__text-solid" style="--watermark-color: #D4E2D4">SKILLS</span>
+        </div>
+        <!-- Filled blocks along left + top (triangle pattern) -->
+        <div class="dblock dblock--filled" style="top:6%;left:0;width:65px;height:55px;background:#B8D4E8"></div>
+        <div class="dblock dblock--filled" style="top:28%;left:0;width:75px;height:60px;background:#F5E6A3"></div>
+        <div class="dblock dblock--filled" style="top:58%;left:0;width:55px;height:75px;background:#C8B6E2"></div>
+        <div class="dblock dblock--filled" style="top:82%;left:0;width:70px;height:40px;background:#D4E2D4"></div>
+        <div class="dblock dblock--filled" style="top:0;left:8%;width:85px;height:45px;background:#E8C4C4"></div>
+        <div class="dblock dblock--filled" style="top:0;left:24%;width:50px;height:75px;background:#B8D4E8"></div>
+        <div class="dblock dblock--filled" style="top:0;left:40%;width:70px;height:45px;background:#F5E6A3"></div>
+        <!-- Center blocks -->
+        <div class="dblock dblock--filled" style="top:45%;left:40%;width:60px;height:50px;background:#C8B6E2"></div>
+        <div class="dblock dblock--filled" style="top:25%;left:55%;width:55px;height:45px;background:#D4E2D4"></div>
+        <div class="dblock dblock--filled" style="top:65%;left:48%;width:50px;height:55px;background:#E8C4C4"></div>
         <!-- Outlined blocks -->
-        <div class="dblock dblock--outline" style="top:20%;left:5%;width:50px;height:35px;border-color:#D4E2D4"></div>
-        <div class="dblock dblock--outline" style="top:50%;left:3%;width:40px;height:45px;border-color:#E8C4C4"></div>
-        <div class="dblock dblock--outline" style="top:8%;left:30%;width:45px;height:30px;border-color:#C8B6E2"></div>
+        <div class="dblock dblock--outline" style="top:18%;left:4%;width:80px;height:55px;border-color:#D4E2D4"></div>
+        <div class="dblock dblock--outline" style="top:48%;left:2%;width:65px;height:65px;border-color:#E8C4C4"></div>
+        <div class="dblock dblock--outline" style="top:6%;left:28%;width:70px;height:45px;border-color:#C8B6E2"></div>
+        <div class="dblock dblock--outline" style="top:35%;left:45%;width:55px;height:50px;border-color:#F5E6A3"></div>
       </div>
       <div class="section__container"></div>
     </section>
 
     <section id="opus-projects" class="section section--opus section--diagonal section--diagonal-even" aria-label="Projects">
       <div class="diagonal-bg" aria-hidden="true">
-        <span class="diagonal-bg__text">PROJECTS</span>
-        <!-- Filled blocks along right + bottom -->
-        <div class="dblock dblock--filled" style="top:10%;right:0;width:50px;height:30px;background:#E8C4C4"></div>
-        <div class="dblock dblock--filled" style="top:35%;right:0;width:40px;height:45px;background:#F5E6A3"></div>
-        <div class="dblock dblock--filled" style="top:62%;right:0;width:45px;height:35px;background:#D4E2D4"></div>
-        <div class="dblock dblock--filled" style="top:80%;right:0;width:35px;height:30px;background:#B8D4E8"></div>
-        <div class="dblock dblock--filled" style="bottom:0;right:12%;width:50px;height:35px;background:#C8B6E2"></div>
-        <div class="dblock dblock--filled" style="bottom:0;right:28%;width:40px;height:28px;background:#E8C4C4"></div>
-        <div class="dblock dblock--filled" style="bottom:0;right:42%;width:55px;height:30px;background:#F5E6A3"></div>
+        <!-- Watermark pair: bordered + solid -->
+        <div class="diagonal-bg__watermark">
+          <span class="diagonal-bg__text" style="--watermark-color: #B8D4E8">PROJECTS</span>
+          <span class="diagonal-bg__text-solid" style="--watermark-color: #B8D4E8">PROJECTS</span>
+        </div>
+        <!-- Filled blocks along right + bottom (triangle pattern) -->
+        <div class="dblock dblock--filled" style="top:8%;right:0;width:75px;height:50px;background:#E8C4C4"></div>
+        <div class="dblock dblock--filled" style="top:32%;right:0;width:60px;height:70px;background:#F5E6A3"></div>
+        <div class="dblock dblock--filled" style="top:60%;right:0;width:70px;height:55px;background:#D4E2D4"></div>
+        <div class="dblock dblock--filled" style="top:80%;right:0;width:55px;height:50px;background:#B8D4E8"></div>
+        <div class="dblock dblock--filled" style="bottom:0;right:10%;width:80px;height:55px;background:#C8B6E2"></div>
+        <div class="dblock dblock--filled" style="bottom:0;right:26%;width:65px;height:45px;background:#E8C4C4"></div>
+        <div class="dblock dblock--filled" style="bottom:0;right:44%;width:85px;height:50px;background:#F5E6A3"></div>
+        <!-- Center blocks -->
+        <div class="dblock dblock--filled" style="top:30%;left:35%;width:55px;height:55px;background:#D4E2D4"></div>
+        <div class="dblock dblock--filled" style="top:50%;left:50%;width:65px;height:45px;background:#C8B6E2"></div>
+        <div class="dblock dblock--filled" style="top:70%;left:40%;width:50px;height:50px;background:#B8D4E8"></div>
         <!-- Outlined blocks -->
-        <div class="dblock dblock--outline" style="top:22%;right:4%;width:55px;height:35px;border-color:#C8B6E2"></div>
-        <div class="dblock dblock--outline" style="bottom:10%;right:18%;width:50px;height:40px;border-color:#F5E6A3"></div>
-        <div class="dblock dblock--outline" style="top:55%;right:2%;width:45px;height:30px;border-color:#B8D4E8"></div>
+        <div class="dblock dblock--outline" style="top:20%;right:3%;width:85px;height:50px;border-color:#C8B6E2"></div>
+        <div class="dblock dblock--outline" style="bottom:8%;right:16%;width:80px;height:60px;border-color:#F5E6A3"></div>
+        <div class="dblock dblock--outline" style="top:52%;right:2%;width:70px;height:45px;border-color:#B8D4E8"></div>
+        <div class="dblock dblock--outline" style="top:40%;left:42%;width:60px;height:50px;border-color:#E8C4C4"></div>
       </div>
       <div class="section__container"></div>
     </section>
 
     <section id="opus-achievements" class="section section--opus section--diagonal section--diagonal-odd" aria-label="Achievements">
       <div class="diagonal-bg" aria-hidden="true">
-        <span class="diagonal-bg__text">ACHIEVEMENTS</span>
-        <!-- Filled blocks along left + top -->
-        <div class="dblock dblock--filled" style="top:12%;left:0;width:45px;height:40px;background:#F5E6A3"></div>
-        <div class="dblock dblock--filled" style="top:35%;left:0;width:40px;height:35px;background:#C8B6E2"></div>
-        <div class="dblock dblock--filled" style="top:60%;left:0;width:50px;height:30px;background:#B8D4E8"></div>
-        <div class="dblock dblock--filled" style="top:80%;left:0;width:35px;height:45px;background:#E8C4C4"></div>
-        <div class="dblock dblock--filled" style="top:0;left:8%;width:45px;height:35px;background:#D4E2D4"></div>
-        <div class="dblock dblock--filled" style="top:0;left:22%;width:50px;height:28px;background:#F5E6A3"></div>
-        <div class="dblock dblock--filled" style="top:0;left:38%;width:35px;height:40px;background:#C8B6E2"></div>
+        <!-- Watermark pair: bordered + solid -->
+        <div class="diagonal-bg__watermark">
+          <span class="diagonal-bg__text" style="--watermark-color: #F5E6A3">ACHIEVEMENTS</span>
+          <span class="diagonal-bg__text-solid" style="--watermark-color: #F5E6A3">ACHIEVEMENTS</span>
+        </div>
+        <!-- Filled blocks along left + top (triangle pattern) -->
+        <div class="dblock dblock--filled" style="top:10%;left:0;width:70px;height:60px;background:#F5E6A3"></div>
+        <div class="dblock dblock--filled" style="top:33%;left:0;width:60px;height:55px;background:#C8B6E2"></div>
+        <div class="dblock dblock--filled" style="top:58%;left:0;width:75px;height:45px;background:#B8D4E8"></div>
+        <div class="dblock dblock--filled" style="top:80%;left:0;width:55px;height:65px;background:#E8C4C4"></div>
+        <div class="dblock dblock--filled" style="top:0;left:6%;width:70px;height:55px;background:#D4E2D4"></div>
+        <div class="dblock dblock--filled" style="top:0;left:20%;width:80px;height:45px;background:#F5E6A3"></div>
+        <div class="dblock dblock--filled" style="top:0;left:38%;width:55px;height:60px;background:#C8B6E2"></div>
+        <!-- Center blocks -->
+        <div class="dblock dblock--filled" style="top:40%;left:38%;width:60px;height:55px;background:#B8D4E8"></div>
+        <div class="dblock dblock--filled" style="top:22%;left:50%;width:55px;height:50px;background:#E8C4C4"></div>
+        <div class="dblock dblock--filled" style="top:62%;left:45%;width:65px;height:45px;background:#D4E2D4"></div>
         <!-- Outlined blocks -->
-        <div class="dblock dblock--outline" style="top:18%;left:4%;width:55px;height:35px;border-color:#B8D4E8"></div>
-        <div class="dblock dblock--outline" style="top:45%;left:2%;width:45px;height:40px;border-color:#F5E6A3"></div>
-        <div class="dblock dblock--outline" style="top:5%;left:25%;width:50px;height:30px;border-color:#E8C4C4"></div>
+        <div class="dblock dblock--outline" style="top:15%;left:3%;width:85px;height:55px;border-color:#B8D4E8"></div>
+        <div class="dblock dblock--outline" style="top:42%;left:2%;width:70px;height:60px;border-color:#F5E6A3"></div>
+        <div class="dblock dblock--outline" style="top:4%;left:22%;width:75px;height:45px;border-color:#E8C4C4"></div>
+        <div class="dblock dblock--outline" style="top:30%;left:42%;width:60px;height:50px;border-color:#C8B6E2"></div>
       </div>
       <div class="section__container"></div>
     </section>
 
-    <!-- Dot progress nav (fixed on right side) -->
-    <nav class="dot-nav" aria-label="Section progress">
-      <div class="dot-nav__line"></div>
-      <ul class="dot-nav__list">
-        <li class="dot-nav__item dot-nav__item--active" data-target="opus-education" aria-label="Education">
-          <span class="dot-nav__icon mss">school</span>
-        </li>
-        <li class="dot-nav__item" data-target="opus-experience" aria-label="Experience">
-          <span class="dot-nav__icon mss">work</span>
-        </li>
-        <li class="dot-nav__item" data-target="opus-skills" aria-label="Skills">
-          <span class="dot-nav__icon mss">bolt</span>
-        </li>
-        <li class="dot-nav__item" data-target="opus-projects" aria-label="Projects">
-          <span class="dot-nav__icon mss">code</span>
-        </li>
-        <li class="dot-nav__item" data-target="opus-achievements" aria-label="Achievements">
-          <span class="dot-nav__icon mss">emoji_events</span>
-        </li>
-      </ul>
-    </nav>
+    <!-- Floating circles (hidden on hero, visible when scrolled) -->
+    <div class="floating-cta floating-cta--hidden">
+      <button class="floating-cta__circle floating-cta__circle--menu" aria-label="Open menu" aria-expanded="false">
+        <span class="mss">menu</span>
+      </button>
+      <a href="#footer" class="floating-cta__circle" aria-label="Contact Me">
+        <span class="mss">mail</span>
+      </a>
+      <a href="#" class="floating-cta__circle" aria-label="Download Resume" download>
+        <span class="mss">download</span>
+      </a>
+    </div>
+
+    <!-- Floating menu popup (section links) -->
+    <div class="floating-menu floating-menu--hidden" aria-hidden="true">
+      <a href="#hero" class="floating-menu__link" data-section="hero">Home</a>
+      <a href="#opus-about" class="floating-menu__link" data-section="opus-about">About</a>
+      <a href="#opus-education" class="floating-menu__link" data-section="opus-education">Education</a>
+      <a href="#opus-experience" class="floating-menu__link" data-section="opus-experience">Experience</a>
+      <a href="#opus-skills" class="floating-menu__link" data-section="opus-skills">Skills</a>
+      <a href="#opus-projects" class="floating-menu__link" data-section="opus-projects">Projects</a>
+      <a href="#opus-achievements" class="floating-menu__link" data-section="opus-achievements">Achievements</a>
+      <a href="#opus-interests" class="floating-menu__link" data-section="opus-interests">Interests</a>
+    </div>
+
+    <!-- Interests Section -->
+    <section id="opus-interests" class="section section--opus section--diagonal section--diagonal-even" aria-label="Interests">
+      <div class="diagonal-bg" aria-hidden="true">
+        <!-- Watermark pair: bordered + solid -->
+        <div class="diagonal-bg__watermark">
+          <span class="diagonal-bg__text" style="--watermark-color: #E8C4C4">INTERESTS</span>
+          <span class="diagonal-bg__text-solid" style="--watermark-color: #E8C4C4">INTERESTS</span>
+        </div>
+        <!-- Filled blocks along right + bottom (even pattern) -->
+        <div class="dblock dblock--filled" style="top:10%;right:0;width:70px;height:50px;background:#C8B6E2"></div>
+        <div class="dblock dblock--filled" style="top:35%;right:0;width:60px;height:65px;background:#D4E2D4"></div>
+        <div class="dblock dblock--filled" style="top:65%;right:0;width:75px;height:45px;background:#F5E6A3"></div>
+        <div class="dblock dblock--filled" style="bottom:0;right:10%;width:80px;height:50px;background:#E8C4C4"></div>
+        <div class="dblock dblock--filled" style="bottom:0;right:28%;width:60px;height:55px;background:#B8D4E8"></div>
+        <div class="dblock dblock--filled" style="bottom:0;right:45%;width:70px;height:40px;background:#C8B6E2"></div>
+        <!-- Center blocks -->
+        <div class="dblock dblock--filled" style="top:30%;left:35%;width:55px;height:50px;background:#F5E6A3"></div>
+        <div class="dblock dblock--filled" style="top:55%;left:48%;width:60px;height:45px;background:#D4E2D4"></div>
+        <!-- Outlined blocks -->
+        <div class="dblock dblock--outline" style="top:15%;right:3%;width:80px;height:55px;border-color:#E8C4C4"></div>
+        <div class="dblock dblock--outline" style="bottom:8%;right:20%;width:70px;height:50px;border-color:#C8B6E2"></div>
+        <div class="dblock dblock--outline" style="top:45%;left:40%;width:60px;height:45px;border-color:#B8D4E8"></div>
+      </div>
+      <div class="section__container">
+        <h3 class="coder__subsection-heading will-animate">Interests</h3>
+        <div class="interests-grid" role="list" aria-label="Interests"></div>
+      </div>
+    </section>
 
     <!-- Footer -->
     <footer id="footer" class="footer" role="contentinfo">

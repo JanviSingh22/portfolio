@@ -616,31 +616,22 @@ class ContentRenderer {
     if (!containerEl || !this._interestsData) return;
 
     this._interestsData.forEach(item => {
-      const card = document.createElement('div');
-      card.className = `interest-card interest-card--${item.size} will-animate`;
-      card.setAttribute('role', 'listitem');
-      card.style.setProperty('--card-accent', item.accentColor);
+      const row = document.createElement('div');
+      row.className = 'coder__interest-item will-animate';
+      row.setAttribute('role', 'listitem');
 
-      // Icon
-      const iconSpan = document.createElement('span');
-      iconSpan.className = 'interest-card__icon';
-      iconSpan.setAttribute('aria-hidden', 'true');
-      iconSpan.textContent = item.icon;
+      const star = document.createElement('span');
+      star.className = 'coder__star mss';
+      star.setAttribute('aria-hidden', 'true');
+      star.textContent = 'star';
 
-      // Title
-      const title = document.createElement('h3');
-      title.className = 'interest-card__title';
+      const title = document.createElement('span');
+      title.className = 'coder__interest-title';
       title.textContent = item.title;
 
-      // Description (hidden by default, revealed on hover via CSS)
-      const description = document.createElement('p');
-      description.className = 'interest-card__description';
-      description.textContent = item.description;
-
-      card.appendChild(iconSpan);
-      card.appendChild(title);
-      card.appendChild(description);
-      containerEl.appendChild(card);
+      row.appendChild(star);
+      row.appendChild(title);
+      containerEl.appendChild(row);
     });
   }
 
@@ -691,46 +682,51 @@ class ContentRenderer {
     const heading = document.createElement('h3');
     heading.className = 'coder__subsection-heading will-animate';
     heading.textContent = 'Education';
-    heading.setAttribute('data-heading', 'Education');
-    heading.style.setProperty('--heading-accent', '#C8B6E2');
     containerEl.appendChild(heading);
 
     if (!this._coderData.education) return;
 
+    const timeline = document.createElement('div');
+    timeline.className = 'coder__timeline-list';
+
     this._coderData.education.forEach(edu => {
       const item = document.createElement('div');
-      item.className = 'coder__edu-item will-animate';
+      item.className = 'coder__timeline-item will-animate';
 
-      const star = document.createElement('span');
-      star.className = 'coder__star mss';
-      star.setAttribute('aria-hidden', 'true');
-      star.textContent = 'star';
+      const marker = document.createElement('div');
+      marker.className = 'coder__timeline-marker';
+      marker.setAttribute('aria-hidden', 'true');
 
       const content = document.createElement('div');
-      content.className = 'coder__edu-content';
+      content.className = 'coder__timeline-content';
 
-      const degree = document.createElement('h4');
-      degree.className = 'coder__edu-degree';
-      degree.textContent = edu.degree;
+      const year = document.createElement('span');
+      year.className = 'coder__timeline-year';
+      year.textContent = edu.year;
 
-      const meta = document.createElement('p');
-      meta.className = 'coder__edu-meta';
-      meta.textContent = `${edu.institution} • ${edu.year}`;
+      const title = document.createElement('h4');
+      title.className = 'coder__timeline-title';
+      title.textContent = edu.degree;
 
-      content.appendChild(degree);
-      content.appendChild(meta);
-      item.appendChild(star);
+      const company = document.createElement('span');
+      company.className = 'coder__timeline-company';
+      company.textContent = edu.institution;
+
+      content.appendChild(year);
+      content.appendChild(title);
+      content.appendChild(company);
+      item.appendChild(marker);
       item.appendChild(content);
-      containerEl.appendChild(item);
+      timeline.appendChild(item);
     });
+
+    containerEl.appendChild(timeline);
   }
 
   _renderExperience(containerEl) {
     const heading = document.createElement('h3');
     heading.className = 'coder__subsection-heading will-animate';
     heading.textContent = 'Experience';
-    heading.setAttribute('data-heading', 'Experience');
-    heading.style.setProperty('--heading-accent', '#E8C4C4');
     containerEl.appendChild(heading);
 
     if (!this._coderData.experience) return;
@@ -781,8 +777,6 @@ class ContentRenderer {
     const heading = document.createElement('h3');
     heading.className = 'coder__subsection-heading will-animate';
     heading.textContent = 'Skills';
-    heading.setAttribute('data-heading', 'Skills');
-    heading.style.setProperty('--heading-accent', '#D4E2D4');
     containerEl.appendChild(heading);
 
     if (!this._coderData.skills) return;
@@ -791,10 +785,21 @@ class ContentRenderer {
     const techBlock = document.createElement('div');
     techBlock.className = 'coder__skill-category will-animate';
 
+    const techHeadingWrap = document.createElement('div');
+    techHeadingWrap.className = 'coder__skill-category-header';
+
+    const techStar = document.createElement('span');
+    techStar.className = 'coder__star mss';
+    techStar.setAttribute('aria-hidden', 'true');
+    techStar.textContent = 'star';
+
     const techHeading = document.createElement('h4');
     techHeading.className = 'coder__skill-category-heading';
     techHeading.textContent = 'Technical';
-    techBlock.appendChild(techHeading);
+
+    techHeadingWrap.appendChild(techStar);
+    techHeadingWrap.appendChild(techHeading);
+    techBlock.appendChild(techHeadingWrap);
 
     const techTags = document.createElement('div');
     techTags.className = 'coder__skill-tags';
@@ -811,10 +816,21 @@ class ContentRenderer {
     const softBlock = document.createElement('div');
     softBlock.className = 'coder__skill-category will-animate';
 
+    const softHeadingWrap = document.createElement('div');
+    softHeadingWrap.className = 'coder__skill-category-header';
+
+    const softStar = document.createElement('span');
+    softStar.className = 'coder__star mss';
+    softStar.setAttribute('aria-hidden', 'true');
+    softStar.textContent = 'star';
+
     const softHeading = document.createElement('h4');
     softHeading.className = 'coder__skill-category-heading';
     softHeading.textContent = 'Non-Technical';
-    softBlock.appendChild(softHeading);
+
+    softHeadingWrap.appendChild(softStar);
+    softHeadingWrap.appendChild(softHeading);
+    softBlock.appendChild(softHeadingWrap);
 
     const softTags = document.createElement('div');
     softTags.className = 'coder__skill-tags';
@@ -832,10 +848,21 @@ class ContentRenderer {
       const langBlock = document.createElement('div');
       langBlock.className = 'coder__skill-category will-animate';
 
+      const langHeadingWrap = document.createElement('div');
+      langHeadingWrap.className = 'coder__skill-category-header';
+
+      const langStar = document.createElement('span');
+      langStar.className = 'coder__star mss';
+      langStar.setAttribute('aria-hidden', 'true');
+      langStar.textContent = 'star';
+
       const langHeading = document.createElement('h4');
       langHeading.className = 'coder__skill-category-heading';
       langHeading.textContent = 'Languages';
-      langBlock.appendChild(langHeading);
+
+      langHeadingWrap.appendChild(langStar);
+      langHeadingWrap.appendChild(langHeading);
+      langBlock.appendChild(langHeadingWrap);
 
       const langTags = document.createElement('div');
       langTags.className = 'coder__skill-tags';
@@ -854,8 +881,6 @@ class ContentRenderer {
     const heading = document.createElement('h3');
     heading.className = 'coder__subsection-heading will-animate';
     heading.textContent = 'Projects';
-    heading.setAttribute('data-heading', 'Projects');
-    heading.style.setProperty('--heading-accent', '#B8D4E8');
     containerEl.appendChild(heading);
 
     if (!this._coderData.projects) return;
@@ -905,8 +930,6 @@ class ContentRenderer {
     const heading = document.createElement('h3');
     heading.className = 'coder__subsection-heading will-animate';
     heading.textContent = 'Achievements';
-    heading.setAttribute('data-heading', 'Achievements');
-    heading.style.setProperty('--heading-accent', '#F5E6A3');
     containerEl.appendChild(heading);
 
     if (!this._coderData.achievements) return;
@@ -1151,29 +1174,18 @@ document.addEventListener('DOMContentLoaded', () => {
     console.warn('ThemeSystem failed to initialize:', e);
   }
 
-  // --- Simple smooth scroll navigation ---
+  // --- Navigation: scroll state + floating menu ---
   try {
+    const nav = document.querySelector('.nav');
     const navLinks = document.querySelectorAll('.nav__link');
     const logo = document.querySelector('.nav__logo');
-    const mobileToggle = document.querySelector('.nav__mobile-toggle');
-    const navLinksContainer = document.querySelector('.nav__links');
+    const floatingCta = document.querySelector('.floating-cta');
+    const menuBtn = document.querySelector('.floating-cta__circle--menu');
+    const floatingMenu = document.querySelector('.floating-menu');
+    const floatingMenuLinks = document.querySelectorAll('.floating-menu__link');
+    const heroSection = document.getElementById('hero');
 
-    navLinks.forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const targetId = link.getAttribute('href').replace('#', '');
-        const target = document.getElementById(targetId);
-        if (target) {
-          target.scrollIntoView({ behavior: 'smooth' });
-        }
-        // Close mobile menu
-        if (navLinksContainer.classList.contains('nav__links--open')) {
-          navLinksContainer.classList.remove('nav__links--open');
-          if (mobileToggle) mobileToggle.setAttribute('aria-expanded', 'false');
-        }
-      });
-    });
-
+    // Logo click → scroll to top
     if (logo) {
       logo.addEventListener('click', (e) => {
         e.preventDefault();
@@ -1181,23 +1193,90 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    if (mobileToggle) {
-      mobileToggle.addEventListener('click', () => {
-        const isOpen = navLinksContainer.classList.toggle('nav__links--open');
-        mobileToggle.setAttribute('aria-expanded', String(isOpen));
-        mobileToggle.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
+    // Nav links smooth scroll
+    navLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetId = link.getAttribute('href').replace('#', '');
+        const target = document.getElementById(targetId);
+        if (target) target.scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+
+    // Scroll detection: switch nav state + show/hide floating circles
+    const handleScroll = () => {
+      const heroBottom = heroSection ? heroSection.offsetTop + heroSection.offsetHeight : 500;
+      const scrolled = window.scrollY > heroBottom - 100;
+
+      if (scrolled) {
+        nav.classList.add('nav--scrolled');
+        floatingCta.classList.remove('floating-cta--hidden');
+      } else {
+        nav.classList.remove('nav--scrolled');
+        floatingCta.classList.add('floating-cta--hidden');
+        // Close menu if open
+        floatingMenu.classList.add('floating-menu--hidden');
+        floatingMenu.setAttribute('aria-hidden', 'true');
+      }
+
+      // Update current section in floating menu
+      const sections = document.querySelectorAll('.section[id]');
+      let currentId = '';
+      sections.forEach(sec => {
+        if (sec.offsetTop <= window.scrollY + 200) {
+          currentId = sec.id;
+        }
+      });
+      floatingMenuLinks.forEach(link => {
+        const linkSection = link.getAttribute('data-section');
+        if (linkSection === currentId) {
+          link.classList.add('floating-menu__link--current');
+        } else {
+          link.classList.remove('floating-menu__link--current');
+        }
+      });
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // initial state
+
+    // Menu circle toggle
+    if (menuBtn) {
+      menuBtn.addEventListener('click', () => {
+        const isOpen = !floatingMenu.classList.contains('floating-menu--hidden');
+        if (isOpen) {
+          floatingMenu.classList.add('floating-menu--hidden');
+          floatingMenu.setAttribute('aria-hidden', 'true');
+          menuBtn.setAttribute('aria-expanded', 'false');
+        } else {
+          floatingMenu.classList.remove('floating-menu--hidden');
+          floatingMenu.setAttribute('aria-hidden', 'false');
+          menuBtn.setAttribute('aria-expanded', 'true');
+        }
       });
     }
 
-    // Contact Me button → smooth scroll to footer
-    const contactBtn = document.querySelector('.hero__btn--contact');
-    if (contactBtn) {
-      contactBtn.addEventListener('click', (e) => {
+    // Floating menu link clicks
+    floatingMenuLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetId = link.getAttribute('href').replace('#', '');
+        const target = document.getElementById(targetId);
+        if (target) target.scrollIntoView({ behavior: 'smooth' });
+        // Close menu
+        floatingMenu.classList.add('floating-menu--hidden');
+        floatingMenu.setAttribute('aria-hidden', 'true');
+        menuBtn.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    // Contact circle smooth scroll
+    const contactCircle = document.querySelector('.floating-cta__circle[aria-label="Contact Me"]');
+    if (contactCircle) {
+      contactCircle.addEventListener('click', (e) => {
         e.preventDefault();
         const footer = document.getElementById('footer');
-        if (footer) {
-          footer.scrollIntoView({ behavior: 'smooth' });
-        }
+        if (footer) footer.scrollIntoView({ behavior: 'smooth' });
       });
     }
   } catch (e) {
@@ -1212,43 +1291,9 @@ document.addEventListener('DOMContentLoaded', () => {
     renderer._renderSkills(document.querySelector('#opus-skills .section__container'));
     renderer._renderProjects(document.querySelector('#opus-projects .section__container'));
     renderer._renderAchievements(document.querySelector('#opus-achievements .section__container'));
+    renderer.renderInterestCards(document.querySelector('#opus-interests .interests-grid'));
   } catch (e) {
     console.warn('ContentRenderer failed to initialize:', e);
-  }
-
-  // --- Dot Nav scroll tracking & click handling ---
-  try {
-    const dotNavItems = document.querySelectorAll('.dot-nav__item');
-
-    // Click handler: scroll to section
-    dotNavItems.forEach(item => {
-      item.addEventListener('click', () => {
-        const targetId = item.getAttribute('data-target');
-        const target = document.getElementById(targetId);
-        if (target) {
-          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      });
-    });
-
-    // Scroll handler: update active dot
-    window.addEventListener('scroll', () => {
-      const scrollTop = window.scrollY + 150;
-      let activeItem = dotNavItems[0];
-
-      dotNavItems.forEach(item => {
-        const targetId = item.getAttribute('data-target');
-        const target = document.getElementById(targetId);
-        if (target && target.offsetTop <= scrollTop) {
-          activeItem = item;
-        }
-      });
-
-      dotNavItems.forEach(item => item.classList.remove('dot-nav__item--active'));
-      if (activeItem) activeItem.classList.add('dot-nav__item--active');
-    });
-  } catch (e) {
-    console.warn('Dot nav failed to initialize:', e);
   }
 
   // --- AnimationSystem ---

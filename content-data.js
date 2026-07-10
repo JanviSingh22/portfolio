@@ -20,54 +20,14 @@ const profileData = {
   }
 };
 
-// Interests data (18+ items)
+// Interests data
 const interestsData = [
-  {
-    id: "painting",
-    title: "Painting",
-    icon: "🎨",
-    description: "Colors on canvas — where structure meets freedom.",
-    accentColor: "#C8A96E",
-    size: "large"
-  },
-  {
-    id: "sketching",
-    title: "Sketching",
-    icon: "✏️",
-    description: "Quick lines capturing fleeting ideas before they disappear.",
-    accentColor: "#8B7355",
-    size: "medium"
-  },
-  {
-    id: "music",
-    title: "Music",
-    icon: "🎵",
-    description: "The universal language that needs no translation.",
-    accentColor: "#6B5B95",
-    size: "large"
-  },
   {
     id: "writing",
     title: "Writing",
     icon: "✍️",
     description: "Turning thoughts into words, one sentence at a time.",
     accentColor: "#4A7C59",
-    size: "medium"
-  },
-  {
-    id: "poetry",
-    title: "Poetry",
-    icon: "📝",
-    description: "Finding rhythm in chaos and meaning in brevity.",
-    accentColor: "#9B59B6",
-    size: "small"
-  },
-  {
-    id: "cooking",
-    title: "Cooking",
-    icon: "🍳",
-    description: "Experiments in flavor — sometimes successful, always fun.",
-    accentColor: "#E67E22",
     size: "medium"
   },
   {
@@ -79,100 +39,28 @@ const interestsData = [
     size: "large"
   },
   {
-    id: "astronomy",
-    title: "Astronomy",
-    icon: "🔭",
-    description: "Looking up and feeling both small and infinite.",
-    accentColor: "#1A237E",
-    size: "medium"
-  },
-  {
-    id: "science",
-    title: "Science",
-    icon: "🔬",
-    description: "Asking why, then figuring out how.",
-    accentColor: "#00695C",
-    size: "small"
-  },
-  {
-    id: "technology",
-    title: "Technology",
-    icon: "💻",
-    description: "Building the future, one line of code at a time.",
-    accentColor: "#37474F",
-    size: "medium"
-  },
-  {
-    id: "books",
-    title: "Books",
+    id: "reading",
+    title: "Reading",
     icon: "📚",
     description: "Living a thousand lives through pages.",
     accentColor: "#5D4037",
+    size: "medium"
+  },
+  {
+    id: "music",
+    title: "Music",
+    icon: "🎵",
+    description: "The universal language that needs no translation.",
+    accentColor: "#6B5B95",
     size: "large"
   },
   {
-    id: "cinema",
-    title: "Cinema",
-    icon: "🎬",
-    description: "Stories told in light, sound, and silence.",
-    accentColor: "#B71C1C",
-    size: "medium"
-  },
-  {
-    id: "history",
-    title: "History",
-    icon: "🏛️",
-    description: "Understanding where we've been to know where we're going.",
-    accentColor: "#795548",
-    size: "small"
-  },
-  {
-    id: "nature",
-    title: "Nature",
-    icon: "🌿",
-    description: "The original designer — endlessly inspiring.",
-    accentColor: "#2E7D32",
-    size: "medium"
-  },
-  {
-    id: "design",
-    title: "Design",
-    icon: "🎯",
-    description: "Making things that work beautifully and look intentional.",
-    accentColor: "#F57C00",
+    id: "painting",
+    title: "Painting",
+    icon: "🎨",
+    description: "Colors on canvas — where structure meets freedom.",
+    accentColor: "#C8A96E",
     size: "large"
-  },
-  {
-    id: "architecture",
-    title: "Architecture",
-    icon: "🏗️",
-    description: "Where math becomes poetry in three dimensions.",
-    accentColor: "#546E7A",
-    size: "small"
-  },
-  {
-    id: "travel",
-    title: "Travel",
-    icon: "✈️",
-    description: "New places, new perspectives, new versions of myself.",
-    accentColor: "#0277BD",
-    size: "medium"
-  },
-  {
-    id: "psychology",
-    title: "Psychology",
-    icon: "🧠",
-    description: "Understanding the mind — mine and everyone else's.",
-    accentColor: "#6A1B9A",
-    size: "small"
-  },
-  {
-    id: "philosophy",
-    title: "Philosophy",
-    icon: "💭",
-    description: "Questions that have no answers, and that's the point.",
-    accentColor: "#3E2723",
-    size: "medium"
   }
 ];
 
