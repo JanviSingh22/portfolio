@@ -4,26 +4,20 @@
    Fixed on the left edge as content scrolls.
    ==================================== */
 
-.panel__body {
-  display: flex;
-  position: relative;
-}
-
-.panel__body .section__container {
-  flex: 1;
-}
+/* Layout removed — no longer using panel body */
 
 /* Dot nav container */
 .dot-nav {
-  position: sticky;
-  top: var(--space-8);
-  align-self: flex-start;
+  position: fixed;
+  right: var(--space-6);
+  top: 50%;
+  transform: translateY(-50%);
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: var(--space-8) var(--space-4);
+  padding: var(--space-4);
   height: fit-content;
-  z-index: 10;
+  z-index: 80;
 }
 
 /* Vertical connecting line */
@@ -100,9 +94,5 @@
 @media (max-width: 767px) {
   .dot-nav {
     display: none;
-  }
-
-  .panel__body {
-    display: block;
   }
 }

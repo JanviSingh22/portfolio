@@ -23,18 +23,19 @@
 
     <!-- Navigation -->
     <header class="nav" role="banner">
-      <a href="#" class="nav__logo">JS</a>
+      <a href="#hero" class="nav__logo">JS</a>
       <nav class="nav__links" role="navigation" aria-label="Main navigation">
-        <a href="#interests" class="nav__link" aria-current="false">Muse</a>
-        <a href="#about" class="nav__link" aria-current="true"><span class="mss">home</span></a>
-        <a href="#coder" class="nav__link" aria-current="false">Opus</a>
+        <a href="#hero" class="nav__link" aria-current="true"><span class="mss">home</span></a>
+        <a href="#opus-about" class="nav__link">About</a>
+        <a href="#opus-education" class="nav__link">Education</a>
+        <a href="#opus-projects" class="nav__link">Projects</a>
       </nav>
       <button class="nav__theme-toggle" aria-label="Toggle night mode">🌙</button>
       <button class="nav__mobile-toggle" aria-label="Open menu" aria-expanded="false">☰</button>
     </header>
 
-    <!-- Hero Section (base layer - geometric Mondrian-inspired layout) -->
-    <section id="about" class="section section--hero" aria-label="Home">
+    <!-- Hero Section -->
+    <section id="hero" class="section section--hero" aria-label="Home">
       <div class="hero">
         <!-- Decorative geometric blocks -->
         <div class="hero__block hero__block--1"></div>
@@ -65,121 +66,150 @@
           </div>
         </div>
 
-        <!-- Navigation labels (clickable, lead to panels) -->
-        <a href="#interests" class="hero__label hero__label--left" data-nav="interests">
-          <span class="hero__label-text">Art Enthusiast</span>
-          <span class="hero__label-arrow mss">arrow_back</span>
-        </a>
-        <a href="#coder" class="hero__label hero__label--right" data-nav="coder">
+        <!-- Role label -->
+        <div class="hero__label hero__label--right">
           <span class="hero__label-text">Software Developer</span>
-          <span class="hero__label-arrow mss">arrow_forward</span>
-        </a>
+        </div>
       </div>
     </section>
 
-    <!-- Sidebar nav (appears in the peek area when a panel is open) -->
-    <aside class="sidebar-nav" aria-hidden="true" aria-label="Section navigation">
-      <ul class="sidebar-nav__list">
-        <!-- Populated dynamically based on active panel -->
+    <!-- About Me Section -->
+    <section id="opus-about" class="section section--opus" aria-label="About me">
+      <div class="opus-about">
+        <div class="opus-about__text">
+          <h2 class="opus-about__heading">About Me</h2>
+          <p class="opus-about__name">I'm <strong>Janvi Singh</strong>, Software Developer</p>
+          <p class="opus-about__bio">I'm passionate about the intersection of science and art. A harmonious contradiction — structured yet spontaneous, logical yet imaginative. I build things with intention, explore ideas with curiosity, and express myself through code and creativity.</p>
+        </div>
+        <div class="opus-about__image-wrap">
+          <img src="assets/profile_image.jpg" alt="Janvi Singh" class="opus-about__image">
+        </div>
+      </div>
+    </section>
+
+    <!-- Content Sections (each with diagonal background treatment) -->
+    <section id="opus-education" class="section section--opus section--diagonal section--diagonal-odd" aria-label="Education">
+      <div class="diagonal-bg" aria-hidden="true">
+        <span class="diagonal-bg__text">EDUCATION</span>
+        <!-- Filled blocks along left + top -->
+        <div class="dblock dblock--filled" style="top:10%;left:0;width:45px;height:30px;background:#C8B6E2"></div>
+        <div class="dblock dblock--filled" style="top:25%;left:0;width:35px;height:55px;background:#E8C4C4"></div>
+        <div class="dblock dblock--filled" style="top:55%;left:0;width:50px;height:25px;background:#D4E2D4"></div>
+        <div class="dblock dblock--filled" style="top:75%;left:0;width:30px;height:40px;background:#F5E6A3"></div>
+        <div class="dblock dblock--filled" style="top:0;left:12%;width:50px;height:35px;background:#B8D4E8"></div>
+        <div class="dblock dblock--filled" style="top:0;left:28%;width:35px;height:45px;background:#C8B6E2"></div>
+        <div class="dblock dblock--filled" style="top:0;left:42%;width:55px;height:25px;background:#E8C4C4"></div>
+        <div class="dblock dblock--filled" style="top:18%;left:8%;width:40px;height:30px;background:#F5E6A3"></div>
+        <!-- Outlined blocks -->
+        <div class="dblock dblock--outline" style="top:15%;left:4%;width:60px;height:40px;border-color:#C8B6E2"></div>
+        <div class="dblock dblock--outline" style="top:40%;left:2%;width:45px;height:35px;border-color:#B8D4E8"></div>
+        <div class="dblock dblock--outline" style="top:5%;left:20%;width:55px;height:30px;border-color:#F5E6A3"></div>
+      </div>
+      <div class="section__container"></div>
+    </section>
+
+    <section id="opus-experience" class="section section--opus section--diagonal section--diagonal-even" aria-label="Experience">
+      <div class="diagonal-bg" aria-hidden="true">
+        <span class="diagonal-bg__text">EXPERIENCE</span>
+        <!-- Filled blocks along right + bottom -->
+        <div class="dblock dblock--filled" style="top:12%;right:0;width:45px;height:35px;background:#D4E2D4"></div>
+        <div class="dblock dblock--filled" style="top:32%;right:0;width:35px;height:50px;background:#B8D4E8"></div>
+        <div class="dblock dblock--filled" style="top:58%;right:0;width:50px;height:30px;background:#C8B6E2"></div>
+        <div class="dblock dblock--filled" style="top:78%;right:0;width:40px;height:40px;background:#E8C4C4"></div>
+        <div class="dblock dblock--filled" style="bottom:0;right:15%;width:45px;height:30px;background:#F5E6A3"></div>
+        <div class="dblock dblock--filled" style="bottom:0;right:30%;width:55px;height:35px;background:#D4E2D4"></div>
+        <div class="dblock dblock--filled" style="bottom:0;right:48%;width:35px;height:25px;background:#C8B6E2"></div>
+        <div class="dblock dblock--filled" style="bottom:12%;right:5%;width:40px;height:30px;background:#B8D4E8"></div>
+        <!-- Outlined blocks -->
+        <div class="dblock dblock--outline" style="top:20%;right:3%;width:55px;height:40px;border-color:#E8C4C4"></div>
+        <div class="dblock dblock--outline" style="bottom:8%;right:20%;width:60px;height:35px;border-color:#D4E2D4"></div>
+        <div class="dblock dblock--outline" style="top:50%;right:2%;width:40px;height:30px;border-color:#F5E6A3"></div>
+      </div>
+      <div class="section__container"></div>
+    </section>
+
+    <section id="opus-skills" class="section section--opus section--diagonal section--diagonal-odd" aria-label="Skills">
+      <div class="diagonal-bg" aria-hidden="true">
+        <span class="diagonal-bg__text">SKILLS</span>
+        <!-- Filled blocks along left + top -->
+        <div class="dblock dblock--filled" style="top:8%;left:0;width:40px;height:35px;background:#B8D4E8"></div>
+        <div class="dblock dblock--filled" style="top:30%;left:0;width:50px;height:40px;background:#F5E6A3"></div>
+        <div class="dblock dblock--filled" style="top:60%;left:0;width:35px;height:50px;background:#C8B6E2"></div>
+        <div class="dblock dblock--filled" style="top:82%;left:0;width:45px;height:25px;background:#D4E2D4"></div>
+        <div class="dblock dblock--filled" style="top:0;left:10%;width:55px;height:30px;background:#E8C4C4"></div>
+        <div class="dblock dblock--filled" style="top:0;left:25%;width:30px;height:50px;background:#B8D4E8"></div>
+        <div class="dblock dblock--filled" style="top:0;left:38%;width:45px;height:28px;background:#F5E6A3"></div>
+        <!-- Outlined blocks -->
+        <div class="dblock dblock--outline" style="top:20%;left:5%;width:50px;height:35px;border-color:#D4E2D4"></div>
+        <div class="dblock dblock--outline" style="top:50%;left:3%;width:40px;height:45px;border-color:#E8C4C4"></div>
+        <div class="dblock dblock--outline" style="top:8%;left:30%;width:45px;height:30px;border-color:#C8B6E2"></div>
+      </div>
+      <div class="section__container"></div>
+    </section>
+
+    <section id="opus-projects" class="section section--opus section--diagonal section--diagonal-even" aria-label="Projects">
+      <div class="diagonal-bg" aria-hidden="true">
+        <span class="diagonal-bg__text">PROJECTS</span>
+        <!-- Filled blocks along right + bottom -->
+        <div class="dblock dblock--filled" style="top:10%;right:0;width:50px;height:30px;background:#E8C4C4"></div>
+        <div class="dblock dblock--filled" style="top:35%;right:0;width:40px;height:45px;background:#F5E6A3"></div>
+        <div class="dblock dblock--filled" style="top:62%;right:0;width:45px;height:35px;background:#D4E2D4"></div>
+        <div class="dblock dblock--filled" style="top:80%;right:0;width:35px;height:30px;background:#B8D4E8"></div>
+        <div class="dblock dblock--filled" style="bottom:0;right:12%;width:50px;height:35px;background:#C8B6E2"></div>
+        <div class="dblock dblock--filled" style="bottom:0;right:28%;width:40px;height:28px;background:#E8C4C4"></div>
+        <div class="dblock dblock--filled" style="bottom:0;right:42%;width:55px;height:30px;background:#F5E6A3"></div>
+        <!-- Outlined blocks -->
+        <div class="dblock dblock--outline" style="top:22%;right:4%;width:55px;height:35px;border-color:#C8B6E2"></div>
+        <div class="dblock dblock--outline" style="bottom:10%;right:18%;width:50px;height:40px;border-color:#F5E6A3"></div>
+        <div class="dblock dblock--outline" style="top:55%;right:2%;width:45px;height:30px;border-color:#B8D4E8"></div>
+      </div>
+      <div class="section__container"></div>
+    </section>
+
+    <section id="opus-achievements" class="section section--opus section--diagonal section--diagonal-odd" aria-label="Achievements">
+      <div class="diagonal-bg" aria-hidden="true">
+        <span class="diagonal-bg__text">ACHIEVEMENTS</span>
+        <!-- Filled blocks along left + top -->
+        <div class="dblock dblock--filled" style="top:12%;left:0;width:45px;height:40px;background:#F5E6A3"></div>
+        <div class="dblock dblock--filled" style="top:35%;left:0;width:40px;height:35px;background:#C8B6E2"></div>
+        <div class="dblock dblock--filled" style="top:60%;left:0;width:50px;height:30px;background:#B8D4E8"></div>
+        <div class="dblock dblock--filled" style="top:80%;left:0;width:35px;height:45px;background:#E8C4C4"></div>
+        <div class="dblock dblock--filled" style="top:0;left:8%;width:45px;height:35px;background:#D4E2D4"></div>
+        <div class="dblock dblock--filled" style="top:0;left:22%;width:50px;height:28px;background:#F5E6A3"></div>
+        <div class="dblock dblock--filled" style="top:0;left:38%;width:35px;height:40px;background:#C8B6E2"></div>
+        <!-- Outlined blocks -->
+        <div class="dblock dblock--outline" style="top:18%;left:4%;width:55px;height:35px;border-color:#B8D4E8"></div>
+        <div class="dblock dblock--outline" style="top:45%;left:2%;width:45px;height:40px;border-color:#F5E6A3"></div>
+        <div class="dblock dblock--outline" style="top:5%;left:25%;width:50px;height:30px;border-color:#E8C4C4"></div>
+      </div>
+      <div class="section__container"></div>
+    </section>
+
+    <!-- Dot progress nav (fixed on right side) -->
+    <nav class="dot-nav" aria-label="Section progress">
+      <div class="dot-nav__line"></div>
+      <ul class="dot-nav__list">
+        <li class="dot-nav__item dot-nav__item--active" data-target="opus-education" aria-label="Education">
+          <span class="dot-nav__icon mss">school</span>
+        </li>
+        <li class="dot-nav__item" data-target="opus-experience" aria-label="Experience">
+          <span class="dot-nav__icon mss">work</span>
+        </li>
+        <li class="dot-nav__item" data-target="opus-skills" aria-label="Skills">
+          <span class="dot-nav__icon mss">bolt</span>
+        </li>
+        <li class="dot-nav__item" data-target="opus-projects" aria-label="Projects">
+          <span class="dot-nav__icon mss">code</span>
+        </li>
+        <li class="dot-nav__item" data-target="opus-achievements" aria-label="Achievements">
+          <span class="dot-nav__icon mss">emoji_events</span>
+        </li>
       </ul>
-    </aside>
-
-    <!-- Interests Panel (slides from left) -->
-    <section id="interests" class="section section--interests panel panel--left" aria-label="My interests" aria-hidden="true">
-      <div class="panel__scroll">
-        <div class="panel__intro">
-          <img src="assets/profile_image.jpg" alt="Janvi Singh" class="panel__intro-image">
-          <div class="panel__intro-text">
-            <h2 class="panel__intro-name">Muse</h2>
-            <p class="panel__intro-tagline">What inspires me</p>
-          </div>
-        </div>
-        <div class="section__container">
-          <div class="interests-grid" role="list">
-            <!-- Cards rendered by ContentRenderer -->
-          </div>
-        </div>
-        <div class="panel__footer-slot"></div>
-      </div>
-    </section>
-
-    <!-- Coder Panel (slides from right) -->
-    <section id="coder" class="section section--coder panel panel--right" aria-label="Developer profile" aria-hidden="true">
-      <!-- Mondrian decorative blocks -->
-      <div class="opus-blocks" aria-hidden="true">
-        <div class="opus-block opus-block--1"></div>
-        <div class="opus-block opus-block--2"></div>
-        <div class="opus-block opus-block--3"></div>
-        <div class="opus-block opus-block--4"></div>
-        <div class="opus-block opus-block--5"></div>
-        <div class="opus-block opus-block--6"></div>
-        <div class="opus-block opus-block--7"></div>
-        <div class="opus-block opus-block--8"></div>
-        <div class="opus-block opus-block--9"></div>
-        <div class="opus-block opus-block--10"></div>
-        <div class="opus-block opus-block--11"></div>
-        <div class="opus-block opus-block--12"></div>
-        <div class="opus-block opus-block--13"></div>
-        <div class="opus-block opus-block--14"></div>
-        <div class="opus-block opus-block--15"></div>
-        <div class="opus-block opus-block--16"></div>
-        <div class="opus-block opus-block--outline-1"></div>
-        <div class="opus-block opus-block--outline-2"></div>
-        <div class="opus-block opus-block--outline-3"></div>
-        <div class="opus-block opus-block--outline-4"></div>
-        <div class="opus-block opus-block--outline-5"></div>
-        <div class="opus-block opus-block--outline-6"></div>
-      </div>
-      <div class="panel__scroll">
-        <!-- About Me section (Sarita Smith style — text left, image right) -->
-        <div class="opus-about" id="opus-about">
-          <div class="opus-about__text">
-            <h2 class="opus-about__heading">About Me</h2>
-            <p class="opus-about__name">I'm <strong>Janvi Singh</strong>, Software Developer</p>
-            <p class="opus-about__bio">I'm passionate about the intersection of science and art. A harmonious contradiction — structured yet spontaneous, logical yet imaginative. I build things with intention, explore ideas with curiosity, and express myself through code and creativity.</p>
-          </div>
-          <div class="opus-about__image-wrap">
-            <img src="assets/profile_image.jpg" alt="Janvi Singh" class="opus-about__image">
-          </div>
-        </div>
-        <div class="panel__body">
-          <!-- Main content area -->
-          <div class="section__container">
-            <!-- Skills, projects, timeline rendered by ContentRenderer -->
-          </div>
-          <!-- Dot progress nav (right edge inside panel, below image) -->
-          <nav class="dot-nav" aria-label="Section progress">
-            <div class="dot-nav__line"></div>
-            <ul class="dot-nav__list">
-              <li class="dot-nav__item dot-nav__item--active" data-target="opus-about" aria-label="About">
-                <span class="dot-nav__icon mss">person</span>
-              </li>
-              <li class="dot-nav__item" data-target="opus-education" aria-label="Education">
-                <span class="dot-nav__icon mss">school</span>
-              </li>
-              <li class="dot-nav__item" data-target="opus-experience" aria-label="Experience">
-                <span class="dot-nav__icon mss">work</span>
-              </li>
-              <li class="dot-nav__item" data-target="opus-skills" aria-label="Skills">
-                <span class="dot-nav__icon mss">bolt</span>
-              </li>
-              <li class="dot-nav__item" data-target="opus-projects" aria-label="Projects">
-                <span class="dot-nav__icon mss">code</span>
-              </li>
-              <li class="dot-nav__item" data-target="opus-achievements" aria-label="Achievements">
-                <span class="dot-nav__icon mss">emoji_events</span>
-              </li>
-            </ul>
-          </nav>
-        </div>
-        <div class="panel__footer-slot"></div>
-      </div>
-    </section>
+    </nav>
 
     <!-- Footer -->
     <footer id="footer" class="footer" role="contentinfo">
       <div class="footer__container">
-        <!-- Contact Form -->
         <div class="footer__contact">
           <h3 class="footer__heading">Get in Touch</h3>
           <form class="footer__form" action="https://formspree.io/f/placeholder" method="POST" aria-label="Contact form">
@@ -198,8 +228,6 @@
             <button type="submit" class="footer__submit">Send Message</button>
           </form>
         </div>
-
-        <!-- Links & Info -->
         <div class="footer__info">
           <h3 class="footer__heading">Links</h3>
           <div class="footer__links">

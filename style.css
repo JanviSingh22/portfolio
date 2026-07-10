@@ -1,5 +1,5 @@
 /* ====================================
-   Portfolio Redesign — Main Stylesheet
+   Portfolio — Main Stylesheet
    Imports all partials in correct order.
    ==================================== */
 
@@ -9,12 +9,9 @@
 @import url('styles/animations.css');
 @import url('styles/landing.css');
 @import url('styles/nav.css');
-@import url('styles/panels.css');
-@import url('styles/sidebar-nav.css');
-@import url('styles/dot-nav.css');
 @import url('styles/hero.css');
-@import url('styles/about.css');
-@import url('styles/interests.css');
 @import url('styles/coder.css');
+@import url('styles/diagonal-bg.css');
+@import url('styles/dot-nav.css');
 @import url('styles/footer.css');
 @import url('styles/terminal.css');

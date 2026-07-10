@@ -5,25 +5,19 @@
    ==================================== */
 
 /* --- Section Base --- */
-.section--coder {
-  --color-coder-bg: #FAFAFA;
-  --color-coder-text: #2D2D2D;
-  --color-coder-accent: #9B8EC4;
-  background-color: var(--color-coder-bg);
-  color: var(--color-coder-text);
-  padding: var(--space-12) var(--space-4) var(--space-24);
-  min-height: 100%;
-}
-
-.section--coder .panel__scroll {
+.section--opus {
+  background-color: #FAFAFA;
+  color: #2D2D2D;
+  padding: var(--space-16) var(--space-4);
   position: relative;
-  z-index: 1;
 }
 
-.section--coder .section__container {
+.section--opus .section__container {
   max-width: var(--max-width);
   margin: 0 auto;
   padding: 0 var(--space-4);
+  position: relative;
+  z-index: 1;
 }
 
 /* --- Section Heading --- */
@@ -87,6 +81,24 @@
   font-size: var(--text-2xl);
   color: var(--color-text-primary);
   margin-bottom: var(--space-6);
+  position: relative;
+  display: inline-block;
+}
+
+/* Stacked outline heading — colored stroke text behind/above */
+.coder__subsection-heading::before {
+  content: attr(data-heading);
+  position: absolute;
+  top: -0.35em;
+  left: 0.15em;
+  font-family: var(--font-heading);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--heading-accent, #C8B6E2);
+  pointer-events: none;
+  opacity: 0.6;
+  z-index: -1;
 }
 
 .coder__projects-grid {
@@ -380,216 +392,6 @@
 }
 
 /* ====================================
-   Opus Mondrian Background Blocks
-   Same pastel palette as hero, subtle and decorative.
-   ==================================== */
-.opus-blocks {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  overflow: hidden;
-}
-
-.opus-block {
-  position: absolute;
-  border-radius: 3px;
-  opacity: 0.35;
-}
-
-.opus-block--1 {
-  top: 5%;
-  right: 5%;
-  width: 80px;
-  height: 50px;
-  background-color: #C8B6E2;
-}
-
-.opus-block--2 {
-  top: 15%;
-  right: 15%;
-  width: 40px;
-  height: 80px;
-  background-color: #E8C4C4;
-}
-
-.opus-block--3 {
-  top: 35%;
-  right: 3%;
-  width: 60px;
-  height: 60px;
-  background-color: #D4E2D4;
-}
-
-.opus-block--4 {
-  top: 55%;
-  right: 10%;
-  width: 100px;
-  height: 35px;
-  background-color: #E6E0F3;
-}
-
-.opus-block--5 {
-  top: 70%;
-  right: 4%;
-  width: 45px;
-  height: 90px;
-  background-color: #C8B6E2;
-}
-
-.opus-block--6 {
-  bottom: 10%;
-  right: 12%;
-  width: 70px;
-  height: 45px;
-  background-color: #E8C4C4;
-}
-
-.opus-block--7 {
-  top: 25%;
-  left: 3%;
-  width: 30px;
-  height: 50px;
-  background-color: #D4E2D4;
-}
-
-.opus-block--8 {
-  bottom: 30%;
-  left: 5%;
-  width: 50px;
-  height: 30px;
-  background-color: #E6E0F3;
-}
-
-/* Center blocks */
-.opus-block--9 {
-  top: 20%;
-  left: 35%;
-  width: 45px;
-  height: 45px;
-  background-color: #E8C4C4;
-}
-
-.opus-block--10 {
-  top: 50%;
-  left: 45%;
-  width: 60px;
-  height: 35px;
-  background-color: #D4E2D4;
-}
-
-.opus-block--11 {
-  bottom: 35%;
-  left: 40%;
-  width: 35px;
-  height: 60px;
-  background-color: #C8B6E2;
-}
-
-/* Dense top-left to center cluster */
-.opus-block--12 {
-  top: 8%;
-  left: 10%;
-  width: 55px;
-  height: 40px;
-  background-color: #E6E0F3;
-}
-
-.opus-block--13 {
-  top: 3%;
-  left: 22%;
-  width: 35px;
-  height: 70px;
-  background-color: #C8B6E2;
-}
-
-.opus-block--14 {
-  top: 12%;
-  left: 30%;
-  width: 70px;
-  height: 30px;
-  background-color: #E8C4C4;
-}
-
-.opus-block--15 {
-  top: 6%;
-  left: 42%;
-  width: 40px;
-  height: 50px;
-  background-color: #D4E2D4;
-}
-
-.opus-block--16 {
-  top: 15%;
-  left: 18%;
-  width: 25px;
-  height: 25px;
-  background-color: #C8B6E2;
-  opacity: 0.5;
-}
-
-/* Outlined blocks */
-.opus-block--outline-1 {
-  top: 10%;
-  right: 8%;
-  width: 90px;
-  height: 60px;
-  border: 2px solid rgba(200, 182, 226, 0.5);
-  background: transparent;
-  opacity: 1;
-}
-
-.opus-block--outline-2 {
-  top: 45%;
-  right: 6%;
-  width: 55px;
-  height: 55px;
-  border: 2px solid rgba(232, 196, 196, 0.5);
-  background: transparent;
-  opacity: 1;
-}
-
-.opus-block--outline-3 {
-  bottom: 20%;
-  right: 15%;
-  width: 75px;
-  height: 40px;
-  border: 2px solid rgba(212, 226, 212, 0.5);
-  background: transparent;
-  opacity: 1;
-}
-
-.opus-block--outline-4 {
-  top: 5%;
-  left: 15%;
-  width: 80px;
-  height: 55px;
-  border: 2px solid rgba(200, 182, 226, 0.5);
-  background: transparent;
-  opacity: 1;
-}
-
-.opus-block--outline-5 {
-  top: 14%;
-  left: 35%;
-  width: 50px;
-  height: 45px;
-  border: 2px solid rgba(232, 196, 196, 0.5);
-  background: transparent;
-  opacity: 1;
-}
-
-.opus-block--outline-6 {
-  top: 8%;
-  left: 48%;
-  width: 65px;
-  height: 35px;
-  border: 2px solid rgba(212, 226, 212, 0.5);
-  background: transparent;
-  opacity: 1;
-}
-
-/* ====================================
    Opus About Me Section
    Sarita Smith inspired — text left, image right
    ==================================== */
@@ -598,7 +400,8 @@
   align-items: center;
   gap: var(--space-8);
   padding: var(--space-12) var(--space-8);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  max-width: var(--max-width);
+  margin: 0 auto;
 }
 
 .opus-about__text {

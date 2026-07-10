@@ -691,6 +691,8 @@ class ContentRenderer {
     const heading = document.createElement('h3');
     heading.className = 'coder__subsection-heading will-animate';
     heading.textContent = 'Education';
+    heading.setAttribute('data-heading', 'Education');
+    heading.style.setProperty('--heading-accent', '#C8B6E2');
     containerEl.appendChild(heading);
 
     if (!this._coderData.education) return;
@@ -727,6 +729,8 @@ class ContentRenderer {
     const heading = document.createElement('h3');
     heading.className = 'coder__subsection-heading will-animate';
     heading.textContent = 'Experience';
+    heading.setAttribute('data-heading', 'Experience');
+    heading.style.setProperty('--heading-accent', '#E8C4C4');
     containerEl.appendChild(heading);
 
     if (!this._coderData.experience) return;
@@ -777,6 +781,8 @@ class ContentRenderer {
     const heading = document.createElement('h3');
     heading.className = 'coder__subsection-heading will-animate';
     heading.textContent = 'Skills';
+    heading.setAttribute('data-heading', 'Skills');
+    heading.style.setProperty('--heading-accent', '#D4E2D4');
     containerEl.appendChild(heading);
 
     if (!this._coderData.skills) return;
@@ -848,6 +854,8 @@ class ContentRenderer {
     const heading = document.createElement('h3');
     heading.className = 'coder__subsection-heading will-animate';
     heading.textContent = 'Projects';
+    heading.setAttribute('data-heading', 'Projects');
+    heading.style.setProperty('--heading-accent', '#B8D4E8');
     containerEl.appendChild(heading);
 
     if (!this._coderData.projects) return;
@@ -897,6 +905,8 @@ class ContentRenderer {
     const heading = document.createElement('h3');
     heading.className = 'coder__subsection-heading will-animate';
     heading.textContent = 'Achievements';
+    heading.setAttribute('data-heading', 'Achievements');
+    heading.style.setProperty('--heading-accent', '#F5E6A3');
     containerEl.appendChild(heading);
 
     if (!this._coderData.achievements) return;
@@ -1141,24 +1151,43 @@ document.addEventListener('DOMContentLoaded', () => {
     console.warn('ThemeSystem failed to initialize:', e);
   }
 
-  // --- NavigationController ---
-  let navController;
+  // --- Simple smooth scroll navigation ---
   try {
-    navController = new NavigationController(
-      document.querySelector('.nav'),
-      document.querySelectorAll('.panel')
-    );
+    const navLinks = document.querySelectorAll('.nav__link');
+    const logo = document.querySelector('.nav__logo');
+    const mobileToggle = document.querySelector('.nav__mobile-toggle');
+    const navLinksContainer = document.querySelector('.nav__links');
 
-    // Hero label clicks → navigate to panels
-    document.querySelectorAll('.hero__label').forEach(label => {
-      label.addEventListener('click', (e) => {
+    navLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
         e.preventDefault();
-        const target = label.getAttribute('data-nav');
-        if (target && navController) {
-          navController.navigateTo(target);
+        const targetId = link.getAttribute('href').replace('#', '');
+        const target = document.getElementById(targetId);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+        // Close mobile menu
+        if (navLinksContainer.classList.contains('nav__links--open')) {
+          navLinksContainer.classList.remove('nav__links--open');
+          if (mobileToggle) mobileToggle.setAttribute('aria-expanded', 'false');
         }
       });
     });
+
+    if (logo) {
+      logo.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
+
+    if (mobileToggle) {
+      mobileToggle.addEventListener('click', () => {
+        const isOpen = navLinksContainer.classList.toggle('nav__links--open');
+        mobileToggle.setAttribute('aria-expanded', String(isOpen));
+        mobileToggle.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
+      });
+    }
 
     // Contact Me button → smooth scroll to footer
     const contactBtn = document.querySelector('.hero__btn--contact');
@@ -1172,77 +1201,61 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
   } catch (e) {
-    console.warn('NavigationController failed to initialize:', e);
+    console.warn('Navigation failed to initialize:', e);
   }
 
   // --- ContentRenderer ---
   try {
     const renderer = new ContentRenderer({ profileData, interestsData, coderData });
-    renderer.renderInterestCards(document.querySelector('.interests-grid'));
-    renderer.renderCoder(document.querySelector('#coder .section__container'));
+    renderer._renderEducation(document.querySelector('#opus-education .section__container'));
+    renderer._renderExperience(document.querySelector('#opus-experience .section__container'));
+    renderer._renderSkills(document.querySelector('#opus-skills .section__container'));
+    renderer._renderProjects(document.querySelector('#opus-projects .section__container'));
+    renderer._renderAchievements(document.querySelector('#opus-achievements .section__container'));
   } catch (e) {
     console.warn('ContentRenderer failed to initialize:', e);
-  }
-
-  // --- Clone footer into panel scroll containers ---
-  try {
-    const footer = document.querySelector('.footer');
-    if (footer) {
-      document.querySelectorAll('.panel__footer-slot').forEach(slot => {
-        const clone = footer.cloneNode(true);
-        clone.removeAttribute('id');
-        slot.appendChild(clone);
-      });
-    }
-  } catch (e) {
-    console.warn('Footer cloning failed:', e);
   }
 
   // --- Dot Nav scroll tracking & click handling ---
   try {
     const dotNavItems = document.querySelectorAll('.dot-nav__item');
-    const coderPanel = document.querySelector('#coder .panel__scroll');
 
     // Click handler: scroll to section
     dotNavItems.forEach(item => {
       item.addEventListener('click', () => {
         const targetId = item.getAttribute('data-target');
         const target = document.getElementById(targetId);
-        if (coderPanel && target) {
-          const targetTop = target.offsetTop - 80;
-          coderPanel.scrollTo({ top: targetTop, behavior: 'smooth' });
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
       });
     });
 
     // Scroll handler: update active dot
-    if (coderPanel) {
-      coderPanel.addEventListener('scroll', () => {
-        const scrollTop = coderPanel.scrollTop + 100;
-        let activeItem = dotNavItems[0];
+    window.addEventListener('scroll', () => {
+      const scrollTop = window.scrollY + 150;
+      let activeItem = dotNavItems[0];
 
-        dotNavItems.forEach(item => {
-          const targetId = item.getAttribute('data-target');
-          const target = document.getElementById(targetId);
-          if (target && target.offsetTop <= scrollTop) {
-            activeItem = item;
-          }
-        });
-
-        dotNavItems.forEach(item => item.classList.remove('dot-nav__item--active'));
-        if (activeItem) activeItem.classList.add('dot-nav__item--active');
+      dotNavItems.forEach(item => {
+        const targetId = item.getAttribute('data-target');
+        const target = document.getElementById(targetId);
+        if (target && target.offsetTop <= scrollTop) {
+          activeItem = item;
+        }
       });
-    }
+
+      dotNavItems.forEach(item => item.classList.remove('dot-nav__item--active'));
+      if (activeItem) activeItem.classList.add('dot-nav__item--active');
+    });
   } catch (e) {
     console.warn('Dot nav failed to initialize:', e);
   }
 
-  // --- AnimationSystem (after ContentRenderer so dynamically added .will-animate elements are observed) ---
+  // --- AnimationSystem ---
   try {
     const animSystem = new AnimationSystem({ threshold: 0.15, rootMargin: '0px 0px -50px 0px', once: true });
     animSystem.observe(document.querySelectorAll('.will-animate'), 'is-visible');
   } catch (e) {
-    // Fallback: remove .will-animate so content is visible without animation
     document.querySelectorAll('.will-animate').forEach(el => {
       el.classList.remove('will-animate');
     });
@@ -1260,7 +1273,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     landing.start();
   } catch (e) {
-    // Fallback: skip landing, show main content immediately
     const landing = document.querySelector('#landing');
     const mainWrapper = document.querySelector('#main-content');
     if (landing) {

@@ -1,0 +1,76 @@
+/* ====================================
+   Diagonal Background Treatment
+   Blocks + watermark per section.
+   ==================================== */
+
+.section--diagonal {
+  position: relative;
+  overflow: hidden;
+  min-height: 400px;
+}
+
+.diagonal-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Watermark text */
+.diagonal-bg__text {
+  position: absolute;
+  font-family: var(--font-heading);
+  font-size: clamp(4rem, 12vw, 10rem);
+  font-weight: 700;
+  opacity: 0.06;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  color: var(--color-text-primary);
+  line-height: 1;
+}
+
+.section--diagonal-odd .diagonal-bg__text {
+  bottom: 10%;
+  right: 5%;
+}
+
+.section--diagonal-even .diagonal-bg__text {
+  top: 10%;
+  left: 5%;
+}
+
+/* Block elements */
+.dblock {
+  position: absolute;
+  border-radius: 2px;
+}
+
+.dblock--filled {
+  opacity: 0.35;
+}
+
+.dblock--outline {
+  background: transparent;
+  border: 2px solid;
+  opacity: 0.5;
+}
+
+/* Content on top */
+.section--diagonal .section__container {
+  position: relative;
+  z-index: 1;
+}
+
+/* ====================================
+   Responsive
+   ==================================== */
+@media (max-width: 767px) {
+  .diagonal-bg__text {
+    font-size: clamp(2.5rem, 15vw, 5rem);
+    opacity: 0.04;
+  }
+
+  .dblock {
+    display: none;
+  }
+}
