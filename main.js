@@ -678,99 +678,282 @@ class ContentRenderer {
     containerEl.appendChild(achieveSection);
   }
 
-  _renderEducation(containerEl) {
-    const heading = document.createElement('h3');
-    heading.className = 'coder__subsection-heading will-animate';
-    heading.textContent = 'Education';
-    containerEl.appendChild(heading);
+  _createScrollWrap(scrollRow) {
+    const wrap = document.createElement('div');
+    wrap.className = 'hscroll-wrap';
 
-    if (!this._coderData.education) return;
+    const leftArrow = document.createElement('button');
+    leftArrow.className = 'hscroll-arrow hscroll-arrow--left';
+    leftArrow.setAttribute('aria-label', 'Scroll left');
+    leftArrow.innerHTML = '<span class="mss">chevron_left</span>';
 
-    const timeline = document.createElement('div');
-    timeline.className = 'coder__timeline-list';
+    const rightArrow = document.createElement('button');
+    rightArrow.className = 'hscroll-arrow hscroll-arrow--right';
+    rightArrow.setAttribute('aria-label', 'Scroll right');
+    rightArrow.innerHTML = '<span class="mss">chevron_right</span>';
 
-    this._coderData.education.forEach(edu => {
-      const item = document.createElement('div');
-      item.className = 'coder__timeline-item will-animate';
+    // Only enable scrolling and arrows if more than 4 tiles
+    const tileCount = scrollRow.children.length;
+    if (tileCount > 4) {
+      scrollRow.classList.add('hscroll-row--scrollable');
+      wrap.classList.add('hscroll-wrap--scrollable');
 
-      const marker = document.createElement('div');
-      marker.className = 'coder__timeline-marker';
-      marker.setAttribute('aria-hidden', 'true');
+      leftArrow.addEventListener('click', () => {
+        scrollRow.scrollLeft -= 300;
+      });
 
-      const content = document.createElement('div');
-      content.className = 'coder__timeline-content';
+      rightArrow.addEventListener('click', () => {
+        scrollRow.scrollLeft += 300;
+      });
+    }
 
-      const year = document.createElement('span');
-      year.className = 'coder__timeline-year';
-      year.textContent = edu.year;
+    wrap.appendChild(leftArrow);
+    wrap.appendChild(scrollRow);
+    wrap.appendChild(rightArrow);
+    return wrap;
+  }
+
+  /**
+   * Generic tile renderer — builds horizontal scroll tiles from any data array.
+   * Each item can have: title, meta (year), subtitle, description, tags[], links[]
+   * Tiles show compact view; clicking opens a detail popup.
+   */
+  _renderTileSection(containerEl, heading, items, clickable = false) {
+    const h = document.createElement('h3');
+    h.className = 'coder__subsection-heading will-animate';
+    h.textContent = heading;
+    containerEl.appendChild(h);
+
+    if (!items || items.length === 0) return;
+
+    const scrollRow = document.createElement('div');
+    scrollRow.className = 'hscroll-row';
+
+    items.forEach(item => {
+      const tile = document.createElement('div');
+      tile.className = 'hscroll-tile will-animate';
+      tile.style.cursor = clickable ? 'pointer' : 'default';
+
+      // Header row: title (left) + meta/year (right)
+      const header = document.createElement('div');
+      header.className = 'hscroll-tile__header';
 
       const title = document.createElement('h4');
-      title.className = 'coder__timeline-title';
-      title.textContent = edu.degree;
+      title.className = 'hscroll-tile__title';
+      title.textContent = item.title || '';
+      header.appendChild(title);
 
-      const company = document.createElement('span');
-      company.className = 'coder__timeline-company';
-      company.textContent = edu.institution;
+      if (item.meta) {
+        const meta = document.createElement('span');
+        meta.className = 'hscroll-tile__meta';
+        meta.textContent = item.meta;
+        header.appendChild(meta);
+      }
 
-      content.appendChild(year);
-      content.appendChild(title);
-      content.appendChild(company);
-      item.appendChild(marker);
-      item.appendChild(content);
-      timeline.appendChild(item);
+      tile.appendChild(header);
+
+      if (item.subtitle) {
+        const sub = document.createElement('span');
+        sub.className = 'hscroll-tile__sub';
+        sub.textContent = item.subtitle;
+        tile.appendChild(sub);
+      }
+
+      // Show tags on the compact tile too
+      if (item.tags && item.tags.length > 0) {
+        const tagsWrap = document.createElement('div');
+        tagsWrap.className = 'hscroll-tile__tags';
+        item.tags.forEach(t => {
+          const tag = document.createElement('span');
+          tag.className = 'hscroll-tile__tag';
+          tag.textContent = t;
+          tagsWrap.appendChild(tag);
+        });
+        tile.appendChild(tagsWrap);
+      }
+
+      // Click to open detail popup (only for clickable sections)
+      if (clickable) {
+        tile.addEventListener('click', (e) => {
+          e.stopPropagation();
+          // Remove existing popup
+          const existing = document.querySelector('.tile-detail-overlay');
+          if (existing) existing.remove();
+
+          const overlay = document.createElement('div');
+          overlay.className = 'tile-detail-overlay';
+
+          const card = document.createElement('div');
+          card.className = 'tile-detail-card';
+
+          // Close button
+          const closeBtn = document.createElement('button');
+          closeBtn.className = 'tile-detail__close';
+          closeBtn.innerHTML = '<span class="mss">close</span>';
+          closeBtn.addEventListener('click', () => overlay.remove());
+          card.appendChild(closeBtn);
+
+          // Title + GitHub link header
+          const hdr = document.createElement('div');
+          hdr.className = 'tile-detail__header';
+          const t = document.createElement('h3');
+          t.className = 'tile-detail__title';
+          t.textContent = item.title || '';
+          hdr.appendChild(t);
+          if (item.links && item.links.length > 0) {
+            const ghLink = document.createElement('a');
+            ghLink.className = 'tile-detail__github';
+            ghLink.href = item.links[0].url;
+            ghLink.target = '_blank';
+            ghLink.rel = 'noopener noreferrer';
+            ghLink.setAttribute('aria-label', 'GitHub repository');
+            ghLink.innerHTML = '<img src="assets/github.png" alt="GitHub" class="tile-detail__github-icon">';
+            hdr.appendChild(ghLink);
+          }
+          card.appendChild(hdr);
+
+          if (item.subtitle) {
+            const s = document.createElement('p');
+            s.className = 'tile-detail__sub';
+            s.textContent = item.subtitle;
+            card.appendChild(s);
+          }
+          if (item.description) {
+            const d = document.createElement('p');
+            d.className = 'tile-detail__desc';
+            d.textContent = item.description;
+            card.appendChild(d);
+          }
+          if (item.tags && item.tags.length > 0) {
+            const tw = document.createElement('div');
+            tw.className = 'tile-detail__tags';
+            item.tags.forEach(tg => {
+              const sp = document.createElement('span');
+              sp.className = 'tile-detail__tag';
+              sp.textContent = tg;
+              tw.appendChild(sp);
+            });
+            card.appendChild(tw);
+          }
+          overlay.appendChild(card);
+          overlay.addEventListener('click', (ev) => {
+            if (ev.target === overlay) overlay.remove();
+          });
+          document.body.appendChild(overlay);
+        });
+      }
+
+      scrollRow.appendChild(tile);
     });
 
-    containerEl.appendChild(timeline);
+    containerEl.appendChild(this._createScrollWrap(scrollRow));
+  }
+
+  _showTileDetail(item) {
+    // Remove existing popup if any
+    const existing = document.querySelector('.tile-detail-overlay');
+    if (existing) existing.remove();
+
+    const overlay = document.createElement('div');
+    overlay.className = 'tile-detail-overlay';
+
+    const card = document.createElement('div');
+    card.className = 'tile-detail-card';
+
+    // Close button
+    const closeBtn = document.createElement('button');
+    closeBtn.className = 'tile-detail__close';
+    closeBtn.innerHTML = '<span class="mss">close</span>';
+    closeBtn.setAttribute('aria-label', 'Close');
+    closeBtn.addEventListener('click', () => overlay.remove());
+    card.appendChild(closeBtn);
+
+    // Header
+    const header = document.createElement('div');
+    header.className = 'tile-detail__header';
+
+    const title = document.createElement('h3');
+    title.className = 'tile-detail__title';
+    title.textContent = item.title || '';
+    header.appendChild(title);
+
+    if (item.meta) {
+      const meta = document.createElement('span');
+      meta.className = 'tile-detail__meta';
+      meta.textContent = item.meta;
+      header.appendChild(meta);
+    }
+    card.appendChild(header);
+
+    if (item.subtitle) {
+      const sub = document.createElement('p');
+      sub.className = 'tile-detail__sub';
+      sub.textContent = item.subtitle;
+      card.appendChild(sub);
+    }
+
+    if (item.description) {
+      const desc = document.createElement('p');
+      desc.className = 'tile-detail__desc';
+      desc.textContent = item.description;
+      card.appendChild(desc);
+    }
+
+    if (item.tags && item.tags.length > 0) {
+      const tagsWrap = document.createElement('div');
+      tagsWrap.className = 'tile-detail__tags';
+      item.tags.forEach(t => {
+        const tag = document.createElement('span');
+        tag.className = 'tile-detail__tag';
+        tag.textContent = t;
+        tagsWrap.appendChild(tag);
+      });
+      card.appendChild(tagsWrap);
+    }
+
+    if (item.links && item.links.length > 0) {
+      const linksWrap = document.createElement('div');
+      linksWrap.className = 'tile-detail__links';
+      item.links.forEach(l => {
+        const link = document.createElement('a');
+        link.className = 'tile-detail__link';
+        link.href = l.url;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        link.textContent = l.label || 'View →';
+        linksWrap.appendChild(link);
+      });
+      card.appendChild(linksWrap);
+    }
+
+    overlay.appendChild(card);
+
+    // Close on overlay background click
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) overlay.remove();
+    });
+
+    document.body.appendChild(overlay);
+  }
+
+  _renderEducation(containerEl) {
+    const items = (this._coderData.education || []).map(edu => ({
+      title: edu.degree,
+      meta: edu.year,
+      subtitle: edu.institution,
+      description: edu.description
+    }));
+    this._renderTileSection(containerEl, 'Education', items);
   }
 
   _renderExperience(containerEl) {
-    const heading = document.createElement('h3');
-    heading.className = 'coder__subsection-heading will-animate';
-    heading.textContent = 'Experience';
-    containerEl.appendChild(heading);
-
-    if (!this._coderData.experience) return;
-
-    const timeline = document.createElement('div');
-    timeline.className = 'coder__timeline-list';
-
-    this._coderData.experience.forEach(entry => {
-      const item = document.createElement('div');
-      item.className = 'coder__timeline-item will-animate';
-
-      const marker = document.createElement('div');
-      marker.className = 'coder__timeline-marker';
-      marker.setAttribute('aria-hidden', 'true');
-
-      const content = document.createElement('div');
-      content.className = 'coder__timeline-content';
-
-      const year = document.createElement('span');
-      year.className = 'coder__timeline-year';
-      year.textContent = entry.year;
-
-      const title = document.createElement('h4');
-      title.className = 'coder__timeline-title';
-      title.textContent = entry.title;
-
-      const company = document.createElement('span');
-      company.className = 'coder__timeline-company';
-      company.textContent = entry.company;
-
-      const desc = document.createElement('p');
-      desc.className = 'coder__timeline-description';
-      desc.textContent = entry.description;
-
-      content.appendChild(year);
-      content.appendChild(title);
-      content.appendChild(company);
-      content.appendChild(desc);
-      item.appendChild(marker);
-      item.appendChild(content);
-      timeline.appendChild(item);
-    });
-
-    containerEl.appendChild(timeline);
+    const items = (this._coderData.experience || []).map(entry => ({
+      title: entry.title,
+      meta: entry.year,
+      subtitle: entry.company,
+      description: entry.description
+    }));
+    this._renderTileSection(containerEl, 'Experience', items, true);
   }
 
   _renderSkills(containerEl) {
@@ -878,83 +1061,23 @@ class ContentRenderer {
   }
 
   _renderProjects(containerEl) {
-    const heading = document.createElement('h3');
-    heading.className = 'coder__subsection-heading will-animate';
-    heading.textContent = 'Projects';
-    containerEl.appendChild(heading);
-
-    if (!this._coderData.projects) return;
-
-    const grid = document.createElement('div');
-    grid.className = 'coder__projects-grid';
-
-    this._coderData.projects.forEach(project => {
-      const card = document.createElement('article');
-      card.className = 'coder__project-card will-animate';
-
-      const title = document.createElement('h4');
-      title.className = 'coder__project-title';
-      title.textContent = project.title;
-
-      const desc = document.createElement('p');
-      desc.className = 'coder__project-description';
-      desc.textContent = project.description;
-
-      const techList = document.createElement('div');
-      techList.className = 'coder__project-tech';
-      project.tech.forEach(t => {
-        const tag = document.createElement('span');
-        tag.className = 'coder__project-tech-tag';
-        tag.textContent = t;
-        techList.appendChild(tag);
-      });
-
-      const link = document.createElement('a');
-      link.className = 'coder__project-link';
-      link.href = project.link;
-      link.target = '_blank';
-      link.rel = 'noopener noreferrer';
-      link.textContent = 'View →';
-
-      card.appendChild(title);
-      card.appendChild(desc);
-      card.appendChild(techList);
-      card.appendChild(link);
-      grid.appendChild(card);
-    });
-
-    containerEl.appendChild(grid);
+    const items = (this._coderData.projects || []).map(project => ({
+      title: project.title,
+      meta: project.year,
+      description: project.description,
+      tags: project.tech,
+      links: [{ url: project.link, label: 'View →' }]
+    }));
+    this._renderTileSection(containerEl, 'Projects', items, true);
   }
 
   _renderAchievements(containerEl) {
-    const heading = document.createElement('h3');
-    heading.className = 'coder__subsection-heading will-animate';
-    heading.textContent = 'Achievements';
-    containerEl.appendChild(heading);
-
-    if (!this._coderData.achievements) return;
-
-    this._coderData.achievements.forEach(item => {
-      const card = document.createElement('div');
-      card.className = 'coder__achievement-card will-animate';
-
-      const title = document.createElement('h4');
-      title.className = 'coder__achievement-title';
-      title.textContent = item.title;
-
-      const event = document.createElement('span');
-      event.className = 'coder__achievement-event';
-      event.textContent = item.event;
-
-      const desc = document.createElement('p');
-      desc.className = 'coder__achievement-description';
-      desc.textContent = item.description;
-
-      card.appendChild(title);
-      card.appendChild(event);
-      card.appendChild(desc);
-      containerEl.appendChild(card);
-    });
+    const items = (this._coderData.achievements || []).map(item => ({
+      title: item.title,
+      meta: item.event,
+      description: item.description
+    }));
+    this._renderTileSection(containerEl, 'Achievements', items);
   }
 
   _renderProfiles(containerEl) {
