@@ -93,27 +93,3 @@
     display: none;
   }
 }
-
-/* ====================================
-   Section Dividers
-   Diagonal block bridges between sections
-   ==================================== */
-.section-divider {
-  position: relative;
-  height: 100px;
-  width: 100%;
-  pointer-events: none;
-  z-index: 5;
-}
-
-.section-divider__block {
-  position: absolute;
-  border-radius: 3px;
-  opacity: 0.55;
-}
-
-.section-divider__block--outline {
-  background: transparent !important;
-  border: 2px solid;
-  opacity: 0.5;
-}

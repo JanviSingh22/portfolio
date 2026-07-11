@@ -763,6 +763,13 @@ class ContentRenderer {
       if (item.tags && item.tags.length > 0) {
         const tagsWrap = document.createElement('div');
         tagsWrap.className = 'hscroll-tile__tags';
+        // Add a label before tags if there's a tagsLabel
+        if (item.tagsLabel && !item.projectTags) {
+          const label = document.createElement('span');
+          label.className = 'hscroll-tile__tags-label';
+          label.textContent = item.tagsLabel;
+          tagsWrap.appendChild(label);
+        }
         item.tags.forEach(t => {
           const tag = document.createElement('span');
           tag.className = 'hscroll-tile__tag';
@@ -790,7 +797,7 @@ class ContentRenderer {
           const closeBtn = document.createElement('button');
           closeBtn.className = 'tile-detail__close';
           closeBtn.innerHTML = '<span class="mss">close</span>';
-          closeBtn.addEventListener('click', () => overlay.remove());
+          closeBtn.addEventListener('click', () => { overlay.remove(); document.body.classList.remove('popup-open'); });
           card.appendChild(closeBtn);
 
           // Title + GitHub link header
@@ -837,9 +844,10 @@ class ContentRenderer {
           }
           overlay.appendChild(card);
           overlay.addEventListener('click', (ev) => {
-            if (ev.target === overlay) overlay.remove();
+            if (ev.target === overlay) { overlay.remove(); document.body.classList.remove('popup-open'); }
           });
           document.body.appendChild(overlay);
+          document.body.classList.add('popup-open');
         });
       }
 
@@ -865,7 +873,7 @@ class ContentRenderer {
     closeBtn.className = 'tile-detail__close';
     closeBtn.innerHTML = '<span class="mss">close</span>';
     closeBtn.setAttribute('aria-label', 'Close');
-    closeBtn.addEventListener('click', () => overlay.remove());
+    closeBtn.addEventListener('click', () => { overlay.remove(); document.body.classList.remove('popup-open'); });
     card.appendChild(closeBtn);
 
     // Header
@@ -930,30 +938,203 @@ class ContentRenderer {
 
     // Close on overlay background click
     overlay.addEventListener('click', (e) => {
-      if (e.target === overlay) overlay.remove();
+      if (e.target === overlay) { overlay.remove(); document.body.classList.remove('popup-open'); }
     });
 
     document.body.appendChild(overlay);
+    document.body.classList.add('popup-open');
   }
 
   _renderEducation(containerEl) {
     const items = (this._coderData.education || []).map(edu => ({
-      title: edu.degree,
-      meta: edu.year,
-      subtitle: edu.institution,
-      description: edu.description
+      title: edu.title,
+      meta: edu.duration,
+      subtitle: edu.subtitle
     }));
     this._renderTileSection(containerEl, 'Education', items);
   }
 
   _renderExperience(containerEl) {
-    const items = (this._coderData.experience || []).map(entry => ({
-      title: entry.title,
-      meta: entry.year,
-      subtitle: entry.company,
-      description: entry.description
-    }));
-    this._renderTileSection(containerEl, 'Experience', items, true);
+    const h = document.createElement('h3');
+    h.className = 'coder__subsection-heading will-animate';
+    h.textContent = 'Experience';
+    containerEl.appendChild(h);
+
+    const experiences = this._coderData.experience || [];
+    if (experiences.length === 0) return;
+
+    const scrollRow = document.createElement('div');
+    scrollRow.className = 'hscroll-row';
+
+    experiences.forEach(entry => {
+      const tile = document.createElement('div');
+      tile.className = 'hscroll-tile will-animate';
+      tile.style.cursor = 'pointer';
+
+      // Header: company (left) + duration (right)
+      const header = document.createElement('div');
+      header.className = 'hscroll-tile__header';
+      const title = document.createElement('h4');
+      title.className = 'hscroll-tile__title';
+      title.textContent = entry.company;
+      header.appendChild(title);
+      const meta = document.createElement('span');
+      meta.className = 'hscroll-tile__meta';
+      meta.textContent = entry.duration;
+      header.appendChild(meta);
+      tile.appendChild(header);
+
+      // Role subtitle
+      const sub = document.createElement('span');
+      sub.className = 'hscroll-tile__sub';
+      sub.textContent = entry.role;
+      tile.appendChild(sub);
+
+      // Project names as tags
+      if (entry.projects && entry.projects.length > 0) {
+        const tagsWrap = document.createElement('div');
+        tagsWrap.className = 'hscroll-tile__tags';
+        const label = document.createElement('span');
+        label.className = 'hscroll-tile__tags-label';
+        label.textContent = 'Projects:';
+        tagsWrap.appendChild(label);
+        entry.projects.forEach(proj => {
+          const tag = document.createElement('span');
+          tag.className = 'hscroll-tile__tag';
+          tag.textContent = proj.name;
+          tagsWrap.appendChild(tag);
+        });
+        tile.appendChild(tagsWrap);
+      }
+
+      // Click → open experience popup with full project details
+      tile.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const existing = document.querySelector('.tile-detail-overlay');
+        if (existing) existing.remove();
+
+        const overlay = document.createElement('div');
+        overlay.className = 'tile-detail-overlay';
+
+        const card = document.createElement('div');
+        card.className = 'tile-detail-card';
+
+        // Close button
+        const closeBtn = document.createElement('button');
+        closeBtn.className = 'tile-detail__close';
+        closeBtn.setAttribute('aria-label', 'Close');
+        closeBtn.innerHTML = '<span class="mss">close</span>';
+        closeBtn.addEventListener('click', () => { overlay.remove(); document.body.classList.remove('popup-open'); });
+        card.appendChild(closeBtn);
+
+        // Header: company + duration
+        const popupHeader = document.createElement('div');
+        popupHeader.className = 'tile-detail__header';
+        const popupTitle = document.createElement('h3');
+        popupTitle.className = 'tile-detail__title';
+        popupTitle.textContent = entry.company;
+        popupHeader.appendChild(popupTitle);
+        const popupMeta = document.createElement('span');
+        popupMeta.className = 'tile-detail__meta';
+        popupMeta.textContent = entry.duration;
+        popupHeader.appendChild(popupMeta);
+        card.appendChild(popupHeader);
+
+        // Role
+        const popupRole = document.createElement('p');
+        popupRole.className = 'tile-detail__subtitle';
+        popupRole.textContent = entry.role;
+        card.appendChild(popupRole);
+
+        // Projects heading
+        const projHeading = document.createElement('h4');
+        projHeading.className = 'tile-detail__projects-heading';
+        projHeading.textContent = 'Projects';
+        card.appendChild(projHeading);
+
+        // Each project as a stacked card
+        entry.projects.forEach(proj => {
+          const projCard = document.createElement('div');
+          projCard.className = 'tile-detail__project-card';
+
+          // Project name + GitHub link
+          const projHeader = document.createElement('div');
+          projHeader.className = 'tile-detail__project-header';
+          const projName = document.createElement('span');
+          projName.className = 'tile-detail__project-name';
+          projName.textContent = proj.name;
+          projHeader.appendChild(projName);
+          if (proj.link) {
+            const ghLink = document.createElement('a');
+            ghLink.href = proj.link;
+            ghLink.target = '_blank';
+            ghLink.rel = 'noopener noreferrer';
+            ghLink.className = 'tile-detail__project-link';
+            ghLink.innerHTML = '<img src="assets/github.png" alt="GitHub" width="18" height="18">';
+            projHeader.appendChild(ghLink);
+          }
+          if (proj.duration) {
+            const projDur = document.createElement('span');
+            projDur.className = 'tile-detail__project-duration';
+            projDur.textContent = proj.duration;
+            projHeader.appendChild(projDur);
+          }
+          projCard.appendChild(projHeader);
+
+          // Subtitle (e.g. "Control Tower")
+          if (proj.subtitle) {
+            const projSub = document.createElement('p');
+            projSub.className = 'tile-detail__project-subtitle';
+            projSub.textContent = proj.subtitle;
+            projCard.appendChild(projSub);
+          }
+
+          // Description (array = bullet points, string = paragraph)
+          if (Array.isArray(proj.description)) {
+            const ul = document.createElement('ul');
+            ul.className = 'tile-detail__project-points';
+            proj.description.forEach(point => {
+              const li = document.createElement('li');
+              li.textContent = point;
+              ul.appendChild(li);
+            });
+            projCard.appendChild(ul);
+          } else if (proj.description) {
+            const projDesc = document.createElement('p');
+            projDesc.className = 'tile-detail__project-desc';
+            projDesc.textContent = proj.description;
+            projCard.appendChild(projDesc);
+          }
+
+          // Tech tags
+          if (proj.tech && proj.tech.length > 0) {
+            const techWrap = document.createElement('div');
+            techWrap.className = 'tile-detail__project-tags';
+            proj.tech.forEach(t => {
+              const techTag = document.createElement('span');
+              techTag.className = 'tile-detail__tag';
+              techTag.textContent = t;
+              techWrap.appendChild(techTag);
+            });
+            projCard.appendChild(techWrap);
+          }
+
+          card.appendChild(projCard);
+        });
+
+        overlay.appendChild(card);
+        overlay.addEventListener('click', (ev) => {
+          if (ev.target === overlay) { overlay.remove(); document.body.classList.remove('popup-open'); }
+        });
+        document.body.appendChild(overlay);
+        document.body.classList.add('popup-open');
+      });
+
+      scrollRow.appendChild(tile);
+    });
+
+    const wrap = this._createScrollWrap(scrollRow);
+    containerEl.appendChild(wrap);
   }
 
   _renderSkills(containerEl) {
@@ -1279,7 +1460,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // --- Navigation: scroll state + floating menu ---
   try {
     const nav = document.querySelector('.nav');
-    const navLinks = document.querySelectorAll('.nav__link');
     const logo = document.querySelector('.nav__logo');
     const floatingCta = document.querySelector('.floating-cta');
     const menuBtn = document.querySelector('.nav__menu-toggle');
@@ -1295,26 +1475,14 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // Nav links smooth scroll
-    navLinks.forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const targetId = link.getAttribute('href').replace('#', '');
-        const target = document.getElementById(targetId);
-        if (target) target.scrollIntoView({ behavior: 'smooth' });
-      });
-    });
-
-    // Scroll detection: switch nav state + show/hide floating circles
+    // Scroll detection: show/hide floating circles
     const handleScroll = () => {
       const heroBottom = heroSection ? heroSection.offsetTop + heroSection.offsetHeight : 500;
       const scrolled = window.scrollY > heroBottom - 100;
 
       if (scrolled) {
-        nav.classList.add('nav--scrolled');
         floatingCta.classList.remove('floating-cta--hidden');
       } else {
-        nav.classList.remove('nav--scrolled');
         floatingCta.classList.add('floating-cta--hidden');
         // Close menu if open
         floatingMenu.classList.add('floating-menu--hidden');

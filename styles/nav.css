@@ -37,28 +37,7 @@
   color: var(--color-about-accent);
 }
 
-/* --- Hero state: nav links --- */
-.nav__links {
-  display: flex;
-  align-items: center;
-  gap: var(--space-8);
-}
-
-.nav__link {
-  font-family: var(--font-body);
-  font-size: var(--text-sm);
-  font-weight: 500;
-  color: var(--color-text-primary);
-  text-decoration: none;
-  opacity: 0.7;
-  transition: opacity var(--duration-fast);
-}
-
-.nav__link:hover {
-  opacity: 1;
-}
-
-/* --- Scrolled state: slogan (hidden by default) --- */
+/* --- Slogan --- */
 .nav__slogan {
   font-family: 'Dancing Script', cursive;
   font-size: var(--text-lg);
@@ -66,20 +45,6 @@
   opacity: 0.8;
   margin: 0;
   letter-spacing: 0.02em;
-  transition: opacity 300ms ease;
-}
-
-.nav__slogan--hidden {
-  display: none;
-}
-
-/* When scrolled: hide links, show slogan */
-.nav--scrolled .nav__links {
-  display: none;
-}
-
-.nav--scrolled .nav__slogan {
-  display: block;
 }
 
 /* --- Theme toggle --- */
@@ -232,14 +197,6 @@
    Responsive
    ==================================== */
 @media (max-width: 767px) {
-  .nav__links {
-    gap: var(--space-4);
-  }
-
-  .nav__link {
-    font-size: var(--text-xs);
-  }
-
   .nav__slogan {
     font-size: var(--text-sm);
   }
