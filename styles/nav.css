@@ -103,6 +103,27 @@
   color: var(--color-text-primary);
 }
 
+/* --- Nav menu toggle (hamburger in nav bar) --- */
+.nav__menu-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: var(--text-lg);
+  color: var(--color-text-secondary);
+  transition: background-color var(--duration-fast), color var(--duration-fast);
+}
+
+.nav__menu-toggle:hover {
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text-primary);
+}
+
 /* ====================================
    Floating Circles (menu + contact + resume)
    Hidden when on hero, visible when scrolled
@@ -157,43 +178,50 @@
    ==================================== */
 .floating-menu {
   position: fixed;
-  bottom: calc(var(--space-8) + 56px + var(--space-4) + 56px + var(--space-4) + 56px + var(--space-4));
+  top: calc(var(--nav-height) + var(--space-4));
   right: var(--space-8);
-  background-color: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-radius: 16px;
-  padding: var(--space-4) var(--space-5);
   display: flex;
   flex-direction: column;
+  align-items: flex-end;
   gap: var(--space-2);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
   z-index: 101;
   transition: opacity 200ms ease, transform 200ms ease;
+  background: none;
+  box-shadow: none;
+  padding: 0;
 }
 
 [data-theme="dark"] .floating-menu {
-  background-color: rgba(30, 30, 30, 0.95);
+  background: none;
 }
 
 .floating-menu--hidden {
   opacity: 0;
   pointer-events: none;
-  transform: translateY(10px);
+  transform: translateX(20px);
 }
 
 .floating-menu__link {
   font-family: var(--font-heading);
-  font-size: var(--text-base);
-  color: var(--color-text-primary);
+  font-size: var(--text-sm);
+  color: #000000;
   text-decoration: none;
-  padding: var(--space-2) var(--space-3);
-  border-radius: 8px;
-  transition: background-color var(--duration-fast);
+  padding: var(--space-2) var(--space-4);
+  border-radius: 999px;
+  border: 1.5px solid #000000;
+  background-color: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: transform var(--duration-fast) var(--ease-out),
+              box-shadow var(--duration-fast) var(--ease-out),
+              background-color var(--duration-fast);
+  white-space: nowrap;
 }
 
 .floating-menu__link:hover {
-  background-color: rgba(200, 182, 226, 0.15);
+  transform: translateX(-4px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background-color: rgba(200, 182, 226, 0.25);
 }
 
 .floating-menu__link--current {
@@ -232,5 +260,6 @@
 
   .floating-menu {
     right: var(--space-4);
+    top: calc(var(--nav-height) + var(--space-2));
   }
 }

@@ -57,6 +57,7 @@
 .dblock {
   position: absolute;
   border-radius: 2px;
+  transform: scale(1.8);
 }
 
 .dblock--filled {
@@ -102,6 +103,7 @@
   height: 100px;
   width: 100%;
   pointer-events: none;
+  z-index: 5;
 }
 
 .section-divider__block {

@@ -964,99 +964,78 @@ class ContentRenderer {
 
     if (!this._coderData.skills) return;
 
-    // Technical skills
-    const techBlock = document.createElement('div');
-    techBlock.className = 'coder__skill-category will-animate';
+    const categories = [
+      { label: 'Languages', data: this._coderData.skills.languages },
+      { label: 'Frameworks', data: this._coderData.skills.frameworks },
+      { label: 'Tools', data: this._coderData.skills.tools },
+      { label: 'Non-Technical', data: this._coderData.skills.nonTechnical, soft: true }
+    ];
 
-    const techHeadingWrap = document.createElement('div');
-    techHeadingWrap.className = 'coder__skill-category-header';
+    categories.forEach(cat => {
+      if (!cat.data || cat.data.length === 0) return;
 
-    const techStar = document.createElement('span');
-    techStar.className = 'coder__star mss';
-    techStar.setAttribute('aria-hidden', 'true');
-    techStar.textContent = 'star';
+      const block = document.createElement('div');
+      block.className = 'coder__skill-category will-animate';
 
-    const techHeading = document.createElement('h4');
-    techHeading.className = 'coder__skill-category-heading';
-    techHeading.textContent = 'Technical';
+      const headWrap = document.createElement('div');
+      headWrap.className = 'coder__skill-category-header';
 
-    techHeadingWrap.appendChild(techStar);
-    techHeadingWrap.appendChild(techHeading);
-    techBlock.appendChild(techHeadingWrap);
+      const star = document.createElement('span');
+      star.className = 'coder__star mss';
+      star.setAttribute('aria-hidden', 'true');
+      star.textContent = 'star';
 
-    const techTags = document.createElement('div');
-    techTags.className = 'coder__skill-tags';
-    this._coderData.skills.technical.forEach(skill => {
-      const tag = document.createElement('span');
-      tag.className = 'coder__skill-tag';
-      tag.textContent = skill.name;
-      techTags.appendChild(tag);
+      const h = document.createElement('h4');
+      h.className = 'coder__skill-category-heading';
+      h.textContent = cat.label;
+
+      headWrap.appendChild(star);
+      headWrap.appendChild(h);
+      block.appendChild(headWrap);
+
+      const tags = document.createElement('div');
+      tags.className = 'coder__skill-tags';
+      cat.data.forEach(skill => {
+        const tag = document.createElement('span');
+        tag.className = cat.soft ? 'coder__skill-tag coder__skill-tag--soft' : 'coder__skill-tag';
+        tag.textContent = skill.name;
+        tags.appendChild(tag);
+      });
+      block.appendChild(tags);
+      containerEl.appendChild(block);
     });
-    techBlock.appendChild(techTags);
-    containerEl.appendChild(techBlock);
 
-    // Non-technical skills
-    const softBlock = document.createElement('div');
-    softBlock.className = 'coder__skill-category will-animate';
+    // Coursework
+    if (this._coderData.coursework && this._coderData.coursework.length > 0) {
+      const cwBlock = document.createElement('div');
+      cwBlock.className = 'coder__skill-category will-animate';
 
-    const softHeadingWrap = document.createElement('div');
-    softHeadingWrap.className = 'coder__skill-category-header';
+      const cwHeadWrap = document.createElement('div');
+      cwHeadWrap.className = 'coder__skill-category-header';
 
-    const softStar = document.createElement('span');
-    softStar.className = 'coder__star mss';
-    softStar.setAttribute('aria-hidden', 'true');
-    softStar.textContent = 'star';
+      const cwStar = document.createElement('span');
+      cwStar.className = 'coder__star mss';
+      cwStar.setAttribute('aria-hidden', 'true');
+      cwStar.textContent = 'star';
 
-    const softHeading = document.createElement('h4');
-    softHeading.className = 'coder__skill-category-heading';
-    softHeading.textContent = 'Non-Technical';
+      const cwH = document.createElement('h4');
+      cwH.className = 'coder__skill-category-heading';
+      cwH.textContent = 'Coursework (2021 – 2025)';
 
-    softHeadingWrap.appendChild(softStar);
-    softHeadingWrap.appendChild(softHeading);
-    softBlock.appendChild(softHeadingWrap);
+      cwHeadWrap.appendChild(cwStar);
+      cwHeadWrap.appendChild(cwH);
+      cwBlock.appendChild(cwHeadWrap);
 
-    const softTags = document.createElement('div');
-    softTags.className = 'coder__skill-tags';
-    this._coderData.skills.nonTechnical.forEach(skill => {
-      const tag = document.createElement('span');
-      tag.className = 'coder__skill-tag coder__skill-tag--soft';
-      tag.textContent = skill.name;
-      softTags.appendChild(tag);
-    });
-    softBlock.appendChild(softTags);
-    containerEl.appendChild(softBlock);
-
-    // Languages
-    if (this._coderData.languages && this._coderData.languages.length > 0) {
-      const langBlock = document.createElement('div');
-      langBlock.className = 'coder__skill-category will-animate';
-
-      const langHeadingWrap = document.createElement('div');
-      langHeadingWrap.className = 'coder__skill-category-header';
-
-      const langStar = document.createElement('span');
-      langStar.className = 'coder__star mss';
-      langStar.setAttribute('aria-hidden', 'true');
-      langStar.textContent = 'star';
-
-      const langHeading = document.createElement('h4');
-      langHeading.className = 'coder__skill-category-heading';
-      langHeading.textContent = 'Languages';
-
-      langHeadingWrap.appendChild(langStar);
-      langHeadingWrap.appendChild(langHeading);
-      langBlock.appendChild(langHeadingWrap);
-
-      const langTags = document.createElement('div');
-      langTags.className = 'coder__skill-tags';
-      this._coderData.languages.forEach(lang => {
+      const cwTags = document.createElement('div');
+      cwTags.className = 'coder__skill-tags';
+      this._coderData.coursework.forEach(course => {
         const tag = document.createElement('span');
         tag.className = 'coder__skill-tag';
-        tag.textContent = `${lang.name} · ${lang.level}`;
-        langTags.appendChild(tag);
+        tag.textContent = course;
+        cwTags.appendChild(tag);
       });
-      langBlock.appendChild(langTags);
-      containerEl.appendChild(langBlock);
+      cwBlock.appendChild(cwTags);
+      containerEl.appendChild(cwBlock);
     }
   }
 
@@ -1303,7 +1282,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const navLinks = document.querySelectorAll('.nav__link');
     const logo = document.querySelector('.nav__logo');
     const floatingCta = document.querySelector('.floating-cta');
-    const menuBtn = document.querySelector('.floating-cta__circle--menu');
+    const menuBtn = document.querySelector('.nav__menu-toggle');
     const floatingMenu = document.querySelector('.floating-menu');
     const floatingMenuLinks = document.querySelectorAll('.floating-menu__link');
     const heroSection = document.getElementById('hero');

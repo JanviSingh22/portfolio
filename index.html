@@ -34,7 +34,9 @@
       </nav>
       <!-- Scrolled state: slogan -->
       <p class="nav__slogan nav__slogan--hidden">Be unstoppable. Be limitless. Be bold.</p>
-      <button class="nav__theme-toggle" aria-label="Toggle night mode">🌙</button>
+      <button class="nav__menu-toggle" aria-label="Open menu" aria-expanded="false">
+        <span class="mss">menu</span>
+      </button>
     </header>
 
     <!-- Full-screen menu overlay -->
@@ -322,9 +324,7 @@
 
     <!-- Floating circles (hidden on hero, visible when scrolled) -->
     <div class="floating-cta floating-cta--hidden">
-      <button class="floating-cta__circle floating-cta__circle--menu" aria-label="Open menu" aria-expanded="false">
-        <span class="mss">menu</span>
-      </button>
+      <button class="floating-cta__circle nav__theme-toggle" aria-label="Toggle night mode">🌙</button>
       <a href="#footer" class="floating-cta__circle" aria-label="Contact Me">
         <span class="mss">mail</span>
       </a>

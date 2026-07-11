@@ -71,16 +71,24 @@
   font-family: var(--font-mono);
   font-size: var(--text-sm);
   padding: var(--space-2) var(--space-4);
-  border: 1px solid var(--color-coder-accent);
+  border: 1px solid #000000;
   border-radius: 999px;
-  color: var(--color-coder-text);
-  transition: border-color var(--duration-fast) var(--ease-out),
+  color: #000000;
+  font-weight: 500;
+  transition: transform var(--duration-fast) var(--ease-out),
               box-shadow var(--duration-fast) var(--ease-out);
 }
 
+.coder__skill-tag:nth-child(6n+1) { background-color: rgba(200, 182, 226, 0.3); }
+.coder__skill-tag:nth-child(6n+2) { background-color: rgba(232, 196, 196, 0.3); }
+.coder__skill-tag:nth-child(6n+3) { background-color: rgba(212, 226, 212, 0.3); }
+.coder__skill-tag:nth-child(6n+4) { background-color: rgba(184, 212, 232, 0.3); }
+.coder__skill-tag:nth-child(6n+5) { background-color: rgba(245, 230, 163, 0.35); }
+.coder__skill-tag:nth-child(6n+6) { background-color: rgba(200, 182, 226, 0.25); }
+
 .coder__skill-tag:hover {
-  border-color: #9B8EC4;
-  box-shadow: 0 0 8px rgba(155, 142, 196, 0.3);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 
@@ -384,8 +392,7 @@
 
 /* --- Non-technical skill tags variant --- */
 .coder__skill-tag--soft {
-  border-color: rgba(74, 85, 104, 0.5);
-  border-style: dashed;
+  border: 1px solid #000000;
 }
 
 /* ====================================

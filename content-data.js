@@ -102,23 +102,35 @@ const coderData = {
     }
   ],
   skills: {
-    technical: [
-      { name: "Python", level: "advanced" },
-      { name: "JavaScript", level: "intermediate" },
-      { name: "HTML/CSS", level: "advanced" },
-      { name: "SQL", level: "intermediate" },
-      { name: "React", level: "beginner" },
-      { name: "Node.js", level: "beginner" },
-      { name: "Git", level: "intermediate" },
-      { name: "Data Analysis", level: "intermediate" }
+    languages: [
+      { name: "Python" },
+      { name: "JavaScript" },
+      { name: "TypeScript" },
+      { name: "SQL" },
+      { name: "HTML" },
+      { name: "SCSS" }
+    ],
+    frameworks: [
+      { name: "React" },
+      { name: "Next.js" },
+      { name: "Tailwind CSS" },
+      { name: "Node.js" },
+      { name: "Express" },
+      { name: "GraphQL" }
+    ],
+    tools: [
+      { name: "Git" },
+      { name: "MongoDB" },
+      { name: "PostgreSQL" },
+      { name: "MySQL" },
+      { name: "Kiro" }
     ],
     nonTechnical: [
+      { name: "Problem-Solving" },
+      { name: "Decision Making" },
+      { name: "Critical & Analytical Thinking" },
       { name: "Communication" },
-      { name: "Problem Solving" },
-      { name: "Creativity" },
-      { name: "Team Collaboration" },
-      { name: "Time Management" },
-      { name: "Adaptability" }
+      { name: "Teamwork" }
     ]
   },
   languages: [
@@ -139,7 +151,7 @@ const coderData = {
       title: "TMDB Movies",
       description: "A web application providing an interactive platform to explore movie information. Features dynamic search and filtering, detailed movie data including summaries, ratings, and images. Optimized for performance and responsiveness with real-time data integration.",
       tech: ["React", "JavaScript", "CSS", "HTML", "TMDB API"],
-      link: "https://github.com/JanviSingh22",
+      link: "https://github.com/Codegeek2004/Cine-Bingelols",
       year: "2023"
     },
     {
@@ -147,7 +159,7 @@ const coderData = {
       title: "PawScan",
       description: "A web application for comprehensive monitoring of pets and animals. Integrates NFC Chips for real-time health, behavior, and location data. Uses NFC tags to store medical records and owner details. Features GPS tracking for real-time location updates and supports remote access for veterinarians, owners, and researchers.",
       tech: ["HTML", "Tailwind CSS", "JavaScript", "GPS API", "Firebase"],
-      link: "https://github.com/JanviSingh22",
+      link: "https://github.com/Codegeek2004/PawScan---Smart-Animal-Monitoring-System",
       year: "2024"
     },
     {
@@ -155,7 +167,7 @@ const coderData = {
       title: "Savory Bites",
       description: "A full-stack restaurant web application with online ordering, table reservations, and Stripe payment integration. Features multi-tag menu filtering, user authentication with JWT, shopping cart and wishlist, gift cards, order tracking, and a polished landing page with testimonials and chef recommendations.",
       tech: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Framer Motion", "Express", "MongoDB", "Stripe", "JWT Auth"],
-      link: "https://github.com/JanviSingh22",
+      link: "https://github.com/JanviSingh22/dining",
       year: "2025"
     }
   ],
