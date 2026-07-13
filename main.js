@@ -1310,172 +1310,6 @@ class ContentRenderer {
   }
 }
 
-/**
- * EasterEggSystem — Listens for hidden triggers and activates secret interactions.
- * Tracks keystrokes, matches trigger words, opens a terminal overlay.
- * Requirements: 6.1, 6.2, 6.3, 6.4, 6.5
- */
-class EasterEggSystem {
-  constructor() {
-    this._overlay = document.getElementById('terminal-overlay');
-    this._output = this._overlay ? this._overlay.querySelector('.terminal__output') : null;
-    this._input = this._overlay ? this._overlay.querySelector('.terminal__input') : null;
-    this._keystrokeBuffer = '';
-    this._triggerWords = ['terminal', 'hello'];
-    this._isVisible = false;
-
-    this._onKeyDown = this._onKeyDown.bind(this);
-    this._onInputKeyDown = this._onInputKeyDown.bind(this);
-  }
-
-  /**
-   * Start listening for keyboard sequences and Ctrl+Shift+T shortcut.
-   */
-  activate() {
-    document.addEventListener('keydown', this._onKeyDown);
-    if (this._input) {
-      this._input.addEventListener('keydown', this._onInputKeyDown);
-    }
-  }
-
-  /**
-   * Show the terminal overlay.
-   */
-  showTerminal() {
-    if (!this._overlay) return;
-    this._overlay.classList.add('terminal--visible');
-    this._overlay.setAttribute('aria-hidden', 'false');
-    this._isVisible = true;
-    if (this._input) {
-      this._input.value = '';
-      this._input.focus();
-    }
-  }
-
-  /**
-   * Hide the terminal overlay.
-   */
-  hideTerminal() {
-    if (!this._overlay) return;
-    this._overlay.classList.remove('terminal--visible');
-    this._overlay.setAttribute('aria-hidden', 'true');
-    this._isVisible = false;
-  }
-
-  /**
-   * Process a terminal command input.
-   * @param {string} input - The user's command text
-   * @returns {string} The response text
-   */
-  processCommand(input) {
-    const cmd = input.toLowerCase().trim();
-
-    if (typeof easterEggCommands === 'undefined') {
-      return 'Command not recognized. Type \'help\' for available commands.';
-    }
-
-    if (cmd in easterEggCommands) {
-      const value = easterEggCommands[cmd];
-      if (value === '__CLOSE__') {
-        this.hideTerminal();
-        return '';
-      }
-      return value;
-    }
-
-    return 'Command not recognized. Type \'help\' for available commands.';
-  }
-
-  /**
-   * Handle keydown events on the document for shortcut and keystroke buffer.
-   * @param {KeyboardEvent} e
-   */
-  _onKeyDown(e) {
-    // Ctrl+Shift+T shortcut to open terminal
-    if (e.ctrlKey && e.shiftKey && e.key === 'T') {
-      e.preventDefault();
-      if (this._isVisible) {
-        this.hideTerminal();
-      } else {
-        this.showTerminal();
-      }
-      return;
-    }
-
-    // Don't track keystrokes when terminal is open or when focused on inputs
-    if (this._isVisible) return;
-    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
-
-    // Only track single character keys
-    if (e.key.length === 1 && !e.ctrlKey && !e.metaKey && !e.altKey) {
-      this._keystrokeBuffer += e.key.toLowerCase();
-
-      // Keep buffer limited in size
-      if (this._keystrokeBuffer.length > 20) {
-        this._keystrokeBuffer = this._keystrokeBuffer.slice(-20);
-      }
-
-      // Check if buffer ends with any trigger word
-      for (const word of this._triggerWords) {
-        if (this._keystrokeBuffer.endsWith(word)) {
-          this._keystrokeBuffer = '';
-          this._flashHint();
-          break;
-        }
-      }
-    }
-  }
-
-  /**
-   * Handle keydown on the terminal input.
-   * @param {KeyboardEvent} e
-   */
-  _onInputKeyDown(e) {
-    if (e.key === 'Enter') {
-      const value = this._input.value;
-      if (!value.trim()) return;
-
-      // Append user command to output
-      this._appendOutput(`$ ${value}`);
-
-      // Process and display response
-      const response = this.processCommand(value);
-      if (response) {
-        this._appendOutput(response);
-      }
-
-      this._input.value = '';
-    } else if (e.key === 'Escape') {
-      this.hideTerminal();
-    }
-  }
-
-  /**
-   * Append a line to the terminal output area.
-   * @param {string} text
-   */
-  _appendOutput(text) {
-    if (!this._output) return;
-    const line = document.createElement('div');
-    line.className = 'terminal__line';
-    line.textContent = text;
-    this._output.appendChild(line);
-    // Auto-scroll to bottom
-    this._output.scrollTop = this._output.scrollHeight;
-  }
-
-  /**
-   * Show a subtle flash/hint that a trigger word was detected.
-   */
-  _flashHint() {
-    if (!this._overlay) return;
-    // Briefly flash the terminal overlay border as a hint
-    this._overlay.classList.add('terminal--hint');
-    setTimeout(() => {
-      this._overlay.classList.remove('terminal--hint');
-    }, 600);
-  }
-}
 
 document.addEventListener('DOMContentLoaded', () => {
   // --- ThemeSystem ---
@@ -1605,6 +1439,350 @@ document.addEventListener('DOMContentLoaded', () => {
     console.warn('AnimationSystem failed to initialize:', e);
   }
 
+  // --- About Bio Typewriter ---
+  try {
+    const bioEl = document.querySelector('[data-typewriter]');
+    if (bioEl) {
+      const fullText = bioEl.textContent;
+      bioEl.textContent = '';
+      const cursor = document.createElement('span');
+      cursor.className = 'typewriter-cursor';
+      bioEl.appendChild(cursor);
+      let typed = false;
+
+      const bioObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting && !typed) {
+            typed = true;
+            let i = 0;
+            const type = () => {
+              if (i < fullText.length) {
+                bioEl.insertBefore(document.createTextNode(fullText[i]), cursor);
+                i++;
+                setTimeout(type, 30 + Math.random() * 30);
+              } else {
+                setTimeout(() => cursor.remove(), 1500);
+              }
+            };
+            type();
+            bioObserver.disconnect();
+          }
+        });
+      }, { threshold: 0.5 });
+      bioObserver.observe(bioEl);
+    }
+  } catch (e) {
+    console.warn('About typewriter failed:', e);
+  }
+
+  // --- Bouncing Tags ---
+  try {
+    const container = document.querySelector('[data-bouncing-tags]');
+    if (container) {
+      const tags = container.querySelectorAll('.bouncing-tag');
+      const tagData = [];
+
+      // Initialize each tag with random position and velocity
+      tags.forEach((tag) => {
+        const speed = 0.8 + Math.random() * 0.7;
+        const angle = Math.random() * Math.PI * 2;
+        const data = {
+          el: tag,
+          x: 0,
+          y: 0,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed,
+          paused: false
+        };
+        tagData.push(data);
+
+        // Hover to stop
+        tag.addEventListener('mouseenter', () => {
+          if (!data.paused) {
+            data.savedVx = data.vx;
+            data.savedVy = data.vy;
+            data.vx = 0;
+            data.vy = 0;
+          }
+        });
+
+        tag.addEventListener('mouseleave', () => {
+          if (!data.paused && data.savedVx !== undefined) {
+            data.vx = data.savedVx;
+            data.vy = data.savedVy;
+            delete data.savedVx;
+            delete data.savedVy;
+          }
+        });
+
+        // Click to expand/collapse
+        tag.addEventListener('click', () => {
+          if (data.paused) {
+            tag.classList.remove('bouncing-tag--expanded');
+            data.paused = false;
+          } else {
+            // Collapse any other expanded tag
+            tagData.forEach(t => {
+              if (t.paused && t !== data) {
+                t.el.classList.remove('bouncing-tag--expanded');
+                t.paused = false;
+              }
+            });
+            tag.classList.add('bouncing-tag--expanded');
+            data.paused = true;
+          }
+        });
+      });
+
+      function animateBounce() {
+        const cw = container.offsetWidth;
+        const ch = container.offsetHeight;
+
+        tagData.forEach((t) => {
+          if (t.paused) return;
+
+          // Use base size (28px) for collision detection
+          const tw = 28;
+          const th = 28;
+
+          t.x += t.vx;
+          t.y += t.vy;
+
+          // Bounce off walls
+          if (t.x < 0) { t.x = 0; t.vx *= -1; }
+          if (t.y < 0) { t.y = 0; t.vy *= -1; }
+          if (t.x + tw > cw) { t.x = cw - tw; t.vx *= -1; }
+          if (t.y + th > ch) { t.y = ch - th; t.vy *= -1; }
+
+          t.el.style.left = t.x + 'px';
+          t.el.style.top = t.y + 'px';
+        });
+
+        requestAnimationFrame(animateBounce);
+      }
+
+      // Set initial positions after layout
+      requestAnimationFrame(() => {
+        const cw = container.offsetWidth;
+        const ch = container.offsetHeight;
+        tagData.forEach((t) => {
+          t.x = Math.random() * (cw - 28);
+          t.y = Math.random() * (ch - 28);
+          t.el.style.left = t.x + 'px';
+          t.el.style.top = t.y + 'px';
+        });
+        animateBounce();
+      });
+    }
+  } catch (e) {
+    console.warn('Bouncing tags failed:', e);
+  }
+
+  // --- Photo Carousel with Swipe + Dots (Infinite Loop) ---
+  try {
+    const photoCarousel = document.querySelector('[data-photo-carousel]');
+    if (photoCarousel) {
+      const track = photoCarousel.querySelector('.about-bento__photo-track');
+      const originalSlides = Array.from(photoCarousel.querySelectorAll('.about-bento__photo-slide'));
+      const dotsContainer = photoCarousel.querySelector('.about-bento__photo-dots');
+      const totalSlides = originalSlides.length;
+      let currentSlide = 0;
+      let startX = 0;
+      let isDragging = false;
+      let isTransitioning = false;
+
+      // Clone first and last for infinite illusion
+      const firstClone = originalSlides[0].cloneNode(true);
+      const lastClone = originalSlides[totalSlides - 1].cloneNode(true);
+      firstClone.setAttribute('aria-hidden', 'true');
+      lastClone.setAttribute('aria-hidden', 'true');
+      track.appendChild(firstClone);
+      track.insertBefore(lastClone, track.firstChild);
+
+      // Offset by 1 because of prepended clone
+      track.style.transform = `translateX(-100%)`;
+
+      // Create dots
+      originalSlides.forEach((_, i) => {
+        const dot = document.createElement('button');
+        dot.className = 'about-bento__photo-dot' + (i === 0 ? ' about-bento__photo-dot--active' : '');
+        dot.setAttribute('aria-label', `Photo ${i + 1}`);
+        dot.addEventListener('click', () => goToSlide(i));
+        dotsContainer.appendChild(dot);
+      });
+
+      function updateDots() {
+        dotsContainer.querySelectorAll('.about-bento__photo-dot').forEach((d, i) => {
+          d.classList.toggle('about-bento__photo-dot--active', i === currentSlide);
+        });
+      }
+
+      function goToSlide(index, animate = true) {
+        currentSlide = index;
+        const offset = (index + 1) * 100; // +1 for prepended clone
+        if (animate) {
+          track.style.transition = 'transform 0.4s ease';
+        } else {
+          track.style.transition = 'none';
+        }
+        track.style.transform = `translateX(-${offset}%)`;
+        updateDots();
+      }
+
+      // After transition, check if we're on a clone and silently jump
+      track.addEventListener('transitionend', () => {
+        isTransitioning = false;
+        if (currentSlide >= totalSlides) {
+          currentSlide = 0;
+          goToSlide(0, false);
+        } else if (currentSlide < 0) {
+          currentSlide = totalSlides - 1;
+          goToSlide(totalSlides - 1, false);
+        }
+      });
+
+      function nextSlide() {
+        if (isTransitioning) return;
+        isTransitioning = true;
+        currentSlide++;
+        const offset = (currentSlide + 1) * 100;
+        track.style.transition = 'transform 0.4s ease';
+        track.style.transform = `translateX(-${offset}%)`;
+        updateDots();
+      }
+
+      function prevSlide() {
+        if (isTransitioning) return;
+        isTransitioning = true;
+        currentSlide--;
+        const offset = (currentSlide + 1) * 100;
+        track.style.transition = 'transform 0.4s ease';
+        track.style.transform = `translateX(-${offset}%)`;
+        updateDots();
+      }
+
+      // Arrow buttons
+      const leftArrow = photoCarousel.querySelector('.about-bento__photo-arrow--left');
+      const rightArrow = photoCarousel.querySelector('.about-bento__photo-arrow--right');
+
+      if (leftArrow) leftArrow.addEventListener('click', prevSlide);
+      if (rightArrow) rightArrow.addEventListener('click', nextSlide);
+
+      // Touch/swipe support
+      track.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+        isDragging = true;
+      });
+
+      track.addEventListener('touchend', (e) => {
+        if (!isDragging) return;
+        isDragging = false;
+        const diff = startX - e.changedTouches[0].clientX;
+        if (diff > 50) nextSlide();
+        else if (diff < -50) prevSlide();
+      });
+
+      // Mouse drag support
+      track.addEventListener('mousedown', (e) => {
+        startX = e.clientX;
+        isDragging = true;
+        e.preventDefault();
+      });
+
+      track.addEventListener('mouseup', (e) => {
+        if (!isDragging) return;
+        isDragging = false;
+        const diff = startX - e.clientX;
+        if (diff > 50) nextSlide();
+        else if (diff < -50) prevSlide();
+      });
+
+      // Lightbox — click image to view fullscreen
+      track.addEventListener('click', (e) => {
+        if (Math.abs(startX - e.clientX) > 10) return; // ignore drag clicks
+        const slide = e.target.closest('.about-bento__photo-slide');
+        if (!slide) return;
+
+        const overlay = document.createElement('div');
+        overlay.className = 'photo-lightbox';
+        overlay.innerHTML = `
+          <button class="photo-lightbox__close" aria-label="Close"><span class="mss">close</span></button>
+          <img src="${slide.src}" alt="${slide.alt}" class="photo-lightbox__img">
+        `;
+        document.body.appendChild(overlay);
+
+        overlay.addEventListener('click', (ev) => {
+          if (ev.target === overlay || ev.target.closest('.photo-lightbox__close')) {
+            overlay.remove();
+          }
+        });
+
+        document.addEventListener('keydown', function escClose(ev) {
+          if (ev.key === 'Escape') {
+            overlay.remove();
+            document.removeEventListener('keydown', escClose);
+          }
+        });
+      });
+    }
+  } catch (e) {
+    console.warn('Photo carousel failed:', e);
+  }
+
+  // --- Fun Fact Backspace Typewriter ---
+  try {
+    const funFactEl = document.querySelector('[data-backspace-typewriter]');
+    if (funFactEl) {
+      const phrases = [
+        "☕ probably overthinking my next project rn",
+        "🌏 silk road trip is on the vision board no cap",
+        "🎸 will replay the same song 47 times and still not skip",
+        "📰 newspaper girlie in a doomscroll world",
+        "😄 small wins hit different, i celebrate everything",
+        "🫠 perfection is the enemy but she's kinda valid tho"
+      ];
+      let phraseIndex = 0;
+      let charIndex = 0;
+      let isDeleting = false;
+
+      const cursor = document.createElement('span');
+      cursor.className = 'about-bento__funfact-cursor';
+      cursor.textContent = '|';
+      funFactEl.appendChild(cursor);
+
+      function typeLoop() {
+        const currentChars = Array.from(phrases[phraseIndex]);
+        const currentPhrase = currentChars.join('');
+
+        if (!isDeleting) {
+          funFactEl.textContent = currentChars.slice(0, charIndex + 1).join('');
+          funFactEl.appendChild(cursor);
+          charIndex++;
+          if (charIndex === currentChars.length) {
+            isDeleting = true;
+            setTimeout(typeLoop, 2000);
+            return;
+          }
+          setTimeout(typeLoop, 60 + Math.random() * 40);
+        } else {
+          funFactEl.textContent = currentChars.slice(0, charIndex - 1).join('');
+          funFactEl.appendChild(cursor);
+          charIndex--;
+          if (charIndex === 0) {
+            isDeleting = false;
+            phraseIndex = (phraseIndex + 1) % phrases.length;
+            setTimeout(typeLoop, 500);
+            return;
+          }
+          setTimeout(typeLoop, 30);
+        }
+      }
+      typeLoop();
+    }
+  } catch (e) {
+    console.warn('Fun fact typewriter failed:', e);
+  }
+
   // --- LandingController ---
   try {
     const landing = new LandingController(document.querySelector('#landing'), {
@@ -1627,13 +1805,5 @@ document.addEventListener('DOMContentLoaded', () => {
       mainWrapper.setAttribute('aria-hidden', 'false');
     }
     console.warn('LandingController failed to initialize:', e);
-  }
-
-  // --- EasterEggSystem ---
-  try {
-    const easterEggs = new EasterEggSystem();
-    easterEggs.activate();
-  } catch (e) {
-    console.warn('EasterEggSystem failed to initialize:', e);
   }
 });

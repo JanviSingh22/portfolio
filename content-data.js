@@ -238,15 +238,3 @@ const interestsData = [
     size: "large"
   }
 ];
-
-// ============================================
-// 4. Easter egg commands (hidden feature)
-// ============================================
-const easterEggCommands = {
-  "hello": "Hey there! You found me. Welcome to the secret terminal.",
-  "help": "Available commands: hello, about, skills, whoami, exit",
-  "whoami": "A curious explorer who likes to poke around websites.",
-  "about": "This portfolio was hand-crafted with vanilla JS and a lot of intention.",
-  "skills": "HTML, CSS, JavaScript, Python, SQL, Design, and a love for clean code.",
-  "exit": "__CLOSE__"
-};
