@@ -1232,12 +1232,40 @@ class ContentRenderer {
   }
 
   _renderAchievements(containerEl) {
-    const items = (this._coderData.achievements || []).map(item => ({
-      title: item.title,
-      meta: item.event,
-      description: item.description
-    }));
-    this._renderTileSection(containerEl, 'Achievements', items);
+    const h = document.createElement('h3');
+    h.className = 'coder__subsection-heading will-animate';
+    h.textContent = 'Achievements';
+    containerEl.appendChild(h);
+
+    const items = this._coderData.achievements || [];
+    if (items.length === 0) return;
+
+    const grid = document.createElement('div');
+    grid.className = 'achievements-grid';
+
+    items.forEach(item => {
+      const tile = document.createElement('div');
+      tile.className = 'hscroll-tile will-animate';
+
+      const header = document.createElement('div');
+      header.className = 'hscroll-tile__header';
+      const title = document.createElement('h4');
+      title.className = 'hscroll-tile__title';
+      title.textContent = item.title;
+      header.appendChild(title);
+      tile.appendChild(header);
+
+      if (item.event) {
+        const sub = document.createElement('span');
+        sub.className = 'hscroll-tile__sub';
+        sub.textContent = item.event;
+        tile.appendChild(sub);
+      }
+
+      grid.appendChild(tile);
+    });
+
+    containerEl.appendChild(grid);
   }
 
   _renderProfiles(containerEl) {

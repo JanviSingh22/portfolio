@@ -5,7 +5,7 @@
 
 .section--diagonal {
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   min-height: 400px;
 }
 
@@ -13,7 +13,8 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
-  z-index: 0;
+  z-index: 2;
+  overflow: visible;
 }
 
 /* Watermark pair container — bordered + solid stacked */
@@ -58,6 +59,7 @@
   position: absolute;
   border-radius: 2px;
   transform: scale(1.8);
+  z-index: 2;
 }
 
 .dblock--filled {
@@ -73,7 +75,7 @@
 /* Content on top */
 .section--diagonal .section__container {
   position: relative;
-  z-index: 1;
+  z-index: 3;
 }
 
 /* ====================================

@@ -39,6 +39,7 @@
 .hero__block {
   position: absolute;
   border-radius: 3px;
+  transform: scale(1.6);
 }
 
 /* --- Filled blocks --- */
@@ -188,6 +189,98 @@
   width: 70px;
   height: 55px;
   border: 2px solid var(--hero-lavender);
+  background: transparent;
+}
+
+/* --- Additional filled blocks --- */
+.hero__block--13 {
+  top: 40%;
+  left: 2%;
+  width: 45px;
+  height: 60px;
+  background-color: var(--hero-yellow);
+  opacity: 0.4;
+}
+
+.hero__block--14 {
+  top: 60%;
+  left: 8%;
+  width: 55px;
+  height: 35px;
+  background-color: var(--hero-sage);
+  opacity: 0.35;
+}
+
+.hero__block--15 {
+  top: 5%;
+  right: 35%;
+  width: 40px;
+  height: 50px;
+  background-color: var(--hero-rose);
+  opacity: 0.4;
+}
+
+.hero__block--16 {
+  bottom: 10%;
+  right: 35%;
+  width: 50px;
+  height: 40px;
+  background-color: var(--hero-yellow);
+  opacity: 0.35;
+}
+
+.hero__block--17 {
+  top: 50%;
+  right: 5%;
+  width: 35px;
+  height: 55px;
+  background-color: var(--hero-lilac);
+  opacity: 0.4;
+}
+
+.hero__block--18 {
+  bottom: 5%;
+  left: 30%;
+  width: 60px;
+  height: 35px;
+  background-color: var(--hero-lavender);
+  opacity: 0.35;
+}
+
+/* --- Additional outlined blocks --- */
+.hero__block--outline-5 {
+  top: 45%;
+  left: 5%;
+  width: 65px;
+  height: 50px;
+  border: 2px solid var(--hero-yellow);
+  background: transparent;
+}
+
+.hero__block--outline-6 {
+  top: 8%;
+  left: 35%;
+  width: 55px;
+  height: 45px;
+  border: 2px solid var(--hero-rose);
+  background: transparent;
+}
+
+.hero__block--outline-7 {
+  bottom: 12%;
+  right: 30%;
+  width: 75px;
+  height: 50px;
+  border: 2px solid var(--hero-sage);
+  background: transparent;
+}
+
+.hero__block--outline-8 {
+  top: 55%;
+  right: 8%;
+  width: 60px;
+  height: 55px;
+  border: 2px solid var(--hero-lilac);
   background: transparent;
 }
 

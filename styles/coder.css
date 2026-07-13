@@ -6,12 +6,20 @@
 
 /* --- Section Base --- */
 .section--opus {
-  background-color: #FAFAFA;
+  background-color: transparent;
   color: #000000;
   padding: var(--space-16) var(--space-4);
   padding-top: 6rem;
   padding-bottom: 10rem;
   position: relative;
+}
+
+.section--opus::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-color: #FAFAFA;
+  z-index: 0;
 }
 
 .section--opus .section__container {
@@ -497,6 +505,24 @@
   display: none;
 }
 
+/* --- Achievements 2x2 Grid --- */
+.achievements-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+  margin-top: var(--space-6);
+}
+
+.achievements-grid .hscroll-tile:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 767px) {
+  .achievements-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* Scroll arrow buttons — only visible when scrollable */
 .hscroll-wrap {
   position: relative;
@@ -566,8 +592,8 @@
 }
 
 .hscroll-tile:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  transform: translateY(-5px);
+  box-shadow: 0 0 18px rgba(50, 120, 220, 0.6);
 }
 
 .hscroll-tile__header {

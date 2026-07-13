@@ -169,14 +169,19 @@ const coderData = {
   // --- Achievements ---
   achievements: [
     {
-      title: "Hackathon Winner",
-      event: "Your Hackathon Name 2024",
-      description: "Built a working prototype in 24 hours with a team of 4."
+      title: "ACPC Hackathon — Ranked 20th / 350+ Teams",
+      event: "ABES Engineering College",
+      description: "Led a 3-member team in a collegiate programming contest, competing against 350+ teams."
     },
     {
-      title: "Certificate in Web Development",
-      event: "Platform Name",
-      description: "Completed advanced web development coursework."
+      title: "Hackathon Participations",
+      event: "Flipkart Grid, TCS CodeVita, CodeHers, Smart India Hackathon",
+      description: "Participated in national-level coding competitions and hackathons."
+    },
+    {
+      title: "Kanpur Sahodaya Schools Basketball & Chess Tournaments.",
+      event: "School Sports",
+      description: "Represented school in inter-school basketball tournaments and chess championships."
     }
   ],
 
