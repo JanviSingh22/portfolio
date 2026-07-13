@@ -106,6 +106,10 @@ class LandingController {
     this._container.classList.add('landing--hidden');
     this._mainWrapper.classList.add('main-wrapper--visible');
 
+    // Trigger hero animation immediately as landing fades
+    const hero = document.querySelector('.hero');
+    if (hero) hero.classList.add('hero--animate');
+
     // Wait for transition to finish, then complete
     const transitionTimer = setTimeout(() => {
       this._onComplete();
@@ -124,6 +128,10 @@ class LandingController {
     // Set aria-hidden appropriately
     this._container.setAttribute('aria-hidden', 'true');
     this._mainWrapper.setAttribute('aria-hidden', 'false');
+
+    // Trigger hero text animations
+    const hero = document.querySelector('.hero');
+    if (hero) hero.classList.add('hero--animate');
 
     // Remove skip event listeners
     this._removeSkipListeners();
@@ -1149,7 +1157,8 @@ class ContentRenderer {
       { label: 'Languages', data: this._coderData.skills.languages },
       { label: 'Frameworks', data: this._coderData.skills.frameworks },
       { label: 'Tools', data: this._coderData.skills.tools },
-      { label: 'Non-Technical', data: this._coderData.skills.nonTechnical, soft: true }
+      { label: 'Non-Technical', data: this._coderData.skills.nonTechnical, soft: true },
+      { label: 'Spoken Languages', data: this._coderData.languages, soft: true }
     ];
 
     categories.forEach(cat => {
@@ -1179,7 +1188,7 @@ class ContentRenderer {
       cat.data.forEach(skill => {
         const tag = document.createElement('span');
         tag.className = cat.soft ? 'coder__skill-tag coder__skill-tag--soft' : 'coder__skill-tag';
-        tag.textContent = skill.name;
+        tag.textContent = skill.level ? `${skill.name} (${skill.level})` : skill.name;
         tags.appendChild(tag);
       });
       block.appendChild(tags);
@@ -1312,6 +1321,74 @@ class ContentRenderer {
 
 
 document.addEventListener('DOMContentLoaded', () => {
+  // --- Hero Text Slam Animation ---
+  try {
+    const heroName = document.querySelector('.hero__name');
+    const heroGreeting = document.querySelector('.hero__greeting');
+    const heroRole = document.querySelector('.hero__role');
+    const heroTagline = document.querySelector('.hero__tagline');
+
+    let delay = 70; // starting delay in ms
+
+    // Split greeting into words
+    if (heroGreeting) {
+      const text = heroGreeting.textContent;
+      heroGreeting.textContent = '';
+      text.split(' ').forEach((word, i) => {
+        const span = document.createElement('span');
+        span.className = 'hero__word hero__word--greeting';
+        span.textContent = word + '\u00A0';
+        span.style.animationDelay = delay + (i * 80) + 'ms';
+        heroGreeting.appendChild(span);
+      });
+      delay += text.split(' ').length * 80 + 120;
+    }
+
+    // Split name into letters
+    if (heroName) {
+      const text = heroName.textContent;
+      heroName.textContent = '';
+      const chars = Array.from(text);
+      chars.forEach((char, i) => {
+        const span = document.createElement('span');
+        span.className = 'hero__char';
+        span.textContent = char === ' ' ? '\u00A0' : char;
+        span.style.animationDelay = delay + (i * 70) + 'ms';
+        heroName.appendChild(span);
+      });
+      delay += chars.length * 70 + 120;
+    }
+
+    // Split role into words
+    if (heroRole) {
+      const text = heroRole.textContent;
+      heroRole.textContent = '';
+      text.split(' ').forEach((word, i) => {
+        const span = document.createElement('span');
+        span.className = 'hero__word hero__word--role';
+        span.textContent = word + '\u00A0';
+        span.style.animationDelay = delay + (i * 100) + 'ms';
+        heroRole.appendChild(span);
+      });
+      delay += text.split(' ').length * 100 + 120;
+    }
+
+    // Split tagline into words
+    if (heroTagline) {
+      const text = heroTagline.textContent;
+      heroTagline.textContent = '';
+      text.split(' ').forEach((word, i) => {
+        const span = document.createElement('span');
+        span.className = 'hero__word hero__word--tagline';
+        span.textContent = word + '\u00A0';
+        span.style.animationDelay = delay + (i * 80) + 'ms';
+        heroTagline.appendChild(span);
+      });
+    }
+  } catch (e) {
+    console.warn('Hero text animation failed:', e);
+  }
+
   // --- ThemeSystem ---
   try {
     const themeSystem = new ThemeSystem(document.querySelector('.nav__theme-toggle'));
@@ -1324,6 +1401,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const nav = document.querySelector('.nav');
     const logo = document.querySelector('.nav__logo');
     const floatingCta = document.querySelector('.floating-cta');
+    const scrollCircles = document.querySelectorAll('.floating-cta__circle--scroll');
     const menuBtn = document.querySelector('.nav__menu-toggle');
     const floatingMenu = document.querySelector('.floating-menu');
     const floatingMenuLinks = document.querySelectorAll('.floating-menu__link');
@@ -1343,9 +1421,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const scrolled = window.scrollY > heroBottom - 100;
 
       if (scrolled) {
-        floatingCta.classList.remove('floating-cta--hidden');
+        scrollCircles.forEach(c => c.classList.add('floating-cta__circle--visible'));
       } else {
-        floatingCta.classList.add('floating-cta--hidden');
+        scrollCircles.forEach(c => c.classList.remove('floating-cta__circle--visible'));
         // Close menu if open
         floatingMenu.classList.add('floating-menu--hidden');
         floatingMenu.setAttribute('aria-hidden', 'true');
@@ -1374,7 +1452,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Menu circle toggle
     if (menuBtn) {
-      menuBtn.addEventListener('click', () => {
+      menuBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
         const isOpen = !floatingMenu.classList.contains('floating-menu--hidden');
         if (isOpen) {
           floatingMenu.classList.add('floating-menu--hidden');
@@ -1387,6 +1466,17 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       });
     }
+
+    // Close menu on click outside
+    document.addEventListener('click', (e) => {
+      if (!floatingMenu.classList.contains('floating-menu--hidden')) {
+        if (!floatingMenu.contains(e.target) && e.target !== menuBtn && !menuBtn.contains(e.target)) {
+          floatingMenu.classList.add('floating-menu--hidden');
+          floatingMenu.setAttribute('aria-hidden', 'true');
+          menuBtn.setAttribute('aria-expanded', 'false');
+        }
+      }
+    });
 
     // Floating menu link clicks
     floatingMenuLinks.forEach(link => {
@@ -1413,6 +1503,41 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   } catch (e) {
     console.warn('Navigation failed to initialize:', e);
+  }
+
+  // --- Footer Renderer ---
+  try {
+    const footerHeading = document.querySelector('.footer__heading');
+    const footerLinks = document.querySelector('.footer__links');
+    const footerCopyright = document.querySelector('.footer__copyright');
+
+    if (typeof footerData !== 'undefined') {
+      if (footerHeading) footerHeading.textContent = footerData.heading;
+      if (footerCopyright) footerCopyright.textContent = footerData.copyright;
+
+      // Render links
+      if (footerLinks && footerData.links) {
+        footerData.links.forEach(link => {
+          const a = document.createElement('a');
+          a.href = link.url;
+          a.className = 'footer__link';
+          a.setAttribute('aria-label', link.name);
+          if (!link.url.startsWith('mailto:')) {
+            a.target = '_blank';
+            a.rel = 'noopener noreferrer';
+          }
+
+          if (link.iconType === 'image') {
+            a.innerHTML = `<img src="${link.iconSrc}" alt="" class="footer__icon"> ${link.name}`;
+          } else {
+            a.innerHTML = `<span class="mss footer__icon-mss">${link.iconSrc}</span> ${link.name}`;
+          }
+          footerLinks.appendChild(a);
+        });
+      }
+    }
+  } catch (e) {
+    console.warn('Footer renderer failed:', e);
   }
 
   // --- ContentRenderer ---
@@ -1804,6 +1929,8 @@ document.addEventListener('DOMContentLoaded', () => {
       mainWrapper.classList.add('main-wrapper--visible');
       mainWrapper.setAttribute('aria-hidden', 'false');
     }
+    const hero = document.querySelector('.hero');
+    if (hero) hero.classList.add('hero--animate');
     console.warn('LandingController failed to initialize:', e);
   }
 });

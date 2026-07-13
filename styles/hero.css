@@ -289,193 +289,153 @@
    ==================================== */
 .hero__center {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
-  gap: var(--space-8);
+  justify-content: center;
   z-index: 10;
   position: relative;
-}
-
-.hero__image {
-  width: 200px;
-  height: 200px;
-  border-radius: 16px;
-  object-fit: cover;
-  border: none;
-  box-shadow: 0 8px 32px rgba(200, 182, 226, 0.3);
-  position: relative;
-  z-index: 2;
-  flex-shrink: 0;
-}
-
-/* Lilac square behind image — offset overlap */
-.hero__center::before {
-  content: '';
-  position: absolute;
-  top: 20px;
-  left: 12px;
-  width: 200px;
-  height: 200px;
-  background-color: var(--hero-lilac);
-  border-radius: 12px;
-  z-index: 1;
-  opacity: 0.7;
+  width: 100%;
+  max-width: var(--max-width);
+  padding: 0 var(--space-8);
+  text-align: center;
 }
 
 .hero__text-content {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  text-align: left;
+  align-items: center;
+  text-align: center;
+}
+
+.hero__greeting {
+  font-family: 'Mouse Memoirs', sans-serif;
+  font-size: var(--text-2xl);
+  color: var(--hero-text);
+  margin-bottom: var(--space-1);
+  overflow: hidden;
 }
 
 .hero__name {
-  font-family: var(--font-heading);
-  font-size: var(--text-5xl);
-  font-weight: 700;
-  color: var(--hero-text);
-  letter-spacing: -0.02em;
-  margin-bottom: var(--space-3);
+  font-family: 'Kablammo', system-ui;
+  font-size: clamp(4rem, 14vw, 8rem);
+  font-weight: 400;
+  color: #5B3A8C;
+  letter-spacing: -0.01em;
+  margin-bottom: var(--space-2);
+  overflow: hidden;
 }
 
-.hero__slogan {
-  font-family: 'Dancing Script', cursive;
-  font-size: var(--text-2xl);
+.hero__role {
+  font-family: 'Mouse Memoirs', sans-serif;
+  font-size: var(--text-3xl);
   color: var(--hero-text);
-  opacity: 0.7;
-  font-weight: 500;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  overflow: hidden;
+}
+
+.hero__tagline {
+  font-family: 'Mouse Memoirs', sans-serif;
+  font-size: var(--text-xl);
+  color: var(--hero-text);
+  font-weight: 400;
+  margin-top: var(--space-4);
   letter-spacing: 0.01em;
-  margin-top: var(--space-2);
+  overflow: hidden;
 }
 
-/* Action buttons */
-.hero__actions {
-  display: flex;
-  gap: var(--space-4);
-  margin-top: var(--space-6);
+/* Individual animated pieces */
+.hero__char,
+.hero__word {
+  display: inline-block;
+  opacity: 0;
 }
 
-.hero__btn {
-  padding: var(--space-3) var(--space-6);
-  border-radius: 8px;
-  font-family: var(--font-body);
-  font-size: var(--text-sm);
-  font-weight: 600;
-  text-decoration: none;
-  transition: transform var(--duration-fast), box-shadow var(--duration-fast);
-  cursor: pointer;
+.hero--animate .hero__char {
+  animation: slamChar 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
-.hero__btn:hover {
-  transform: translateY(-2px);
+.hero--animate .hero__word {
+  animation: slamWord 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
-.hero__btn--contact {
-  background-color: var(--hero-text);
-  color: var(--hero-white);
+.hero--animate .hero__word--greeting {
+  animation-name: slamFromTop;
 }
 
-.hero__btn--contact:hover {
-  box-shadow: 0 4px 16px rgba(45, 45, 45, 0.2);
+.hero--animate .hero__word--role {
+  animation-name: slamFromRight;
 }
 
-.hero__btn--resume {
-  background-color: transparent;
-  color: var(--hero-text);
-  border: 2px solid var(--hero-lilac);
+.hero--animate .hero__word--tagline {
+  animation-name: slamFromBottom;
 }
 
-.hero__btn--resume:hover {
-  background-color: var(--hero-lavender);
-  box-shadow: 0 4px 16px rgba(200, 182, 226, 0.3);
+/* Letter slam — random directions handled via nth-child */
+@keyframes slamChar {
+  0% {
+    transform: translateY(-80px) rotate(15deg) scale(0.5);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0) rotate(0deg) scale(1);
+    opacity: 1;
+  }
 }
 
-/* ====================================
-   Navigation Labels (clickable)
-   ==================================== */
-.hero__label {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  text-decoration: none;
-  z-index: 10;
-  padding: var(--space-4) var(--space-6);
-  border-radius: 12px;
-  transition: background-color var(--duration-fast),
-              transform var(--duration-fast);
-  cursor: pointer;
+@keyframes slamWord {
+  0% {
+    transform: translateX(-60px) rotate(-5deg);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0) rotate(0deg);
+    opacity: 0.7;
+  }
 }
 
-.hero__label:hover {
-  background-color: rgba(200, 182, 226, 0.15);
+@keyframes slamFromTop {
+  0% {
+    transform: translateY(-60px) rotate(-3deg);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0.7;
+  }
 }
 
-.hero__label--left {
-  left: 5%;
-  flex-direction: row-reverse;
+@keyframes slamFromRight {
+  0% {
+    transform: translateX(80px) rotate(3deg);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0) rotate(0deg);
+    opacity: 0.6;
+  }
 }
 
-.hero__label--left:hover {
-  transform: translateY(-50%) translateX(-4px);
-}
-
-.hero__label--right {
-  right: 5%;
-}
-
-.hero__label--right:hover {
-  transform: translateY(-50%) translateX(4px);
-}
-
-.hero__label-text {
-  font-family: var(--font-heading);
-  font-size: var(--text-lg);
-  font-weight: 700;
-  color: var(--hero-text);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.hero__label-arrow {
-  font-size: 1.5rem;
-  color: var(--hero-lilac);
+@keyframes slamFromBottom {
+  0% {
+    transform: translateY(50px) scale(0.9);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 0.5;
+  }
 }
 
 /* ====================================
    Responsive — Mobile
    ==================================== */
 @media (max-width: 767px) {
-  .hero__center {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-
-  .hero__text-content {
-    align-items: center;
-    text-align: center;
-  }
-
-  .hero__center::before {
-    left: 50%;
-    transform: translateX(-50%);
-  }
-
   .hero__name {
-    font-size: var(--text-4xl);
-  }
-
-  .hero__image {
-    width: 150px;
-    height: 150px;
+    font-size: clamp(2rem, 12vw, 3.5rem);
   }
 
   .hero {
-    flex-direction: column;
-    gap: var(--space-8);
     padding: var(--space-8) var(--space-4);
   }
 

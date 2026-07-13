@@ -90,51 +90,94 @@
 }
 
 /* ====================================
-   Floating Circles (menu + contact + resume)
-   Hidden when on hero, visible when scrolled
+   Floating Circles — Bottom-right, scroll buttons slide up
    ==================================== */
 .floating-cta {
   position: fixed;
-  bottom: var(--space-8);
-  right: var(--space-8);
+  bottom: var(--space-6);
+  right: var(--space-6);
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  align-items: flex-end;
+  gap: var(--space-2);
   z-index: 100;
-  transition: opacity 300ms ease, transform 300ms ease;
-}
-
-.floating-cta--hidden {
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(20px);
 }
 
 .floating-cta__circle {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  background-color: #000000;
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #2D2D2D 0%, #1a1a2e 50%, #16213e 100%);
   color: #FFFFFF;
   text-decoration: none;
   border: none;
   cursor: pointer;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-  transition: transform var(--duration-fast) var(--ease-out),
-              box-shadow var(--duration-fast) var(--ease-out);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+  white-space: nowrap;
+  padding: 0;
+  transition: width 0.3s ease, padding 0.3s ease,
+              transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .floating-cta__circle:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  width: auto;
+  padding: 0 16px;
+  transform: translateX(-4px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
 }
 
-.floating-cta__circle .mss {
-  font-size: 24px;
+.floating-cta__icon {
+  font-size: 20px;
   color: #FFFFFF;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+}
+
+.floating-cta__label {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: #FFFFFF;
+  max-width: 0;
+  overflow: hidden;
+  opacity: 0;
+  margin-left: 0;
+  transition: max-width 0.3s ease, opacity 0.2s ease 0.1s, margin-left 0.3s ease;
+}
+
+.floating-cta__circle:hover .floating-cta__label {
+  max-width: 80px;
+  opacity: 1;
+  margin-left: 8px;
+}
+
+/* All buttons always visible */
+.floating-cta__circle--scroll {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Theme toggle — no expand, no border change */
+.floating-cta__circle--always {
+  opacity: 1;
+}
+
+.floating-cta__circle--always:hover {
+  width: 48px;
+  padding: 0;
+  transform: none;
+}
+
+.floating-cta__circle--always .floating-cta__label {
+  display: none;
 }
 
 /* ====================================
@@ -202,17 +245,17 @@
   }
 
   .floating-cta {
-    bottom: var(--space-4);
-    right: var(--space-4);
+    right: var(--space-3);
+    gap: var(--space-2);
   }
 
   .floating-cta__circle {
-    width: 48px;
-    height: 48px;
+    width: 42px;
+    height: 42px;
   }
 
-  .floating-cta__circle .mss {
-    font-size: 20px;
+  .floating-cta__icon {
+    font-size: 18px;
   }
 
   .floating-menu {

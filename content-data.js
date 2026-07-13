@@ -9,18 +9,7 @@
 // ============================================
 const profileData = {
   name: "Janvi Singh",
-  tagline: "codegeek version 2004",
-  bio: "I'm passionate about the intersection of science and art. A harmonious contradiction — structured yet spontaneous, logical yet imaginative. I believe in building things with intention, exploring ideas with curiosity, and expressing myself through code and creativity.",
-  traits: [
-    { label: "Structured", description: "I approach problems methodically, breaking complexity into clean, manageable pieces." },
-    { label: "Spontaneous", description: "I follow inspiration wherever it leads — a new medium, a random project, a midnight idea." },
-    { label: "Curious", description: "Every question is a door. I open as many as I can." },
-    { label: "Creative", description: "Code is my canvas. Design is my language. Expression is my constant." }
-  ],
-  social: {
-    github: "https://github.com/JanviSingh22",
-    instagram: "#"
-  }
+  tagline: "codegeek version 2004"
 };
 
 // ============================================
@@ -185,56 +174,30 @@ const coderData = {
     }
   ],
 
-  // --- Profiles (GitHub, LeetCode, Codeforces) ---
-  profiles: [
-    { name: "GitHub", url: "https://github.com/JanviSingh22", icon: "🐙", stat: "" },
-    { name: "LeetCode", url: "https://leetcode.com/", icon: "⚡", stat: "" },
-    { name: "Codeforces", url: "https://codeforces.com/", icon: "🏆", stat: "" }
-  ]
+  // --- Profiles removed (now in footerData) ---
 };
 
 // ============================================
 // 3. Interests data (Interests section — after Achievements)
 // ============================================
 const interestsData = [
-  {
-    id: "writing",
-    title: "Writing",
-    icon: "✍️",
-    description: "Turning thoughts into words, one sentence at a time.",
-    accentColor: "#4A7C59",
-    size: "medium"
-  },
-  {
-    id: "photography",
-    title: "Photography",
-    icon: "📷",
-    description: "Freezing moments that tell their own stories.",
-    accentColor: "#2C3E50",
-    size: "large"
-  },
-  {
-    id: "reading",
-    title: "Reading",
-    icon: "📚",
-    description: "Living a thousand lives through pages.",
-    accentColor: "#5D4037",
-    size: "medium"
-  },
-  {
-    id: "music",
-    title: "Music",
-    icon: "🎵",
-    description: "The universal language that needs no translation.",
-    accentColor: "#6B5B95",
-    size: "large"
-  },
-  {
-    id: "painting",
-    title: "Painting",
-    icon: "🎨",
-    description: "Colors on canvas — where structure meets freedom.",
-    accentColor: "#C8A96E",
-    size: "large"
-  }
+  { title: "Writing" },
+  { title: "Photography" },
+  { title: "Reading" },
+  { title: "Music" },
+  { title: "Painting" }
 ];
+
+// ============================================
+// 4. Footer data (Contact links)
+// ============================================
+const footerData = {
+  heading: "Get in Touch",
+  links: [
+    { name: "GitHub", url: "https://github.com/Codegeek2004", iconType: "image", iconSrc: "assets/github.png" },
+    { name: "LinkedIn", url: "https://www.linkedin.com/in/codegeek2004", iconType: "image", iconSrc: "assets/linkedin.png" },
+    // { name: "LeetCode", url: "https://leetcode.com/", iconType: "mss", iconSrc: "code" },
+    { name: "Email", url: "mailto:singhjanvi2021@gmail.com", iconType: "mss", iconSrc: "mail" }
+  ],
+  copyright: "© 2025 Janvi Singh. Built with intention."
+};
