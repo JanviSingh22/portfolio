@@ -40,6 +40,10 @@
   color: var(--color-bg-primary);
   letter-spacing: 0.05em;
   min-height: 1.6em;
+  max-width: 90vw;
+  text-align: center;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 @keyframes blink {
@@ -64,4 +68,16 @@
 .main-wrapper--visible {
   opacity: 1;
   visibility: visible;
+}
+
+/* Mobile landing fixes */
+@media (max-width: 767px) {
+  .landing {
+    flex-direction: column;
+    padding: 0 var(--space-4);
+  }
+
+  .landing__text {
+    font-size: var(--text-lg);
+  }
 }

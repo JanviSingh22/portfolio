@@ -9,7 +9,47 @@
 // ============================================
 const profileData = {
   name: "Janvi Singh",
-  tagline: "codegeek version 2004"
+  tagline: "codegeek version 2004",
+  // Hero
+  hero: {
+    greeting: "Welcome to my portfolio",
+    role: "Software Developer",
+    tagline: "Built with logic, inspired by art, driven by curiosity."
+  },
+  // Nav
+  nav: {
+    logo: "JS",
+    slogan: "Be unstoppable. Be limitless. Be bold."
+  },
+  // About
+  bio: "I'm Janvi — a software developer who builds clean, thoughtful, and engaging digital experiences. I believe good software isn't just functional; it's intuitive, accessible, and visually balanced. Beyond code, I'm drawn to art, design, history, and storytelling — always exploring where creativity and technology meet. Whether I'm refining an interface, chasing a new idea, or solving a problem that matters, curiosity drives everything I do. Every project is a chance to grow, create, and make something people genuinely enjoy.",
+  traits: [
+    { front: "lore collector", back: "Every rabbit hole is worth it — new tech, old history, weird art, random Wikipedia spirals at 3am." },
+    { front: "chaos → structure", back: "I follow midnight ideas wherever they go, then break them into clean, manageable pieces." },
+    { front: "pixel perfectionist", back: "The small details that nobody notices? I notice. And I won't ship until they feel right." },
+    { front: "builds things", back: "Ideas in, interactive experiences out. Code is just the medium — the art is making it feel alive." }
+  ],
+  marquee: "codegeek version 2004",
+  funFacts: [
+    "☕ probably overthinking my next project rn",
+    "🌏 silk road trip is on the vision board no cap",
+    "🎸 will replay the same song 47 times and still not skip",
+    "📰 newspaper girlie in a doomscroll world",
+    "😄 small wins hit different, i celebrate everything",
+    "🫠 perfection is the enemy but she's kinda valid tho"
+  ],
+  bouncingTags: [
+    { label: "Punk Rock", category: "listening" },
+    { label: "Swan Lake", category: "listening" },
+    { label: "Instrumental Guitar", category: "listening" },
+    { label: "The Hindu", category: "reading" },
+    { label: "The Book Thief", category: "reading" },
+    { label: "History & Geopolitics", category: "reading" },
+    { label: "This Portfolio", category: "building" },
+    { label: "Japanese", category: "learning" },
+    { label: "Another cup of chai", category: "drinking" },
+    { label: "What's the next project?", category: "thinking" }
+  ]
 };
 
 // ============================================
@@ -72,7 +112,7 @@ const coderData = {
             "Designed the front end using HTML, CSS, and Flask, and leveraged NLP techniques to label 46,000 comments, achieving a final model accuracy of 83%."
           ],
           tech: ["Python", "Pandas", "TensorFlow", "Scikit-learn", "NLP", "Flask"],
-          link: "https://github.com/Codegeek2004/Cyberbullying-Detection",
+          link: "https://github.com/Codegeek2004/CyberBullying_Detection",
           duration: "Oct – Dec 2024"
         }
       ]

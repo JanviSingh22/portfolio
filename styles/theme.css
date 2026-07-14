@@ -2,18 +2,207 @@
    Night Mode Overrides
    ==================================== */
 [data-theme="dark"] {
-  --color-bg-primary: #121212;
-  --color-bg-secondary: #1E1E1E;
-  --color-text-primary: #F0F0F0;
-  --color-text-secondary: #B0B0B0;
-  --color-text-muted: #808080;
-  --color-about-bg: #1A1A14;
-  --color-interests-bg: #141A14;
+  --color-bg-primary: #0D0D0D;
+  --color-bg-secondary: #141414;
+  --color-text-primary: #E8E8E8;
+  --color-text-secondary: #A0A0A0;
+  --color-text-muted: #707070;
+}
+
+/* Section backgrounds */
+[data-theme="dark"] .section--opus::before {
+  background-color: #0D0D0D;
+}
+
+/* Hide geometric blocks in dark mode */
+[data-theme="dark"] .hero__block,
+[data-theme="dark"] .dblock {
+  display: none;
+}
+
+/* Hero */
+[data-theme="dark"] .section--hero {
+  background-color: #0D0D0D;
+}
+
+[data-theme="dark"] .hero__name {
+  color: #4ADE80;
+  text-shadow: 0 0 20px rgba(74, 222, 128, 0.3);
+}
+
+[data-theme="dark"] .hero__greeting,
+[data-theme="dark"] .hero__role,
+[data-theme="dark"] .hero__tagline {
+  color: #E8E8E8;
+}
+
+/* Nav */
+[data-theme="dark"] .nav {
+  background-color: rgba(13, 13, 13, 0.9);
+}
+
+[data-theme="dark"] .nav__logo,
+[data-theme="dark"] .nav__slogan {
+  color: #E8E8E8;
+}
+
+/* About bento */
+[data-theme="dark"] .about-bento__card {
+  background-color: rgba(20, 20, 20, 0.6);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .about-bento__bio {
+  color: #E8E8E8;
+}
+
+[data-theme="dark"] .about-bento__trait-front,
+[data-theme="dark"] .about-bento__trait-back {
+  background-color: rgba(20, 20, 20, 0.7);
+  border-color: rgba(255, 255, 255, 0.1);
+  color: #E8E8E8;
+}
+
+[data-theme="dark"] .about-bento__card--image-cover .about-bento__trait-front,
+[data-theme="dark"] .about-bento__card--image-cover .about-bento__trait-back {
+  border-color: transparent;
+}
+
+[data-theme="dark"] .about-bento__card--pastel-1 .about-bento__trait-front,
+[data-theme="dark"] .about-bento__card--pastel-1 .about-bento__trait-back {
+  background-color: rgba(74, 222, 128, 0.08);
+}
+
+[data-theme="dark"] .about-bento__card--pastel-2 .about-bento__trait-front,
+[data-theme="dark"] .about-bento__card--pastel-2 .about-bento__trait-back {
+  background-color: rgba(244, 114, 182, 0.08);
+}
+
+[data-theme="dark"] .about-bento__card--pastel-3 .about-bento__trait-front,
+[data-theme="dark"] .about-bento__card--pastel-3 .about-bento__trait-back {
+  background-color: rgba(103, 232, 249, 0.08);
+}
+
+[data-theme="dark"] .bouncing-tag {
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+[data-theme="dark"] .bouncing-tag[data-category="listening"] { background-color: rgba(74, 222, 128, 0.15); }
+[data-theme="dark"] .bouncing-tag[data-category="reading"] { background-color: rgba(103, 232, 249, 0.15); }
+[data-theme="dark"] .bouncing-tag[data-category="building"] { background-color: rgba(244, 114, 182, 0.15); }
+[data-theme="dark"] .bouncing-tag[data-category="learning"] { background-color: rgba(74, 222, 128, 0.15); }
+[data-theme="dark"] .bouncing-tag[data-category="drinking"] { background-color: rgba(251, 191, 36, 0.15); }
+[data-theme="dark"] .bouncing-tag[data-category="thinking"] { background-color: rgba(244, 114, 182, 0.15); }
+
+/* Tiles */
+[data-theme="dark"] .hscroll-tile {
+  background-color: rgba(20, 20, 20, 0.6);
+  border-color: rgba(255, 255, 255, 0.1);
+  color: #E8E8E8;
+}
+
+[data-theme="dark"] .hscroll-tile:hover {
+  box-shadow: 0 0 18px rgba(74, 222, 128, 0.2);
+}
+
+[data-theme="dark"] .hscroll-tile__title {
+  color: #E8E8E8;
+}
+
+[data-theme="dark"] .hscroll-tile__desc {
+  color: #A0A0A0;
+}
+
+[data-theme="dark"] .hscroll-tile__tag {
+  border-color: rgba(255, 255, 255, 0.15);
+  color: #E8E8E8;
+}
+
+[data-theme="dark"] .hscroll-tile__tag:nth-child(6n+1) { background-color: rgba(74, 222, 128, 0.12); }
+[data-theme="dark"] .hscroll-tile__tag:nth-child(6n+2) { background-color: rgba(244, 114, 182, 0.12); }
+[data-theme="dark"] .hscroll-tile__tag:nth-child(6n+3) { background-color: rgba(103, 232, 249, 0.12); }
+[data-theme="dark"] .hscroll-tile__tag:nth-child(6n+4) { background-color: rgba(251, 191, 36, 0.12); }
+[data-theme="dark"] .hscroll-tile__tag:nth-child(6n+5) { background-color: rgba(74, 222, 128, 0.1); }
+[data-theme="dark"] .hscroll-tile__tag:nth-child(6n+6) { background-color: rgba(244, 114, 182, 0.1); }
+
+/* Skills */
+[data-theme="dark"] .coder__skill-tag {
+  border-color: rgba(255, 255, 255, 0.15);
+  color: #E8E8E8;
+}
+
+[data-theme="dark"] .coder__skill-tag:nth-child(6n+1) { background-color: rgba(74, 222, 128, 0.12); }
+[data-theme="dark"] .coder__skill-tag:nth-child(6n+2) { background-color: rgba(244, 114, 182, 0.12); }
+[data-theme="dark"] .coder__skill-tag:nth-child(6n+3) { background-color: rgba(103, 232, 249, 0.12); }
+[data-theme="dark"] .coder__skill-tag:nth-child(6n+4) { background-color: rgba(251, 191, 36, 0.12); }
+[data-theme="dark"] .coder__skill-tag:nth-child(6n+5) { background-color: rgba(74, 222, 128, 0.1); }
+[data-theme="dark"] .coder__skill-tag:nth-child(6n+6) { background-color: rgba(244, 114, 182, 0.1); }
+
+[data-theme="dark"] .coder__skill-tag--soft {
+  border-color: rgba(244, 114, 182, 0.3);
+}
+
+/* Section headings */
+[data-theme="dark"] .coder__subsection-heading {
+  color: #E8E8E8;
+}
+
+/* Watermarks — shades of gray */
+[data-theme="dark"] .diagonal-bg__text {
+  -webkit-text-stroke-color: rgba(255, 255, 255, 0.08);
+  color: transparent;
+  opacity: 0.3;
+}
+
+[data-theme="dark"] .diagonal-bg__text-solid {
+  color: rgba(255, 255, 255, 0.04);
+  opacity: 0.2;
+}
+
+/* Interests */
+[data-theme="dark"] .coder__interest-title {
+  color: #E8E8E8;
+}
+
+/* Popup modal */
+[data-theme="dark"] .tile-detail-card {
+  background-color: #1A1A1A;
+  color: #E8E8E8;
+}
+
+[data-theme="dark"] .tile-detail__title {
+  color: #E8E8E8;
+}
+
+[data-theme="dark"] .tile-detail__desc {
+  color: #A0A0A0;
+}
+
+[data-theme="dark"] .tile-detail__tag {
+  border-color: rgba(255, 255, 255, 0.15);
+  color: #E8E8E8;
+}
+
+/* Floating CTAs */
+[data-theme="dark"] .floating-cta__circle {
+  background: linear-gradient(135deg, #1A1A1A 0%, #0D0D0D 100%);
+  box-shadow: 0 2px 12px rgba(74, 222, 128, 0.1);
+}
+
+/* Footer */
+[data-theme="dark"] .footer {
+  background-color: #080808;
 }
 
 /* ====================================
    Theme Transition (smooth mode switch)
    ==================================== */
-body {
-  transition: background-color 400ms, color 400ms;
+body,
+.section--opus::before,
+.nav,
+.hscroll-tile,
+.about-bento__card,
+.coder__skill-tag,
+.hero__name {
+  transition: background-color 400ms, color 400ms, border-color 400ms, box-shadow 400ms;
 }

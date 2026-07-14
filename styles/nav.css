@@ -241,7 +241,12 @@
    ==================================== */
 @media (max-width: 767px) {
   .nav__slogan {
-    font-size: var(--text-sm);
+    font-size: var(--text-xs);
+    text-align: center;
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .floating-cta {

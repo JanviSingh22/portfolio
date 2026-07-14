@@ -141,9 +141,12 @@ class LandingController {
    * Add event listeners that let the user skip the animation.
    */
   _addSkipListeners() {
-    document.addEventListener('click', this._skipHandler);
-    document.addEventListener('scroll', this._skipHandler);
-    document.addEventListener('keydown', this._skipHandler);
+    // Delay skip listeners so accidental taps don't skip immediately
+    setTimeout(() => {
+      if (this._completed || !this._animationRunning) return;
+      document.addEventListener('click', this._skipHandler);
+      document.addEventListener('keydown', this._skipHandler);
+    }, 1500);
   }
 
   /**
@@ -151,7 +154,6 @@ class LandingController {
    */
   _removeSkipListeners() {
     document.removeEventListener('click', this._skipHandler);
-    document.removeEventListener('scroll', this._skipHandler);
     document.removeEventListener('keydown', this._skipHandler);
   }
 }
@@ -1323,10 +1325,64 @@ class ContentRenderer {
 document.addEventListener('DOMContentLoaded', () => {
   // --- Hero Text Slam Animation ---
   try {
-    const heroName = document.querySelector('.hero__name');
-    const heroGreeting = document.querySelector('.hero__greeting');
-    const heroRole = document.querySelector('.hero__role');
-    const heroTagline = document.querySelector('.hero__tagline');
+    // Populate content from data
+    const navLogo = document.querySelector('[data-content="nav-logo"]');
+    const navSlogan = document.querySelector('[data-content="nav-slogan"]');
+    const heroGreeting = document.querySelector('[data-content="hero-greeting"]');
+    const heroName = document.querySelector('[data-content="hero-name"]');
+    const heroRole = document.querySelector('[data-content="hero-role"]');
+    const heroTagline = document.querySelector('[data-content="hero-tagline"]');
+
+    if (navLogo) navLogo.textContent = profileData.nav.logo;
+    if (navSlogan) navSlogan.textContent = profileData.nav.slogan;
+    if (heroGreeting) heroGreeting.textContent = profileData.hero.greeting;
+    if (heroName) heroName.textContent = profileData.name;
+    if (heroRole) heroRole.textContent = profileData.hero.role;
+    if (heroTagline) heroTagline.textContent = profileData.hero.tagline;
+
+    // Populate bio
+    const bioEl = document.querySelector('[data-content="bio"]');
+    if (bioEl) bioEl.textContent = profileData.bio;
+
+    // Populate marquee
+    const marqueeTrack = document.querySelector('[data-content="marquee"]');
+    if (marqueeTrack && profileData.marquee) {
+      let marqueeHTML = '';
+      for (let i = 0; i < 8; i++) {
+        marqueeHTML += `<span>${profileData.marquee}</span><span>•</span>`;
+      }
+      marqueeTrack.innerHTML = marqueeHTML;
+    }
+
+    // Populate traits
+    const traitsContainer = document.querySelector('[data-content="traits"]');
+    if (traitsContainer && profileData.traits) {
+      const pastelClasses = ['pastel-3', 'pastel-2', 'image-cover', 'pastel-1'];
+      profileData.traits.forEach((trait, i) => {
+        const card = document.createElement('div');
+        card.className = `about-bento__card about-bento__card--trait about-bento__card--${pastelClasses[i] || 'pastel-1'}`;
+        card.setAttribute('data-flip', '');
+        card.innerHTML = `
+          <div class="about-bento__trait-front">${trait.front}</div>
+          <div class="about-bento__trait-back">${trait.back}</div>
+        `;
+        traitsContainer.appendChild(card);
+      });
+    }
+
+    // Populate bouncing tags
+    const bouncingContainer = document.querySelector('[data-content="bouncing-tags"]');
+    if (bouncingContainer && profileData.bouncingTags) {
+      profileData.bouncingTags.forEach(tag => {
+        const span = document.createElement('span');
+        span.className = 'bouncing-tag';
+        span.setAttribute('data-category', tag.category);
+        span.innerHTML = `<span class="bouncing-tag__label">${tag.label}</span>`;
+        bouncingContainer.appendChild(span);
+      });
+    }
+
+    // Hero text slam animation
 
     let delay = 70; // starting delay in ms
 
@@ -1858,13 +1914,8 @@ document.addEventListener('DOMContentLoaded', () => {
   try {
     const funFactEl = document.querySelector('[data-backspace-typewriter]');
     if (funFactEl) {
-      const phrases = [
-        "☕ probably overthinking my next project rn",
-        "🌏 silk road trip is on the vision board no cap",
-        "🎸 will replay the same song 47 times and still not skip",
-        "📰 newspaper girlie in a doomscroll world",
-        "😄 small wins hit different, i celebrate everything",
-        "🫠 perfection is the enemy but she's kinda valid tho"
+      const phrases = profileData.funFacts || [
+        "☕ probably overthinking my next project rn"
       ];
       let phraseIndex = 0;
       let charIndex = 0;
