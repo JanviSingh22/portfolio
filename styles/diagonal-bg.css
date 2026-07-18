@@ -5,7 +5,7 @@
 
 .section--diagonal {
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   min-height: 400px;
 }
 

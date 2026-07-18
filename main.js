@@ -486,8 +486,42 @@ class ThemeSystem {
   toggle() {
     const current = this.getMode();
     const next = current === 'light' ? 'dark' : 'light';
-    this._applyMode(next);
-    this._savePreference(next);
+
+    if (next === 'dark') {
+      // Transitioning TO dark: add neon-transitioning class
+      document.documentElement.classList.add('neon-transitioning');
+      this._applyMode(next);
+      this._savePreference(next);
+
+      // Remove class after animation completes (300ms delay + 600ms animation = 900ms)
+      setTimeout(() => {
+        document.documentElement.classList.remove('neon-transitioning');
+      }, 900);
+
+      // Safety fallback: remove class on transitionend
+      const handleTransitionEnd = () => {
+        document.documentElement.classList.remove('neon-transitioning');
+        document.documentElement.removeEventListener('transitionend', handleTransitionEnd);
+      };
+      document.documentElement.addEventListener('transitionend', handleTransitionEnd);
+    } else {
+      // Transitioning FROM dark: add neon-fade-out class first
+      document.documentElement.classList.add('neon-fade-out');
+
+      // After glow fades out, switch theme
+      setTimeout(() => {
+        document.documentElement.classList.remove('neon-fade-out');
+        this._applyMode(next);
+        this._savePreference(next);
+      }, 700);
+
+      // Safety fallback: remove class on transitionend
+      const handleFadeEnd = () => {
+        document.documentElement.classList.remove('neon-fade-out');
+        document.documentElement.removeEventListener('transitionend', handleFadeEnd);
+      };
+      document.documentElement.addEventListener('transitionend', handleFadeEnd);
+    }
   }
 
   /**

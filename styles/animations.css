@@ -109,3 +109,59 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* ====================================
+   Neon Mode Transition Animations
+   ==================================== */
+
+/* Keyframes for neon glow-in effect */
+@keyframes neonGlowIn {
+  from {
+    opacity: 0;
+    filter: brightness(0);
+  }
+  to {
+    opacity: 1;
+    filter: brightness(1);
+  }
+}
+
+/* Keyframes for neon glow-out effect */
+@keyframes neonGlowOut {
+  from {
+    opacity: 1;
+    filter: brightness(1);
+  }
+  to {
+    opacity: 0;
+    filter: brightness(0);
+  }
+}
+
+/* When transitioning TO dark mode: glow elements animate in after background darkens */
+html.neon-transitioning .hero__block,
+html.neon-transitioning .dblock--filled,
+html.neon-transitioning .dblock--outline,
+html.neon-transitioning .coder__subsection-heading,
+html.neon-transitioning .hero__name,
+html.neon-transitioning .hero__greeting,
+html.neon-transitioning .hero__role,
+html.neon-transitioning .hscroll-tile,
+html.neon-transitioning .about-bento__card,
+html.neon-transitioning .floating-cta__circle {
+  animation: neonGlowIn 600ms ease-out 300ms both;
+}
+
+/* When transitioning FROM dark mode: fade out glows first */
+html.neon-fade-out .hero__block,
+html.neon-fade-out .dblock--filled,
+html.neon-fade-out .dblock--outline,
+html.neon-fade-out .coder__subsection-heading,
+html.neon-fade-out .hero__name,
+html.neon-fade-out .hero__greeting,
+html.neon-fade-out .hero__role,
+html.neon-fade-out .hscroll-tile,
+html.neon-fade-out .about-bento__card,
+html.neon-fade-out .floating-cta__circle {
+  animation: neonGlowOut 300ms ease-in both;
+}
